@@ -1,5 +1,13 @@
 class ExchangesController < ApplicationController
   def index
+    render :json => Exchange.all
+  end
+
+  def show
+    render :json => Exchange.find( params[:id] )
+  end
+=begin
+  def index
     authorize! :read, Exchange
     @exchanges = Exchange.top_level.order_by( [:most_recent_entry_date, :desc] )
   end
@@ -37,4 +45,5 @@ class ExchangesController < ApplicationController
     entry.save!
     redirect_to @exchange, :notice => "Response was successfully created"
   end
+=end
 end

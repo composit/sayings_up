@@ -1,6 +1,16 @@
 require 'spec_helper'
 
 describe "Exchanges" do
+  describe "GET /exchange/1" do
+    it "shows a list of entries" do
+      exchange = Factory( :exchange )
+      exchange.entries << Factory( :entry, :content => "Good stuff" )
+      exchange.entries << Factory( :entry, :content => "Other stuff" )
+      visit( "/exchange/#{exchange.id}" )
+      page.content.should contain( "Good stuff" )
+      page.content.should contain( "Other stuff" )
+    end
+  end
 =begin
 Feature: Manage exchanges
   In order to manage exchanges

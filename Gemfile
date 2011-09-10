@@ -39,6 +39,7 @@ group :test do
   gem 'guard-rspec', "~> 0.4.4"
   gem 'guard-spork', "~> 0.2.1"
   gem 'jasmine', "~> 1.0.2.1"
+  gem 'capybara', "~> 1.1.1"
 end
 
 group :development, :test do

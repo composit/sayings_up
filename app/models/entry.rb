@@ -5,6 +5,7 @@ class Entry
   field :user_id
   field :content
 
+  embedded_in :exchange
 =begin
   index :created_at
 

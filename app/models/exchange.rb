@@ -2,6 +2,11 @@ class Exchange
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  embeds_many :entries
+
+  def to_json( options = {} )
+    super( options.merge( :only => [ :id ] ) )
+  end
 =begin
   field :parent_comment_id
   field :parent_entry_id
