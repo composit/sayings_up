@@ -17,6 +17,6 @@ App.Routers.Exchanges = Backbone.Router.extend
       if( data )
         exchanges = _( data ).map ( i ) ->
           new App.Models.Exchange( i )
-      #  new App.Views.Index( { exchanges: exchanges } )
+        new App.Views.Index( { exchanges: exchanges } )
       else
         new Error( { message: "Error loading exchanges." } )
