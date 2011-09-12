@@ -1,7 +1,9 @@
 class ExchangesController < ApplicationController
+  respond_to :html, :json
+
   def index
-    #render :json => Exchange.all
-    render :json => [{ :id => "123" }, { :id => "456" }]
+    @exchanges = [{ :id => "123", :content => "Pretty good" }, { :id => "456", :content => "Here's another" }]
+    respond_with( @exchanges )
   end
 
   def show

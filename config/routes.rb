@@ -1,5 +1,5 @@
 SayingsUp::Application.routes.draw do
-  root :to => "home#index"
+  root :to => "exchanges#index"
   resources :exchanges
 
   # The priority is based upon order of creation:

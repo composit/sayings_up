@@ -1,0 +1,8 @@
+<div id="exchanges"></div>
+
+<script type='text/javascript'>
+  $( function() {
+    window.router = new SayingsUp.Routers.ExchangesRouter( { exchanges: <%= @exchanges.to_json.html_safe -%> } );
+    Backbone.history.start();
+  } );
+</script>

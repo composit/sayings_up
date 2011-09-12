@@ -1,11 +1,9 @@
-#Exchange = Backbone.Model.extend({})
+class SayingsUp.Models.Exchange extends Backbone.Model
+  paramRoot: 'exchange'
 
-#Exchanges = Backbone.Collection.extend
-#  url: "/exchanges"
-#  model: Exchange
-
-class App.Models.Exchange extends Backbone.Model
-
-class App.Collections.Exchanges extends Backbone.Collection
-  url: "/exchanges"
-  model: App.Models.Exchange
+  defaults:
+    content: null
+  
+class SayingsUp.Collections.ExchangesCollection extends Backbone.Collection
+  model: SayingsUp.Models.Exchange
+  url: '/exchanges'
