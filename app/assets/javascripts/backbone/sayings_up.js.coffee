@@ -4,8 +4,11 @@
 #= require_tree ./views
 #= require_tree ./routers
 
-window.SayingsUp =
+window.App =
   Models: {}
   Collections: {}
   Routers: {}
   Views: {}
+  init: ->
+    new App.Routers.Exchanges()
+    Backbone.history.start()

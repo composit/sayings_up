@@ -1,0 +1,1 @@
+router = new ExchangesRouter

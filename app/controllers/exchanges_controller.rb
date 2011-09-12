@@ -1,6 +1,7 @@
 class ExchangesController < ApplicationController
   def index
-    render :json => Exchange.all
+    #render :json => Exchange.all
+    render :json => [{ :id => "123" }, { :id => "456" }]
   end
 
   def show

@@ -1,4 +1,4 @@
-SayingsUp.Views.Edit = Backbone.View.extend({
+App.Views.Edit = Backbone.View.extend({
     events: {
         "submit form": "save"
     },
@@ -13,7 +13,7 @@ SayingsUp.Views.Edit = Backbone.View.extend({
         
         this.model.save({ title: this.$('[name=title]').val(), body: this.$('[name=body]').val() }, {
             success: function(model, resp) {
-                new SayingsUp.Views.Notice({ message: msg });
+                new App.Views.Notice({ message: msg });
                 
                 self.model = model;
                 self.render();
@@ -22,7 +22,7 @@ SayingsUp.Views.Edit = Backbone.View.extend({
                 Backbone.history.saveLocation('exchanges/' + model.id);
             },
             error: function() {
-                new SayingsUp.Views.Error();
+                new App.Views.Error();
             }
         });
         
