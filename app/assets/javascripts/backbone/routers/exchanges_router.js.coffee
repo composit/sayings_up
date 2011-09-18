@@ -29,4 +29,3 @@ class SayingsUp.Routers.ExchangesRouter extends Backbone.Router
 
     @view = new SayingsUp.Views.Exchanges.EditView(model: exchange)
     $("#exchanges").html(@view.render().el)
-  
