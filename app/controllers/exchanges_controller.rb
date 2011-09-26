@@ -1,10 +1,9 @@
 class ExchangesController < ApplicationController
-  respond_to :html, :json
+  load_and_authorize_resource
+  respond_to :html, :only => :index
+  respond_to :json
 
   def index
-    #@exchanges = [{ :id => "123", :content => "Pretty good" }, { :id => "456", :content => "Herez's another" }]
-    @exchanges = Exchange.all
-    respond_with( @exchanges )
   end
 
   def show

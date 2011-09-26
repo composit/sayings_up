@@ -1,6 +1,10 @@
 SayingsUp::Application.routes.draw do
   root :to => "exchanges#index"
-  resources :exchanges
+
+  resources :exchanges, :only => :index do
+    resources :entries, :only => :index
+  end
+  resources :entries, :only => :index
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

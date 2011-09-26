@@ -7,7 +7,6 @@ gem 'rails', '~> 3.1.0'
 
 #gem 'sqlite3'
 gem 'bson_ext', "~> 1.3"
-gem 'cancan', "~> 1.6.5"
 gem 'mongoid', "~> 2.2"
 
 # Gems used only for assets and not required
@@ -18,6 +17,7 @@ group :assets do
   gem 'uglifier', "~> 1.0.3"
 end
 
+gem 'cancan', "~> 1.6.5"
 gem 'jquery-rails', "~> 1.0.13"
 gem 'rails-backbone', "~> 0.5.4"
 

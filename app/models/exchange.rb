@@ -4,9 +4,9 @@ class Exchange
 
   embeds_many :entries
 
-  def to_json( options = {} )
-    super( options.merge( :only => [ :id ] ) )
-  end
+  #def to_json( options = {} )
+  #  super( options.merge( :only => [ :_id ] ) )
+  #and
 =begin
   field :parent_comment_id
   field :parent_entry_id

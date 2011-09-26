@@ -1,6 +1,9 @@
 <p>
   <b>Content:</b>
-  <%= content %>
+
+  <% _.each( entries, function( entry ) { %>
+    <p><%= entry.content %></p>
+  <% } ); %>
 </p>
 
 

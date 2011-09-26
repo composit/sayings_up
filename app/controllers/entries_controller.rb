@@ -1,10 +1,19 @@
 class EntriesController < ApplicationController
-  load_and_authorize_resource
+  #load_and_authorize_resource :exchange
+  #load_and_authorize_resource :entry, :through => :exchange
 
   def index
-    @entries = Entry.order_by( [:created_at, :desc] )
+    if( @exchange = Exchange.where( _id: params[:exchange_id] ).first )
+      @entries = @exchange.entries.accessible_by( current_ability )
+    else
+      @exchange = Exchange.new
+    end
+    authorize! :read, @exchange
+
+    render :json => @entries if @entries
   end
 
+=begin
   def new
   end
 
@@ -16,4 +25,5 @@ class EntriesController < ApplicationController
       render "new"
     end
   end
+=end
 end

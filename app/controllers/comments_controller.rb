@@ -1,4 +1,5 @@
 class CommentsController < ApplicationController
+=begin
   load_and_authorize_resource
 
   def create
@@ -11,4 +12,5 @@ class CommentsController < ApplicationController
       redirect_to exchange, :alert => "There was an error creating your comment"
     end
   end
+=end
 end

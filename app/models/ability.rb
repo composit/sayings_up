@@ -4,6 +4,9 @@ class Ability
   def initialize( user )
     user ||= User.new # guest user
 
+    can :read, Exchange
+    can :read, Entry
+=begin
     can :read, Entry
     can :create, Entry do |entry|
       EXCHANGE_STARTERS.empty? ? !user.new_record? : EXCHANGE_STARTERS.include?( user.username )
@@ -17,5 +20,6 @@ class Ability
       exchange.users.include?( user )
     end
     can :read, User
+=end
   end
 end
