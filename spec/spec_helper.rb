@@ -20,5 +20,5 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
+  #Dir["#{Rails.root}/app/**/*.rb"].each { |f| load f }
 end

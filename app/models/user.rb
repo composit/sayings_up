@@ -12,7 +12,7 @@ class User
   #has_many_related :entries
   #has_many_related :comments
 
-  attr_accessible :email, :password, :password_confirmation
+  attr_accessible :username, :email, :password, :password_confirmation
 
   validates :username, :uniqueness => true, :presence => true
 
