@@ -29,9 +29,18 @@ guard 'rspec', :version => 2, cli: '--drb', all_on_start: false, all_after_pass:
   watch(%r{^app/views/(.+)/.*\.(erb|haml)$})          { |m| "spec/requests/#{m[1]}_spec.rb" }
 end
 
+# Run JS and CoffeeScript files in a typical Rails 3.1 fashion, placing Underscore templates in app/views/*.jst
+# Your spec files end with _spec.{js,coffee}.
 
-guard 'jasmine', all_on_start: false, all_after_pass: false do
-  watch(%r{app/assets/javascripts/(.+)\.(js\.coffee|js|coffee)$}) { |m| "spec/javascripts/#{m[1]}_spec.#{m[2]}" }
-  watch(%r{spec/javascripts/(.+)_spec\.(js\.coffee|js|coffee)$})  { |m| puts m.inspect; "spec/javascripts/#{m[1]}_spec.#{m[2]}" }
-  watch(%r{spec/javascripts/spec\.(js\.coffee|js|coffee)$})       { "spec/javascripts" }
+spec_location = "spec/javascripts/%s_spec"
+
+# uncomment if you use NerdCapsSpec.js
+# spec_location = "spec/javascripts/%sSpec"
+
+guard 'jasmine-headless-webkit' do
+  watch(%r{^app/views/.*\.jst$})
+  watch(%r{^public/javascripts/(.*)\.js$}) { |m| newest_js_file(spec_location % m[1]) }
+  watch(%r{^app/assets/javascripts/(.*)\.(js|coffee)$}) { |m| newest_js_file(spec_location % m[1]) }
+  watch(%r{^spec/javascripts/(.*)_spec\..*}) { |m| newest_js_file(spec_location % m[1]) }
 end
+

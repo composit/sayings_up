@@ -1,6 +1,6 @@
 FactoryGirl.define do
-  sequence :name do |n|
-    "Person#{n}"
+  sequence :username do |n|
+    "person#{n}"
   end
 
   sequence :email do |n|
@@ -20,7 +20,7 @@ FactoryGirl.define do
   end
   
   factory :user do
-    name
+    username
     email
     password 'testpass'
     password_confirmation 'testpass'
