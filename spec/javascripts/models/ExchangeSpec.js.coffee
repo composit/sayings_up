@@ -1,4 +1,0 @@
-describe 'Exchanges', ->
-
-describe 'Exchange', ->
-
