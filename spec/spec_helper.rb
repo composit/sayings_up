@@ -46,6 +46,10 @@ Spork.prefork do
     config.filter_run :focus => true
     config.run_all_when_everything_filtered = true
 
+    config.around :each, :js => true do |example|
+      Headless.ly &example
+    end
+
     config.before :each do
       Mongoid.master.collections.select { |c| c.name !~ /system/ }.each( &:drop )
     end
