@@ -2,20 +2,36 @@ require 'spec_helper'
 
 describe "Exchanges" do
   describe "GET /exchange/1" do
-    it "shows a list of entries", :js do
+    before :each do
       exchange = Factory( :exchange )
       exchange.entries << Factory( :entry, :content => "Good stuff" )
       exchange.entries << Factory( :entry, :content => "Other stuff" )
       visit( "/#/#{exchange.id}" )
-      page.should have_content( "Good stuff" )
-      page.should have_content( "Other stuff" )
+    end
+
+    it "shows a list of entries" do
+      page.should have_content "Good stuff"
+      page.should have_content "Other stuff" 
+    end
+
+    describe "with a logged in user" do
+      before :each do
+        ability = Object.new
+        ability.extend CanCan::Ability
+        @controller.stub( :current_ability ).and_returns( ability )
+      end
+
+      it "does not allow an user without permission to respond" do
+        pending
+        page.should have_no_content "respond"
+      end
+
+      it "allows a user with permission to respond" do
+        page.should have_content "respond"
+      end
     end
   end
 =begin
-Feature: Manage exchanges
-  In order to manage exchanges
-  users should be able to view and create exchanges
-
   Scenario: See "respond" when appropriate
     Given the following entries in a single exchange:
       | user_username | content |
