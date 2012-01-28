@@ -1,7 +1,17 @@
 require 'spec_helper'
+require 'cancan/matchers'
 
 describe User do
   specify { Factory( :user ).should be_valid }
+
+  describe "abilities" do
+    subject { ability }
+    let( :ability ) { Ability.new user }
+
+    let( :user ) { Factory :user }
+    it { should be_able_to :read, Exchange.new }
+    it { should be_able_to :read, Entry.new }
+  end
 
   context "when authenticating against a password" do
     let( :user ) { Factory( :user, :password => "testpass", :password_confirmation => "testpass" ) }
