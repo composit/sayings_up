@@ -1,6 +1,6 @@
 class SayingsUp.Routers.ExchangesRouter extends Backbone.Router
   initialize: (options) ->
-    @exchanges = new SayingsUp.Collections.ExchangesCollection()
+    @exchanges = new SayingsUp.Collections.ExchangesCollection
     @exchanges.reset options.exchanges
 
   routes:
@@ -10,9 +10,9 @@ class SayingsUp.Routers.ExchangesRouter extends Backbone.Router
     "/:id"      : "show"
     ".*"        : "index"
 
-  newExchange: ->
-    @view = new SayingsUp.Views.Exchanges.NewView(collection: @exchanges)
-    $("#exchanges").html(@view.render().el)
+  #newExchange: ->
+  #  @view = new SayingsUp.Views.Exchanges.NewView(collection: @exchanges)
+  #  $("#exchanges").html(@view.render().el)
 
   index: ->
     @view = new SayingsUp.Views.Exchanges.IndexView(exchanges: @exchanges)
@@ -24,8 +24,8 @@ class SayingsUp.Routers.ExchangesRouter extends Backbone.Router
     @view = new SayingsUp.Views.Exchanges.ShowView(model: exchange)
     $("#exchanges").html(@view.render().el)
     
-  edit: (id) ->
-    exchange = @exchanges.get(id)
+  #edit: (id) ->
+  #  exchange = @exchanges.get(id)
 
-    @view = new SayingsUp.Views.Exchanges.EditView(model: exchange)
-    $("#exchanges").html(@view.render().el)
+  #  @view = new SayingsUp.Views.Exchanges.EditView(model: exchange)
+  #  $("#exchanges").html(@view.render().el)
