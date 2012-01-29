@@ -1,37 +1,40 @@
 require 'spec_helper'
 
-describe "Exchanges" do
-  describe "GET /exchange/1" do
+describe "user views an exchange", %q{
+  In order to view an exchange
+  As a user
+  I want to see all the entries, etc. involved in the exchange
+} do
+
+  before :each do
+    exchange = Factory( :exchange )
+    exchange.entries << Factory( :entry, :content => "Good stuff" )
+    exchange.entries << Factory( :entry, :content => "Other stuff" )
+    visit( "/#/#{exchange.id}" )
+  end
+
+  it "sees a list of exchanges in order" do
+    pattern = Regexp.compile( /Good stuff.*Other stuff/, Regexp::MULTILINE )
+    find( '#entries' ).text.should =~ pattern
+  end
+
+=begin
+  describe "with a logged in user" do
     before :each do
-      exchange = Factory( :exchange )
-      exchange.entries << Factory( :entry, :content => "Good stuff" )
-      exchange.entries << Factory( :entry, :content => "Other stuff" )
-      visit( "/#/#{exchange.id}" )
+      ability = Object.new
+      ability.extend CanCan::Ability
+      @controller.stub( :current_ability ).and_return( ability )
     end
 
-    it "shows a list of entries" do
-      page.should have_content "Good stuff"
-      page.should have_content "Other stuff" 
+    it "does not allow an user without permission to respond" do
+      pending
+      page.should have_no_content "respond"
     end
 
-    describe "with a logged in user" do
-      before :each do
-        ability = Object.new
-        ability.extend CanCan::Ability
-        @controller.stub( :current_ability ).and_returns( ability )
-      end
-
-      it "does not allow an user without permission to respond" do
-        pending
-        page.should have_no_content "respond"
-      end
-
-      it "allows a user with permission to respond" do
-        page.should have_content "respond"
-      end
+    it "allows a user with permission to respond" do
+      page.should have_content "respond"
     end
   end
-=begin
   Scenario: See "respond" when appropriate
     Given the following entries in a single exchange:
       | user_username | content |
