@@ -4,7 +4,7 @@ describe "user views an exchange", %q{
   In order to view an exchange
   As a user
   I want to see all the entries, etc. involved in the exchange
-} do
+}, :js do
 
   before :each do
     exchange = Factory( :exchange )
@@ -14,8 +14,8 @@ describe "user views an exchange", %q{
   end
 
   it "sees a list of exchanges in order" do
-    pattern = Regexp.compile( /Good stuff.*Other stuff/, Regexp::MULTILINE )
-    find( '#entries' ).text.should =~ pattern
+    pattern = Regexp.new( "Good stuff(.*)Other stuff", Regexp::MULTILINE )
+    find( '#exchanges' ).text.should =~ pattern
   end
 
 =begin

@@ -1,14 +1,20 @@
 describe 'exchange routes', ->
-
-  it 'fires the index route with a blank hash', ->
-    exchange = new SayingsUp.Models.Exchange
-    router = new SayingsUp.Routers.ExchangesRouter( { exchanges: [] } )
-    routeSpy = sinon.spy()
+  beforeEach ->
+    @routeSpy = sinon.spy()
     try
       Backbone.history.start( { silent: true } )
     catch e
-    router.navigate( 'elsewhere' )
-    router.bind( 'route:index', routeSpy )
+
+  it 'fires the index route with a blank hash', ->
+    router = new SayingsUp.Routers.ExchangesRouter( { exchanges: [] } )
+    router.bind( 'route:index', @routeSpy )
     router.navigate( '', true )
-    expect( routeSpy ).toHaveBeenCalledOnce()
-    expect( routeSpy ).toHaveBeenCalledWith()
+    expect( @routeSpy ).toHaveBeenCalledOnce()
+    expect( @routeSpy ).toHaveBeenCalledWith()
+
+  it 'fires the exchange detail route', ->
+    router = new SayingsUp.Routers.ExchangesRouter( { exchanges: [{"_id":"999","content":"mildew","entries":[]}] } )
+    router.bind( 'route:show', @routeSpy )
+    router.navigate( '/999', true )
+    expect( @routeSpy ).toHaveBeenCalledOnce()
+    expect( @routeSpy ).toHaveBeenCalledWith( '999' )
