@@ -5,16 +5,18 @@ describe 'exchange routes', ->
       Backbone.history.start( { silent: true } )
     catch e
 
-  it 'fires the index route with a blank hash', ->
-    router = new SayingsUp.Routers.ExchangesRouter( { exchanges: [] } )
-    router.bind( 'route:index', @routeSpy )
-    router.navigate( '', true )
-    expect( @routeSpy ).toHaveBeenCalledOnce()
-    expect( @routeSpy ).toHaveBeenCalledWith()
+  describe 'show', ->
+    beforeEach ->
+      @router = new SayingsUp.Routers.Exchanges( { exchanges: [{"_id":"999","content":"Test","entries":[]}] } )
+      @router.bind( 'route:show', @routeSpy )
 
-  it 'fires the exchange detail route', ->
-    router = new SayingsUp.Routers.ExchangesRouter( { exchanges: [{"_id":"999","content":"mildew","entries":[]}] } )
-    router.bind( 'route:show', @routeSpy )
-    router.navigate( '/999', true )
-    expect( @routeSpy ).toHaveBeenCalledOnce()
-    expect( @routeSpy ).toHaveBeenCalledWith( '999' )
+    it 'fires the show exchange route', ->
+      @router.navigate( '/999', true )
+      expect( @routeSpy ).toHaveBeenCalledOnce()
+      expect( @routeSpy ).toHaveBeenCalledWith( '999' )
+
+    it 'renders the show view', ->
+      exchangeViewMock = sinon.mock( SayingsUp.Views.Exchanges.Show )
+      exchangeViewMock.expects( "render" ).once()
+      @router.navigate( '/999', true )
+      exchangeViewMock.verify()

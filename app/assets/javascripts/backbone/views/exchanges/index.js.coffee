@@ -1,6 +1,6 @@
 SayingsUp.Views.Exchanges ||= {}
 
-class SayingsUp.Views.Exchanges.IndexView extends Backbone.View
+class SayingsUp.Views.Exchanges.Index extends Backbone.View
   template: JST["backbone/templates/exchanges/index"]
     
   initialize: () ->
@@ -12,7 +12,7 @@ class SayingsUp.Views.Exchanges.IndexView extends Backbone.View
     @options.exchanges.each(@addOne)
   
   addOne: (exchange) ->
-    view = new SayingsUp.Views.Exchanges.ExchangeView({model : exchange})
+    view = new SayingsUp.Views.Exchanges.Exchange({model : exchange})
     @$("tbody").append(view.render().el)
        
   render: ->

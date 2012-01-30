@@ -1,6 +1,6 @@
 SayingsUp.Views.Exchanges ||= {}
 
-class SayingsUp.Views.Exchanges.ShowView extends Backbone.View
+class SayingsUp.Views.Exchanges.Show extends Backbone.View
   template: JST["backbone/templates/exchanges/show"]
    
   render: ->

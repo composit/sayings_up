@@ -1,6 +1,6 @@
 SayingsUp.Views.Exchanges ||= {}
 
-class SayingsUp.Views.Exchanges.NewView extends Backbone.View    
+class SayingsUp.Views.Exchanges.New extends Backbone.View
   template: JST["backbone/templates/exchanges/new"]
   
   events:
@@ -20,7 +20,7 @@ class SayingsUp.Views.Exchanges.NewView extends Backbone.View
       
     @model.unset("errors")
     
-    @collection.create(@model.toJSON(), 
+    @collection.create(@model.toJSON(),
       success: (exchange) =>
         @model = exchange
         window.location.hash = "/#{@model.id}"

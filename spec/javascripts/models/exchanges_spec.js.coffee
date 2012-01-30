@@ -14,7 +14,7 @@ describe 'Exchange', ->
 
       describe 'when id is set', ->
         it 'returns the collection URL and id', ->
-          collection = new SayingsUp.Collections.ExchangesCollection
+          collection = new SayingsUp.Collections.Exchanges
           @exchange.collection = collection
           @exchange.id = 999
           expect( @exchange.url() ).toEqual '/exchanges/999'
@@ -28,5 +28,5 @@ describe 'Exchange', ->
 describe 'Exchanges', ->
   describe 'url', ->
     it 'should be defined', ->
-      exchanges = new SayingsUp.Collections.ExchangesCollection
+      exchanges = new SayingsUp.Collections.Exchanges
       expect( exchanges.url ).toEqual '/exchanges'

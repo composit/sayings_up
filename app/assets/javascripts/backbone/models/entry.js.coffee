@@ -5,7 +5,7 @@ class SayingsUp.Models.Entry extends Backbone.Model
   defaults:
     content: null
 
-class SayingsUp.Collections.EntriesCollection extends Backbone.Collection
+class SayingsUp.Collections.Entries extends Backbone.Collection
   initialize: ( options ) ->
     @url = '/exchanges/' + options.exchange_id + '/entries'
 
