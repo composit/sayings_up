@@ -1,8 +1,13 @@
 <div id="exchanges"></div>
 
 <script type='text/javascript'>
-  $( function() {
-    window.router = new SayingsUp.Routers.Exchanges( { exchanges: <%= @exchanges.to_json.html_safe -%> } );
-    Backbone.history.start();
-  } );
+//  $( function() {
+//    window.router = new SayingsUp.Routers.Exchanges( { exchanges: <%= @exchanges.to_json.html_safe -%> } );
+//    Backbone.history.start();
+//  } );
 </script>
+<%= content_for :javascript do -%>
+  <%= javascript_tag do %>
+    SayingsUp.init( { exchanges: <%= @exchanges.to_json.html_safe -%> } );
+  <% end %>
+<% end %>

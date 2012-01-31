@@ -7,7 +7,8 @@ class ExchangesController < ApplicationController
   end
 
   def show
-    render :json => Exchange.find( params[:id] )
+    #render :json => Exchange.find( params[:id] )
+    respond_with( @exchange )
   end
 =begin
   def index

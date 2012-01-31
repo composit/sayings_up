@@ -1,7 +1,7 @@
 SayingsUp.Views.Exchanges ||= {}
 
 class SayingsUp.Views.Exchanges.Index extends Backbone.View
-  template: JST["backbone/templates/exchanges/index"]
+  template: JST["../templates/exchanges/index"]
     
   initialize: () ->
     _.bindAll(this, 'addOne', 'addAll', 'render')

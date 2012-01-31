@@ -6,9 +6,11 @@
 //
 //= require jquery
 //= require jquery_ujs
+//
 //= require underscore
 //= require backbone
-//= require backbone_rails_sync
-//= require backbone_datalink
-//= require backbone/sayings_up
+// require backbone.authtokenadapter
+//
+//= require sayings_up
+//
 //= require_tree .

@@ -1,7 +1,7 @@
 SayingsUp.Views.Exchanges ||= {}
 
 class SayingsUp.Views.Exchanges.New extends Backbone.View
-  template: JST["backbone/templates/exchanges/new"]
+  template: JST["../templates/exchanges/new"]
   
   events:
     "submit #new-exchange": "save"
