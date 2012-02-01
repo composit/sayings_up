@@ -15,6 +15,11 @@ class Sayings.Views.ExchangesIndex extends Backbone.View
        
   render: () ->
     $( @el ).html( @template( { exchanges: @collection } ) )
-    #    $( @el ).html( @template( exchanges: @options.exchanges.toJSON() ) )
+    
+    self = this
+    @collection.each ( exchange ) ->
+      exchangeView = new Sayings.Views.Exchanges.Exchange( { model: exchange } )
+      self.$( "tbody" ).append( exchangeView.render().el )
+
     #@addAll()
     return this

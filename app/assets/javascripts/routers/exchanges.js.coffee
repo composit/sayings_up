@@ -14,10 +14,8 @@ class Sayings.Routers.Exchanges extends Backbone.Router
   #  $("#exchanges").html(@view.render().el)
 
   index: ->
-    #view = new Sayings.Views.ExchangesIndex( { collection: Sayings.exchanges } )
-    #console.log( view.render().el )
-    #$( "#exchanges" ).html( view.render().el )
-    $( "body" ).html( "mildew" )
+    view = new Sayings.Views.ExchangesIndex( { collection: Sayings.exchanges } )
+    $( "#exchanges" ).html( view.render().el )
 
   #show: ( id ) ->
   #  exchange = @exchanges.get( id )

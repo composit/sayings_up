@@ -9,8 +9,8 @@
 //
 //= require underscore
 //= require backbone
-// require backbone.authtokenadapter
-// require backbone-support
+//= require backbone.authtokenadapter
+//= require backbone-support
 //
 //= require sayings
 //

@@ -17,6 +17,7 @@ group :assets do
   gem 'uglifier'
 end
 
+gem 'backbone-support'
 gem 'bcrypt-ruby'
 gem 'cancan'
 gem 'jquery-rails'
