@@ -4,4 +4,4 @@
 
 require File.expand_path('../config/application', __FILE__)
 
-SayingsUp::Application.load_tasks
+Sayings::Application.load_tasks

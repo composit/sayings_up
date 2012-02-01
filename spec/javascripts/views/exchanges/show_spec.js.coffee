@@ -4,7 +4,7 @@ describe 'exchange show view', ->
     @entry2 = new Backbone.Model( { id: 2, content: "Two" } )
     @entry3 = new Backbone.Model( { id: 3, content: "Three" } )
     @exchange = new Backbone.Model( { id: 4, entries: [@entry1, @entry2, @entry3] } )
-    @view = new SayingsUp.Views.Exchanges.Show( { model: @exchange } )
+    @view = new Sayings.Views.Exchanges.Show( { model: @exchange } )
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -16,11 +16,11 @@ describe 'exchange show view', ->
   describe 'rendering', ->
     beforeEach ->
       @entryView = new Backbone.View()
-      @entryViewStub = sinon.stub( SayingsUp.Views.Entries, "Show" ).returns( @entryView )
+      @entryViewStub = sinon.stub( Sayings.Views.Entries, "Show" ).returns( @entryView )
       @view.render()
 
     afterEach ->
-      SayingsUp.Views.Exchanges.Show.restore()
+      Sayings.Views.Exchanges.Show.restore()
 
     it "creates an Entry view for each entry", ->
       expect( @entryViewStub ).toHaveBeenCalledThrice()

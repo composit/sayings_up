@@ -1,4 +1,4 @@
-SayingsUp::Application.routes.draw do
+Sayings::Application.routes.draw do
   root :to => "exchanges#index"
 
   resources :exchanges, :only => :index do

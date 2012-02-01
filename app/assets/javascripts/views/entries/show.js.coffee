@@ -1,7 +1,5 @@
-SayingsUp.Views.Entries ||= {}
-
-class SayingsUp.Views.Entries.Show extends Backbone.View
-  template: JST["../templates/entries/show"]
+class Sayings.Views.Entry extends Backbone.View
+  template: JST["entries/show"]
 
   render: ->
     $( this.el ).html( "" )

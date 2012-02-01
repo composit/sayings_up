@@ -5,12 +5,12 @@
 #= require_tree ./views
 #= require_tree ./routers
 
-window.SayingsUp =
+window.Sayings =
   Models: {}
   Collections: {}
   Routers: {}
   Views: {}
-  init: ->
-    new SayingsUp.Routers.Exchanges()
-    @exchanges = new SayingsUp.Collections.Exchanges( exchanges )
+  init: ( exchanges ) ->
+    new Sayings.Routers.Exchanges()
+    @exchanges = new Sayings.Collections.Exchanges( exchanges )
     Backbone.history.start()

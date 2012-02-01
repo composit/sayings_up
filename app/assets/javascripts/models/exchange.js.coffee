@@ -1,4 +1,4 @@
-class SayingsUp.Models.Exchange extends Backbone.Model
+class Sayings.Models.Exchange extends Backbone.Model
   idAttribute: '_id'
   paramRoot: 'exchange'
 

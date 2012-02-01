@@ -1,6 +1,4 @@
-SayingsUp.Views.Exchanges ||= {}
-
-class SayingsUp.Views.Exchanges.New extends Backbone.View
+class Sayings.Views.NewExchange extends Backbone.View
   template: JST["../templates/exchanges/new"]
   
   events:

@@ -6,6 +6,11 @@ class Entry
   field :content
 
   embedded_in :exchange
+
+  def as_json( options = {} )
+    super( options.merge( :only => [:_id, :content] ) )
+  end
+
 =begin
   index :created_at
 

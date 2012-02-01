@@ -8,7 +8,7 @@ describe 'exchange routes', ->
   describe 'show', ->
     beforeEach ->
       @exchange = {"_id":"999","content":"Test","entries":[]}
-      @router = new SayingsUp.Routers.Exchanges( { exchanges: [@exchange] } )
+      @router = new Sayings.Routers.Exchanges( { exchanges: [@exchange] } )
       @router.bind( 'route:show', @routeSpy )
 
     it 'fires the show route', ->
@@ -17,7 +17,7 @@ describe 'exchange routes', ->
       expect( @routeSpy ).toHaveBeenCalledWith( '999' )
 
     it 'renders the show view', ->
-      exchangeViewStub = sinon.stub( SayingsUp.Views.Exchanges, "Show" ).returns( new Backbone.View() )
+      exchangeViewStub = sinon.stub( Sayings.Views.Exchanges, "Show" ).returns( new Backbone.View() )
       exchangeStub = sinon.stub( @router.exchanges, "get" ).withArgs( "999" ).returns( @exchange )
       @router.show( "999" )
       expect( exchangeViewStub ).toHaveBeenCalledOnce()

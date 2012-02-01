@@ -1,3 +1,3 @@
-class SayingsUp.Collections.Exchanges extends Backbone.Collection
-  model: SayingsUp.Models.Exchange
+class Sayings.Collections.Exchanges extends Backbone.Collection
+  model: Sayings.Models.Exchange
   url: '/exchanges'

@@ -2,8 +2,12 @@ require 'spec_helper'
 
 describe Entry do
   it "creates a new instance given valid attributes" do
-    pending
-    Factory( :entry ).should be_valid
+    Factory.build( :entry ).should be_valid
+  end
+
+  it "only includes the id and content attributes in the json" do
+    entry = Factory.build( :entry )
+    entry.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
   end
 
   it "requires the existence of a user" do

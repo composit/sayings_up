@@ -2,8 +2,12 @@ require 'spec_helper'
 
 describe Exchange do
   it "creates a new instance given valid attributes" do
-    pending
     Factory( :exchange ).should be_valid
+  end
+
+  it "only includes the id and entries attributes in the json" do
+    exchange = Factory.build( :exchange, :entries => [Factory.build( :entry )] )
+    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"entries\":\[.+\]}$/
   end
 
   it "adds users" do

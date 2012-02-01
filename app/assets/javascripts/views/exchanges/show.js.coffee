@@ -1,12 +1,10 @@
-SayingsUp.Views.Exchanges ||= {}
-
-class SayingsUp.Views.Exchanges.Show extends Backbone.View
+class Sayings.Views.Exchange extends Backbone.View
   className: 'exchange'
-  template: JST["../templates/exchanges/show"]
+  template: JST["exchanges/show"]
    
   render: ->
     $( this.el ).html( @template( @model.toJSON() ) )
     return this
 
   addEntry: (entry) ->
-    entryView = new SayingsUp.Views.Entries( { model: entry } )
+    entryView = new Sayings.Views.Entries( { model: entry } )
