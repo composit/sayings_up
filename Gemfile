@@ -20,6 +20,8 @@ end
 gem 'bcrypt-ruby'
 gem 'cancan'
 gem 'jquery-rails'
+gem 'rails-backbone'
+gem 'ejs'
 
 # Use unicorn as the web server
 # gem 'unicorn'

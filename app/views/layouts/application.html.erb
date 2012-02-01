@@ -7,7 +7,7 @@
   <%= csrf_meta_tags %>
   <%= yield :javascript %>
 </head>
-<body>
+<body onload="load()">
   <div id="wrap">
     <div id="nav">
       <%# if( user_signed_in? ) %>

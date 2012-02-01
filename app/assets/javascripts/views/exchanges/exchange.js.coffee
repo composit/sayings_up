@@ -1,7 +1,7 @@
 Sayings.Views.Exchanges ||= {}
 
 class Sayings.Views.Exchanges.Exchange extends Backbone.View
-  template: JST["../templates/exchanges/exchange"]
+  template: JST["exchanges/exchange"]
   
   events:
     "click .destroy" : "destroy"

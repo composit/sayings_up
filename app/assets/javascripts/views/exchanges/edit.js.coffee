@@ -1,5 +1,5 @@
 class Sayings.Views.EditExchange extends Backbone.View
-  template : JST["../templates/exchanges/edit"]
+  template : JST["exchanges/edit"]
   
   events :
     "submit #edit-exchange" : "update"

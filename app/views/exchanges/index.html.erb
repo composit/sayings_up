@@ -2,6 +2,9 @@
 
 <%= content_for :javascript do -%>
   <%= javascript_tag do %>
-    Sayings.init( <%== @exchanges.to_json %> );
+    function load() {
+      Sayings.init( <%== @exchanges.to_json %> );
+      alert( "initted" );
+    }
   <% end %>
 <% end %>
