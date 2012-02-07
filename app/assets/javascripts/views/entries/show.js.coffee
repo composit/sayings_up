@@ -1,4 +1,4 @@
-class Sayings.Views.Entry extends Backbone.View
+class Sayings.Views.ShowEntry extends Backbone.View
   template: JST["entries/show"]
 
   render: ->

@@ -5,7 +5,7 @@ class Exchange
   embeds_many :entries
 
   def as_json( options = {} )
-    super( options.merge( :only => [:_id], :methods => [:entries] ) )
+    super( options.merge( :only => [:_id], :include => [:entries] ) )
   end
 
   #def to_json( options = {} )

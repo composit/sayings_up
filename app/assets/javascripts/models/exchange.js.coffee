@@ -4,3 +4,10 @@ class Sayings.Models.Exchange extends Backbone.Model
 
   defaults:
     content: null
+
+#  initialize: () ->
+#    if @has( 'entries' ) ->
+#      @setEntries( new Sayings.Collections.Entries.reset( @get( 'entries' ) ) )
+
+#  setEntries: ( entries ) ->
+#    @entries = entries
