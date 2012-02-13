@@ -19,9 +19,10 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   #show: ( id ) ->
   #  exchange = @exchanges.get( id )
+  #  exchange = Sayings.exchanges.get( id )
     
-  #@view = new Sayings.Views.Exchange( model: exchange )
-  #$( "#exchanges" ).html( @view.render().el )
+  #  @view = new Sayings.Views.ShowExchange( model: exchange )
+  #  $( "#exchanges" ).html( @view.render().el )
     
   #edit: (id) ->
   #  exchange = @exchanges.get(id)
