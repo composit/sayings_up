@@ -1,16 +1,13 @@
-#= require_self
-#= require_tree ../templates
-#= require_tree ./models
-#= require_tree ./collections
-#= require_tree ./views
-#= require_tree ./routers
-
 window.Sayings =
   Models: {}
   Collections: {}
   Routers: {}
   Views: {}
-  init: ( exchanges ) ->
-    new Sayings.Routers.Exchanges()
+  init: ( exchanges, silent = false ) ->
     @exchanges = new Sayings.Collections.Exchanges( exchanges )
-    Backbone.history.start()
+
+    new Sayings.Routers.Exchanges( { collection: @exchanges } )
+
+    if !Backbone.history.started
+      Backbone.history.start( { silent: silent } )
+      Backbone.history.started = true

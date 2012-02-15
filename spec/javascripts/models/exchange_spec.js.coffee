@@ -24,9 +24,3 @@ describe 'Exchange', ->
           expect( @exchange.url() ).toEqual '/exchanges'
 
     xit 'should not save when content is empty'
-
-describe 'Exchanges', ->
-  describe 'url', ->
-    it 'should be defined', ->
-      exchanges = new Sayings.Collections.Exchanges
-      expect( exchanges.url ).toEqual '/exchanges'

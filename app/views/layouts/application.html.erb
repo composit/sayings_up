@@ -3,9 +3,7 @@
 <head>
   <title>Sayings</title>
   <%= stylesheet_link_tag    "application" %>
-  <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
-  <%= yield :javascript %>
 </head>
 <body>
   <div id="wrap">
@@ -40,5 +38,7 @@
     <div id="footer">
     </div>
   </div>
+  <%= javascript_include_tag "application" %>
+  <%= yield :javascript %>
 </body>
 </html>
