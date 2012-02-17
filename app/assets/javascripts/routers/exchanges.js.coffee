@@ -3,10 +3,10 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     @collection = options.collection
 
   routes:
-    #'/new'      : 'newExchange'
-    #'/:id/edit' : 'edit'
-    '/:id'      : 'show'
-    '.*'        : 'index'
+    #'/new': 'newExchange'
+    #'/:id/edit': 'edit'
+    '': 'index'
+    ':id': 'show'
 
   #newExchange: ->
   #  @view = new Sayings.Views.NewExchange(collection: @exchanges)
@@ -18,7 +18,6 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   show: ( id ) ->
     exchange = @collection.get( id )
-    exchange = Sayings.exchanges.get( id )
    
     @view = new Sayings.Views.ShowExchange( model: exchange )
     $( '#exchanges' ).html( @view.render().el )

@@ -37,7 +37,7 @@ spec_location = "spec/javascripts/%s_spec"
 # uncomment if you use NerdCapsSpec.js
 # spec_location = "spec/javascripts/%sSpec"
 
-guard 'jasmine-headless-webkit', :full_run => false, :all_on_start => false do
+guard 'jasmine-headless-webkit', :cli => "--no-full-run", :all_on_start => false do
   watch(%r{^app/assets/templates/.*\.jst$})
   watch(%r{^app/assets/javascripts/(.*)\.(js\.coffee)$}) { |m| newest_js_file(spec_location % m[1]) }
   watch(%r{^spec/javascripts/(.*)_spec\..*}) { |m| newest_js_file(spec_location % m[1]) }

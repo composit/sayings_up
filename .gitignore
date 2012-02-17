@@ -5,3 +5,4 @@ tmp/
 .sass-cache/
 vendor/bundle/*
 .jhw-cache
+runner.*html

@@ -22,11 +22,15 @@ describe 'Sayings', ->
       expect( Sayings.exchanges.models[1].get( '_id' ) ).toEqual '54321'
 
     it 'instantiates an Exchanges router', ->
-      Sayings.Routers.Exchanges = sinon.spy()
+      sinon.spy( Sayings.Routers, "Exchanges" )
       Sayings.init [], true
       expect( Sayings.Routers.Exchanges ).toHaveBeenCalled()
+      Sayings.Routers.Exchanges.restore()
 
     it 'starts Backbone.history', ->
-      Backbone.history = { start: sinon.spy() }
+      Backbone.history.stop()
+      Backbone.history.started = false
+      sinon.spy( Backbone.history, "start" )
       Sayings.init [], true
       expect( Backbone.history.start ).toHaveBeenCalled()
+      Backbone.history.start.restore()

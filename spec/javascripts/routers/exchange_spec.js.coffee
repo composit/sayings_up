@@ -1,35 +1,37 @@
 describe 'exchange routes', ->
   beforeEach ->
-    @exchange = { '_id': '999', 'content': 'Test', 'entries': [] }
-    @router = new Sayings.Routers.Exchanges { collection: [@exchange] }
+    @exchange = new Sayings.Models.Exchange '_id': '999', 'content': 'Test', 'entries': []
+    @exchanges = new Sayings.Collections.Exchanges collection: [@exchange]
+    @router = new Sayings.Routers.Exchanges collection: @exchanges
     @routeSpy = sinon.spy()
     try
       Backbone.history.start { silent: true }
+      Backbone.history.started = true
     catch e
-    @router.navigate( 'elsewhere' )
+    @router.navigate 'elsewhere'
 
   describe 'index', ->
     beforeEach ->
-      @router.bind 'route:index', @routeSpy
+      @router.on 'route:index', @routeSpy
 
     it 'fires the index route', ->
-      @router.navigate( 'a', true )
+      @router.navigate '', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
     
   describe 'show', ->
     beforeEach ->
-      @router.bind 'route:show', @routeSpy
+      @router.on 'route:show', @routeSpy
 
     it 'fires the show route', ->
-      @router.navigate( '/999', true )
+      @router.navigate '999', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '999'
 
     it 'renders the show view', ->
       exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns( new Backbone.View() )
       exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns( @exchange )
-      #@router.show( '999' )
-      #expect( exchangeViewStub ).toHaveBeenCalledOnce()
-      #expect( exchangeViewStub ).toHaveBeenCalledWith( model: @exchange )
-      #exchangeViewStub.restore()
-      #@router.exchanges.get.restore()
+      @router.show( '999' )
+      expect( exchangeViewStub ).toHaveBeenCalledOnce()
+      expect( exchangeViewStub ).toHaveBeenCalledWith( model: @exchange )
+      Sayings.Views.ShowExchange.restore()
+      @router.collection.get.restore()
