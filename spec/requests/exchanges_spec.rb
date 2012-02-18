@@ -10,7 +10,7 @@ describe "user views an exchange", %q{
     exchange = Factory( :exchange )
     exchange.entries << Factory( :entry, :content => "Good stuff" )
     exchange.entries << Factory( :entry, :content => "Other stuff" )
-    visit( "/#/#{exchange.id}" )
+    visit( "/##{exchange.id}" )
   end
 
   it "sees a list of exchanges in order" do

@@ -6,7 +6,7 @@ class Sayings.Views.ExchangesIndex extends Backbone.View
     #@options.exchanges.bind('reset', @addAll)
        
   render: () ->
-    $( @el ).html @template( exchanges: @collection )
+    $( @el ).html @template( collection: @collection )
     @addAll()
     return this
    

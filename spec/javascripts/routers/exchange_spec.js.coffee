@@ -1,6 +1,6 @@
 describe 'exchange routes', ->
   beforeEach ->
-    @exchange = new Sayings.Models.Exchange '_id': '999', 'content': 'Test', 'entries': []
+    @exchange = new Sayings.Models.Exchange( '_id': '999', 'content': 'Test', 'entries': [{ '_id': '888' }] )
     @exchanges = new Sayings.Collections.Exchanges collection: [@exchange]
     @router = new Sayings.Routers.Exchanges collection: @exchanges
     @routeSpy = sinon.spy()
@@ -21,6 +21,12 @@ describe 'exchange routes', ->
   describe 'show', ->
     beforeEach ->
       @router.on 'route:show', @routeSpy
+      @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns( new Backbone.View() )
+      @exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns( @exchange )
+
+    afterEach ->
+      Sayings.Views.ShowExchange.restore()
+      @router.collection.get.restore()
 
     it 'fires the show route', ->
       @router.navigate '999', { trigger: true }
@@ -28,10 +34,6 @@ describe 'exchange routes', ->
       expect( @routeSpy ).toHaveBeenCalledWith '999'
 
     it 'renders the show view', ->
-      exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns( new Backbone.View() )
-      exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns( @exchange )
       @router.show( '999' )
-      expect( exchangeViewStub ).toHaveBeenCalledOnce()
-      expect( exchangeViewStub ).toHaveBeenCalledWith( model: @exchange )
-      Sayings.Views.ShowExchange.restore()
-      @router.collection.get.restore()
+      expect( @exchangeViewStub ).toHaveBeenCalledOnce()
+      expect( @exchangeViewStub ).toHaveBeenCalledWith( model: @exchange )
