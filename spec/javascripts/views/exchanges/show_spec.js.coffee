@@ -22,8 +22,8 @@ describe 'exchange show view', ->
     afterEach ->
       Sayings.Views.ShowEntry.restore()
 
-    #it "creates an Entry view for each entry", ->
-    #  expect( @entryViewStub ).toHaveBeenCalledThrice()
-    #  expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry1 } )
-    #  expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry2 } )
-    #  expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry3 } )
+    it "creates an Entry view for each entry", ->
+      expect( @entryViewStub ).toHaveBeenCalledThrice()
+      expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry1 } )
+      expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry2 } )
+      expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry3 } )
