@@ -6,8 +6,13 @@ describe Entry do
   end
 
   it "only includes the id and content attributes in the json" do
-    entry = Factory.build( :entry )
-    entry.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
+    subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
+  end
+
+  it "belongs to a user" do
+    user = User.new
+    subject.user = user
+    subject.user.should == user
   end
 
   it "requires the existence of a user" do

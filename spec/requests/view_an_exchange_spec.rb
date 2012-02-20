@@ -6,8 +6,9 @@ describe "user views an exchange", %q{
   I want to see all the entries, etc. involved in the exchange
 }, :js do
 
+  let( :exchange ) { Factory( :exchange ) }
+
   before :each do
-    exchange = Factory( :exchange )
     exchange.entries << Factory( :entry, :content => "Good stuff" )
     exchange.entries << Factory( :entry, :content => "Other stuff" )
     visit( "/##{exchange.id}" )
@@ -17,6 +18,9 @@ describe "user views an exchange", %q{
     pattern = Regexp.new( "Good stuff(.*)Other stuff", Regexp::MULTILINE )
     find( '#exchanges' ).text.should =~ pattern
   end
+
+  it "displays the comments when I click 'comments' for a specific entry"
+end
 
 =begin
   describe "with a logged in user" do
@@ -268,4 +272,3 @@ describe "user views an exchange", %q{
     And I follow "Link"
     Then I should be on the user page for "Link"
 =end
-end

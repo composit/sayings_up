@@ -2,9 +2,9 @@ class Entry
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :user_id
-  field :content
+  field :content, type: String
 
+  belongs_to :user
   embedded_in :exchange
 
   def as_json( options = {} )

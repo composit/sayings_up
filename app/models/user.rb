@@ -9,7 +9,7 @@ class User
   field :password_digest
   field :email
 
-  #has_many_related :entries
+  has_many :entries
   #has_many_related :comments
 
   attr_accessible :username, :email, :password, :password_confirmation
