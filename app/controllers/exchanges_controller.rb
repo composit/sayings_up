@@ -1,13 +1,13 @@
 class ExchangesController < ApplicationController
   load_and_authorize_resource
-  respond_to :html, :only => :index
+  respond_to :html, only: :index
   respond_to :json
 
   def index
   end
 
   def show
-    #render :json => Exchange.find( params[:id] )
+    #render json: Exchange.find( params[:id] )
     respond_with( @exchange )
   end
 =begin
@@ -39,7 +39,7 @@ class ExchangesController < ApplicationController
     entry = @exchange.entries.build( params[:exchange][:entry] )
     entry.user = current_user
     entry.save!
-    redirect_to exchanges_path, :notice => "Exchange was successfully created"
+    redirect_to exchanges_path, notice: "Exchange was successfully created"
   end
 
   def update
@@ -47,7 +47,7 @@ class ExchangesController < ApplicationController
     entry = @exchange.entries.build( params[:exchange][:entry] )
     entry.user = current_user
     entry.save!
-    redirect_to @exchange, :notice => "Response was successfully created"
+    redirect_to @exchange, notice: "Response was successfully created"
   end
 =end
 end

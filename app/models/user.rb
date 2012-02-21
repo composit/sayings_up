@@ -14,11 +14,11 @@ class User
 
   attr_accessible :username, :email, :password, :password_confirmation
 
-  validates :username, :uniqueness => true, :presence => true
+  validates :username, uniqueness: true, presence: true
 
 =begin
   def exchanges
-    Exchange.where( :user_ids => id )
+    Exchange.where( user_ids: id )
   end
 =end
 end

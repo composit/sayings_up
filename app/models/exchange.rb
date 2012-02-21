@@ -5,27 +5,27 @@ class Exchange
   embeds_many :entries
 
   def as_json( options = {} )
-    super( options.merge( :include => :entries, :only => [:_id, :content] ) )
+    super( options.merge( include: :entries, only: [:_id, :content] ) )
   end
 
   #def to_json( options = {} )
-  #  super( options.merge( :only => [ :_id ] ) )
+  #  super( options.merge( only: [ :_id ] ) )
   #and
 =begin
   field :parent_comment_id
   field :parent_entry_id
   field :parent_exchange_id
-  field :user_ids, :type => Array, :default => []
-  field :most_recent_entry_date, :type => Time, :default => Time.now
+  field :user_ids, type: Array, default: []
+  field :most_recent_entry_date, type: Time, default: Time.now
 
   index :user_ids
 
   embeds_many :entries
-  belongs_to_related :parent_exchange, :class_name => "Exchange"
+  belongs_to_related :parent_exchange, class_name: "Exchange"
 
   before_validation :set_user_ids
 
-  named_scope :top_level, :where => { :parent_comment_id => nil, :parent_entry_id => nil, :parent_exchange_id => nil }
+  named_scope :top_level, where: { parent_comment_id: nil, parent_entry_id: nil, parent_exchange_id: nil }
 
   def users
     @users ||= User.where( :_id.in => user_ids ).to_a
