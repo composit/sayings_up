@@ -2,13 +2,22 @@ class Entry
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  field :user_id, type: Integer
   field :content, type: String
 
-  belongs_to :user
   embedded_in :exchange
 
   def as_json( options = {} )
     super( options.merge( :only => [:_id, :content] ) )
+  end
+
+  def user=( user )
+    self.user_id = user.id
+    @user = user
+  end
+
+  def user
+    @user ||= User.where( :_id => user_id ).first
   end
 
 =begin

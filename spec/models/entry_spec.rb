@@ -15,6 +15,14 @@ describe Entry do
     subject.user.should == user
   end
 
+  it 'persists the user to the database' do
+    user = Factory( :user )
+    entry = Factory.build( :entry )
+    entry.user = user
+    entry.save!
+    entry.reload.user.should == user
+  end
+
   it "requires the existence of a user" do
     pending
     entry = Factory.build( :entry, :user_id => nil )
