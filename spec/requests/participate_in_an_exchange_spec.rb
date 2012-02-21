@@ -22,19 +22,28 @@ describe "user participates in an exchange", %q{
     end
   end
 
-  context "logged in and viewing an exchange I am not a part of" do
-    it "does not display the 'respond' dialog"
-  end
+  context 'logged in' do
+    before :each do
+      pending
+    end
 
-  context "logged in and viewing an exchange I am involved in" do
-    it "displays the 'respond' dialog"
-    it "displays my response when I submit one"
-    it "does not allow me to submit a blank response"
-    it "allows me to delete my previous entries, replacing the content with 'deleted'"
-    it "does not allow me to delete entries not by me"
-  end
+    context "viewing an exchange I am not a part of" do
+      it "does not display the 'respond' dialog" do
+        visit "/##{exchange.id}"
+        page.should have_no_content respond_text
+      end
+    end
 
-  context "logged in and responding to a comment on one of my entries" do
-    it "creates a new exchange when I respond to a comment"
+    context "viewing an exchange I am involved in" do
+      it "displays the 'respond' dialog"
+      it "displays my response when I submit one"
+      it "does not allow me to submit a blank response"
+      it "allows me to delete my previous entries, replacing the content with 'deleted'"
+      it "does not allow me to delete entries not by me"
+    end
+
+    context "responding to a comment on one of my entries" do
+      it "creates a new exchange when I respond to a comment"
+    end
   end
 end
