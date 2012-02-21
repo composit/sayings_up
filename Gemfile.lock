@@ -45,6 +45,9 @@ GEM
       rack-test (>= 0.5.4)
       selenium-webdriver (~> 2.0)
       xpath (~> 0.1.4)
+    capybara-webkit (0.10.0)
+      capybara (>= 1.0.0, < 1.2)
+      json
     childprocess (0.3.1)
       ffi (~> 1.0.6)
     coderay (1.0.5)
@@ -80,7 +83,6 @@ GEM
     guard-spork (0.5.2)
       guard (>= 0.10.0)
       spork (>= 0.8.4)
-    headless (0.2.2)
     hike (1.2.1)
     i18n (0.6.0)
     jasmine-core (1.1.0)
@@ -204,7 +206,7 @@ DEPENDENCIES
   bcrypt-ruby
   bson_ext
   cancan
-  capybara
+  capybara-webkit
   coffee-rails
   ejs
   factory_girl_rails
@@ -212,7 +214,6 @@ DEPENDENCIES
   guard-jasmine-headless-webkit
   guard-rspec
   guard-spork
-  headless
   jquery-rails
   launchy
   mongoid
