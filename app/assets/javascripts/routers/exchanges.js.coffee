@@ -6,7 +6,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     #'/new': 'newExchange'
     #'/:id/edit': 'edit'
     '': 'index'
-    ':id': 'show'
+    'e/:id': 'show'
 
   #newExchange: ->
   #  @view = new Sayings.Views.NewExchange(collection: @exchanges)

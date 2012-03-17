@@ -7,6 +7,7 @@ window.Sayings =
     @exchanges = new Sayings.Collections.Exchanges( exchanges )
 
     new Sayings.Routers.Exchanges( { collection: @exchanges } )
+    new Sayings.Routers.Users( { collection: [] } )
 
     if !Backbone.history.started
       Backbone.history.start( { silent: silent } )

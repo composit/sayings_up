@@ -11,5 +11,5 @@ describe 'user new view', ->
 
   describe 'rendering', ->
     it 'creates a form to add a new user', ->
-      expect( $( @view.el ) ).toContain '.user_name label:contains( "Username" )'
-      expect( $( @view.el ) ).toContain '.user_name input[type=text]'
+      expect( $( @view.el ) ).toContain '.username label:contains( "Username" )'
+      expect( $( @view.el ) ).toContain '.username input[type=text]'

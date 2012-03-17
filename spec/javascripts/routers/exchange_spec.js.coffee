@@ -29,7 +29,7 @@ describe 'exchange routes', ->
 
     it 'fires the show route', ->
       @router.on 'route:show', @routeSpy
-      @router.navigate '999', { trigger: true }
+      @router.navigate 'e/999', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '999'
 

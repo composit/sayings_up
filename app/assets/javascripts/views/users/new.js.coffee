@@ -3,4 +3,5 @@ class Sayings.Views.NewUser extends Backbone.View
   id: 'user'
 
   render: ->
-    $( this.el ).html( @template )
+    $( @el ).html @template( @model )
+    return this
