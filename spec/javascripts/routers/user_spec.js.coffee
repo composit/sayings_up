@@ -1,7 +1,27 @@
 describe 'user routes', ->
   beforeEach ->
+    @users = new Sayings.Collections.Users collection: []
+    @router = new Sayings.Routers.Users collection: @users
+    @routeSpy = sinon.spy()
+    try
+      Backbone.history.start { silent: true }
+      Backbone.history.started = true
+    catch e
+    @router.navigate 'elsewhere'
+
   describe 'new', ->
-    it 'renders the new user view', ->
+    beforeEach ->
+      @newUserViewStub = sinon.stub( Sayings.Views, 'NewUser' ).returns( new Backbone.View() )
+
+    afterEach ->
+      Sayings.Views.NewUser.restore()
+
+    it 'fires the new route', ->
+      @router.on 'route:new', @routeSpy
       @router.navigate 'signup', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
-      expect( @userNewStub ).toHaveBeenCalledOnce()
+
+    it 'renders the new view', ->
+      @router.new()
+      expect( @newUserViewStub ).toHaveBeenCalledOnce()
+      expect( @newUserViewStub ).toHaveBeenCalledWith( collection: @users )

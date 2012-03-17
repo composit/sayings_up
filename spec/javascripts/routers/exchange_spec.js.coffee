@@ -20,7 +20,6 @@ describe 'exchange routes', ->
     
   describe 'show', ->
     beforeEach ->
-      @router.on 'route:show', @routeSpy
       @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns( new Backbone.View() )
       @exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns( @exchange )
 
@@ -29,6 +28,7 @@ describe 'exchange routes', ->
       @router.collection.get.restore()
 
     it 'fires the show route', ->
+      @router.on 'route:show', @routeSpy
       @router.navigate '999', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '999'
