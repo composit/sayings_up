@@ -1,6 +1,7 @@
 describe 'user new view', ->
   beforeEach ->
-    @view = new Sayings.Views.NewUser()
+    @user = new Sayings.Models.User()
+    @view = new Sayings.Views.NewUser( { model: @user } )
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -15,17 +16,18 @@ describe 'user new view', ->
 
   describe 'saving', ->
     beforeEach ->
-      @callback = sinon.spy()
       @server = sinon.fakeServer.create()
-      Sayings.Models.User.on( 'change', @callback )
+      @callback = sinon.spy( @user, 'save' )
 
     afterEach ->
       @server.restore()
 
     it 'saves the record', ->
-      @server.respondWith( "POST", "/users", [200, { "Content-Type": "application-json"}, "goodness"] )
-      $( @view.render().el ).find( 'input[type="submit"]' ).trigger( "click" )
-      expect( @callback.getCall(0) ).toContain( "mildew" )
+      @server.respondWith( "POST", "/users", [200, { "Content-Type": "application-json" }, ""] )
+      $( @view.render().el ).find( "form" ).submit()
+      @server.respond()
+      expect( @callback ).toHaveBeenCalled()
+      #expect( @callback.getCall(0) ).toContain( "mildew" )
 
     it 'shows a success message when the save is successful', ->
       #TODO

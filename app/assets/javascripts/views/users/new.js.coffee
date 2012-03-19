@@ -10,10 +10,7 @@ class Sayings.Views.NewUser extends Backbone.View
     return this
 
   save: ( e ) ->
-    console.log Sayings.users
-    @model.collection = Sayings.users
-    console.log @model
-    console.log @model.url()
+    @model.collection = new Sayings.Collections.Users()
     @model.save( { username: "good", password: "password", password_confirmation: "password" }, { success: @saved } )
     return false
 
