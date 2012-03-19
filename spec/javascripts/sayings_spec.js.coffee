@@ -27,6 +27,18 @@ describe 'Sayings', ->
       expect( Sayings.Routers.Exchanges ).toHaveBeenCalled()
       Sayings.Routers.Exchanges.restore()
 
+    it 'instantiates an empty users collection', ->
+      Sayings.init [], true
+
+      expect( Sayings.users ).not.toEqual undefined
+      expect( Sayings.users.length ).toEqual 0
+
+    it 'instantiates a Users router', ->
+      sinon.spy( Sayings.Routers, "Users" )
+      Sayings.init [], true
+      expect( Sayings.Routers.Users ).toHaveBeenCalled()
+      Sayings.Routers.Users.restore()
+
     it 'starts Backbone.history', ->
       Backbone.history.stop()
       Backbone.history.started = false

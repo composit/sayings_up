@@ -1,7 +1,7 @@
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
 
-guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' } do
+guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAILS_ENV' => 'test' }, :notification => false do
   watch('config/application.rb')
   watch('config/environment.rb')
   watch(%r{^config/environments/.+\.rb$})
@@ -13,7 +13,7 @@ guard 'spork', :cucumber_env => { 'RAILS_ENV' => 'test' }, :rspec_env => { 'RAIL
   watch(%r{features/support/}) { :cucumber }
 end
 
-guard 'rspec', :version => 2, :cli => '--drb', :all_on_start => false, :all_after_pass => false do
+guard 'rspec', :version => 2, :cli => '--drb', :all_on_start => false, :all_after_pass => false, :notification => false do
   watch(%r{^spec/.+_spec\.rb$})
   watch(%r{^lib/(.+)\.rb$})     { |m| "spec/lib/#{m[1]}_spec.rb" }
   watch('spec/spec_helper.rb')  { "spec" }
@@ -37,9 +37,8 @@ spec_location = "spec/javascripts/%s_spec"
 # uncomment if you use NerdCapsSpec.js
 # spec_location = "spec/javascripts/%sSpec"
 
-guard 'jasmine-headless-webkit', :cli => "--no-full-run", :all_on_start => false do
+guard 'jasmine-headless-webkit', :cli => "--no-full-run", :all_on_start => false, :notification => false do
   watch(%r{^app/assets/templates/.*\.jst$})
   watch(%r{^app/assets/javascripts/(.*)\.(js\.coffee)$}) { |m| newest_js_file(spec_location % m[1]) }
   watch(%r{^spec/javascripts/(.*)_spec\..*}) { |m| newest_js_file(spec_location % m[1]) }
 end
-

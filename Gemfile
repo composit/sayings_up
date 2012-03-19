@@ -40,7 +40,6 @@ group :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'launchy'
-  gem 'rb-inotify'
   gem 'rspec-rails'
   gem 'spork'
   gem 'turn', :require => false
@@ -51,5 +50,4 @@ group :development, :test do
   gem 'foreman'
   gem 'pry-rails'
   gem 'rspec-rails'
-  #gem 'test_track'
 end

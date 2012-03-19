@@ -11,5 +11,23 @@ describe 'user new view', ->
 
   describe 'rendering', ->
     it 'creates a form to add a new user', ->
-      expect( $( @view.el ) ).toContain '.username label:contains( "Username" )'
-      expect( $( @view.el ) ).toContain '.username input[type=text]'
+      expect( $( @view.render().el ) ).toContain 'form#new-user'
+
+  describe 'saving', ->
+    beforeEach ->
+      @callback = sinon.spy()
+      @server = sinon.fakeServer.create()
+      Sayings.Models.User.on( 'change', @callback )
+
+    afterEach ->
+      @server.restore()
+
+    it 'saves the record', ->
+      @server.respondWith( "POST", "/users", [200, { "Content-Type": "application-json"}, "goodness"] )
+      $( @view.render().el ).find( 'input[type="submit"]' ).trigger( "click" )
+      expect( @callback.getCall(0) ).toContain( "mildew" )
+
+    it 'shows a success message when the save is successful', ->
+      #TODO
+    it 'shows an error message when the save is not successful', ->
+      #TODO

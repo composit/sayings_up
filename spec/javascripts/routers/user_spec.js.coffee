@@ -24,4 +24,5 @@ describe 'user routes', ->
     it 'renders the new view', ->
       @router.new()
       expect( @newUserViewStub ).toHaveBeenCalledOnce()
-      expect( @newUserViewStub ).toHaveBeenCalledWith( collection: @users )
+      #TODO how to stub/spy the new model?
+      #expect( @newUserViewStub ).toHaveBeenCalledWith( model: @newUser )

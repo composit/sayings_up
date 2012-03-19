@@ -6,5 +6,5 @@ class Sayings.Routers.Users extends Backbone.Router
     'signup': 'new'
 
   new: ->
-    view = new Sayings.Views.NewUser( { collection: @collection } )
+    view = new Sayings.Views.NewUser( { model: new @collection.model } )
     $( '#user' ).html( view.render().el )

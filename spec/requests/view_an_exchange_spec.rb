@@ -11,7 +11,7 @@ describe "user views an exchange", %q{
   before :each do
     exchange.entries << Factory( :entry, :content => "Good stuff" )
     exchange.entries << Factory( :entry, :content => "Other stuff" )
-    visit( "/##{exchange.id}" )
+    visit( "/#e/#{exchange.id}" )
   end
 
   it "sees a list of exchanges in order" do

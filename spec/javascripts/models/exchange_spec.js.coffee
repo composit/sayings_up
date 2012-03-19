@@ -34,3 +34,4 @@ describe 'Exchange', ->
       expect( @exchange.entries.last().get( '_id' ) ).toEqual( '456' )
 
     xit 'should not save when content is empty'
+      #TODO
