@@ -10,4 +10,7 @@ class UsersController < ApplicationController
       respond_with @user, status: :unprocessable_entity
     end
   end
+
+  def show
+  end
 end

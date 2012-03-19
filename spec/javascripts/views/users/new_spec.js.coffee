@@ -27,9 +27,12 @@ describe 'user new view', ->
       $( @view.render().el ).find( "form" ).submit()
       @server.respond()
       expect( @callback ).toHaveBeenCalled()
-      #expect( @callback.getCall(0) ).toContain( "mildew" )
 
     it 'shows a success message when the save is successful', ->
-      #TODO
+      @server.respondWith( "POST", "/users", [200, { "Content-Type": "application-json" }, "{username:\"person\"}"] )
+      $( @view.render().el ).find( "form" ).submit()
+      @server.respond()
+      expect( $( @view.render().el ) ).toContain 'Thanks for signing up!'
+
     it 'shows an error message when the save is not successful', ->
       #TODO

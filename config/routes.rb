@@ -5,7 +5,7 @@ Sayings::Application.routes.draw do
     resources :entries, :only => :index
   end
   resources :entries, :only => :index
-  resources :users, :only => :create
+  resources :users, :only => [:create, :show]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

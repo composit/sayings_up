@@ -11,8 +11,10 @@ class Sayings.Views.NewUser extends Backbone.View
 
   save: ( e ) ->
     @model.collection = new Sayings.Collections.Users()
-    @model.save( { username: "good", password: "password", password_confirmation: "password" }, { success: @saved } )
+    @model.save( { username: $( "#username" ).val(), password: $( "#password" ).val(), password_confirmation: $( "password_confirmation" ).val() }, { success: @saved } )
     return false
 
   saved: ->
-    alert "goodness"
+    console.log @$el
+    $( @el ).html( "<h2>Thanks for signing up!</h2>" )
+    return this
