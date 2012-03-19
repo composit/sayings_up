@@ -6,6 +6,7 @@ class Ability
 
     can :read, Exchange
     can :read, Entry
+    can :create, User
 =begin
     can :read, Entry
     can :create, Entry do |entry|

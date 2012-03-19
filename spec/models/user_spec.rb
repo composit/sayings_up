@@ -11,6 +11,7 @@ describe User do
     let( :user ) { Factory :user }
     it { should be_able_to :read, Exchange.new }
     it { should be_able_to :read, Entry.new }
+    it { should be_able_to :create, User.new }
   end
 
   context "when authenticating against a password" do
