@@ -3,7 +3,7 @@ require 'spec_helper'
 describe UsersController do
   context 'POST' do
     let( :params ) { { user: { username: "testuser" } } }
-    let( :new_user ) { mock_model( User ).as_null_object }
+    let( :new_user ) { mock_model( User, id: 123 ).as_null_object }
 
     before :each do
       User.stub( :new ).and_return( new_user )
@@ -19,6 +19,13 @@ describe UsersController do
       post :create, params
     end
 
+    describe "when the save is successful" do
+      it "signs the user in to their new account" do
+        post :create, params
+        session[:user_id].should == new_user.id
+      end
+    end
+
     describe "when the save fails" do
       before :each do
         new_user.stub( :save ) { false }
@@ -27,10 +34,6 @@ describe UsersController do
 
       it "returns an unprocessable entity status" do
         response.status.should == 406
-      end
-      
-      it "returns the error messages" do
-        response.should == false
       end
     end
   end

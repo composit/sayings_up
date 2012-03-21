@@ -2,6 +2,8 @@ class Exchange
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  attr_accessible
+
   embeds_many :entries
 
   def as_json( options = {} )

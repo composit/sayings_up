@@ -9,16 +9,7 @@ class User
   field :password_digest
   field :email
 
-  #has_many :entries
-  #has_many_related :comments
-
   attr_accessible :username, :email, :password, :password_confirmation
 
   validates :username, uniqueness: true, presence: true
-
-=begin
-  def exchanges
-    Exchange.where( user_ids: id )
-  end
-=end
 end

@@ -5,6 +5,8 @@ class Entry
   field :user_id, type: Integer
   field :content, type: String
 
+  attr_accessible
+
   embedded_in :exchange
 
   def as_json( options = {} )

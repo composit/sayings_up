@@ -5,6 +5,8 @@ class Comment
   field :user_id
   field :content
 
+  attr_accessible
+
 =begin
   belongs_to_related :user
   has_one_related :exchange

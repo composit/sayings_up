@@ -5,6 +5,7 @@ class UsersController < ApplicationController
 
   def create
     if @user.save
+      session[:user_id] = @user.id
       respond_with @user
     else
       respond_with @user, status: :unprocessable_entity

@@ -7,4 +7,4 @@ class Sayings.Routers.Users extends Backbone.Router
 
   new: ->
     view = new Sayings.Views.NewUser( { model: new @collection.model } )
-    $( '#user' ).html( view.render().el )
+    $( '#header' ).after( view.render().el )
