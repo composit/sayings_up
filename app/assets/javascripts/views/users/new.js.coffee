@@ -22,8 +22,8 @@ class Sayings.Views.NewUser extends Backbone.View
     )
     return false
 
-  saved: ->
-    @$el.find( '.messages' ).prepend "<div class='notice'>Thanks for signing up!</div>"
+  saved: ( model, response ) ->
+    @$el.find( '.messages' ).prepend "<div class='notice'>Welcome, " + model.get( 'username' ) + "</div>"
     $( '#account' ).html '<a href="#logout">Log out</a>'
 
   errored: ( model, response ) ->

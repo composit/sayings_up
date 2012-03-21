@@ -24,8 +24,9 @@ describe 'user new view', ->
     describe 'when the save is successful', ->
       beforeEach ->
         @callback = sinon.spy( @user, 'save' )
-        @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, ""] )
         @$el = $( @view.render().el )
+        @$el.find( '#username' ).val( 'testuser' )
+        @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, ''] )
         @$el.find( "form" ).submit()
         @server.respond()
 
@@ -33,7 +34,7 @@ describe 'user new view', ->
         expect( @callback ).toHaveBeenCalled()
 
       it 'shows a success message when the save is successful', ->
-        expect( @$el ).toContain ".notice:contains('Thanks for signing up!')"
+        expect( @$el ).toContain ".notice:contains('Welcome, testuser')"
 
       it 'logs the user in', ->
         #TODO should this be handled by another view? No access to the nav div
@@ -55,8 +56,9 @@ describe 'user new view', ->
       @server = sinon.fakeServer.create()
       expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
       @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, ""] )
+      $el.find( '#username' ).val( 'testuser' )
       $el.find( "form" ).submit()
       @server.respond()
-      expect( $el ).toContain ".notice:contains('Thanks for signing up!')"
+      expect( $el ).toContain ".notice:contains('Welcome, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
 
