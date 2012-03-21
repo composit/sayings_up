@@ -13,6 +13,7 @@ class Sayings.Views.NewUser extends Backbone.View
     return this
 
   save: ( e ) ->
+    $( @el ).find( ".messages" ).html ''
     @model.collection = new Sayings.Collections.Users()
     @model.save(
       { username: $( @el ).find( "#username" ).val(), password: $( @el ).find( "#password" ).val(), password_confirmation: $( @el ).find( "#password_confirmation" ).val() }
@@ -22,7 +23,7 @@ class Sayings.Views.NewUser extends Backbone.View
     return false
 
   saved: ->
-    @$el.prepend "<div class='notice'>Thanks for signing up!</div>"
+    @$el.find( '.messages' ).prepend "<div class='notice'>Thanks for signing up!</div>"
     $( '#account' ).html '<a href="#logout">Log out</a>'
 
   errored: ( model, response ) ->
@@ -30,4 +31,4 @@ class Sayings.Views.NewUser extends Backbone.View
     _.each JSON.parse( response.responseText ).errors, ( error, field ) ->
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"
-    @$el.prepend errorString
+    @$el.find( '.messages' ).prepend errorString

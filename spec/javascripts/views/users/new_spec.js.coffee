@@ -45,3 +45,18 @@ describe 'user new view', ->
       $el.find( "form" ).submit()
       @server.respond()
       expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
+
+    it 'clears the messages from the previous save attempt at each attempt', ->
+      $el = $( @view.render().el )
+      @server.respondWith( "POST", "/users", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )
+      $el.find( "form" ).submit()
+      @server.respond()
+      @server.restore()
+      @server = sinon.fakeServer.create()
+      expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
+      @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, ""] )
+      $el.find( "form" ).submit()
+      @server.respond()
+      expect( $el ).toContain ".notice:contains('Thanks for signing up!')"
+      expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
+
