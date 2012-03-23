@@ -39,6 +39,12 @@ describe 'Sayings', ->
       expect( Sayings.Routers.Users ).toHaveBeenCalled()
       Sayings.Routers.Users.restore()
 
+    it 'instantiates a User sessions router', ->
+      sinon.spy( Sayings.Routers, "UserSessions" )
+      Sayings.init [], true
+      expect( Sayings.Routers.UserSessions ).toHaveBeenCalled()
+      Sayings.Routers.UserSessions.restore()
+
     it 'starts Backbone.history', ->
       Backbone.history.stop()
       Backbone.history.started = false

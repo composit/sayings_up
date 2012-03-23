@@ -8,3 +8,12 @@ describe 'user session view', ->
 
     it 'has the id of "session"', ->
       expect( $( @view.el ) ).toHaveId 'session'
+
+  describe 'rendering', ->
+    it 'has a link for signing in', ->
+      expect( $( @view.render().el ) ).toContain "a:contains('Sign in')"
+
+    it 'has a link for signing up', ->
+      expect( $( @view.render().el ) ).toContain "a:contains('Sign up')"
+
+  describe 'logging in', ->

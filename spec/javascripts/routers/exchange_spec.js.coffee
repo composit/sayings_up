@@ -13,10 +13,25 @@ describe 'exchange routes', ->
   describe 'index', ->
     beforeEach ->
       @router.on 'route:index', @routeSpy
+      @exchangeIndexStub = sinon.stub( Sayings.Views, 'ExchangesIndex' ).returns( new Backbone.View() )
+      @userSessionViewStub = sinon.stub( Sayings.Views, 'UserSession' ).returns( new Backbone.View() )
+
+    afterEach ->
+      Sayings.Views.ExchangesIndex.restore()
+      Sayings.Views.UserSession.restore()
 
     it 'fires the index route', ->
       @router.navigate '', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
+
+    it 'renders the index view', ->
+      @router.index()
+      expect( @exchangeIndexStub ).toHaveBeenCalledOnce()
+      expect( @exchangeIndexStub ).toHaveBeenCalledWith( collection: @router.collection )
+
+    it 'renders the login view', ->
+      @router.index()
+      expect( @userSessionViewStub ).toHaveBeenCalledOnce()
     
   describe 'show', ->
     beforeEach ->
