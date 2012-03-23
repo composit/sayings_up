@@ -1,6 +1,7 @@
 describe 'user session view', ->
   beforeEach ->
-    @view = new Sayings.Views.UserSession()
+    @user_session = new Sayings.Models.UserSession()
+    @view = new Sayings.Views.UserSession( { model: @user_session } )
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -19,8 +20,8 @@ describe 'user session view', ->
   describe 'new', ->
     it 'has a form for signing in', ->
       $el = $( @view.render().el )
-      $el.find( '#sign-in' ).click()
-      expect( $el ).toContain( 'form#sign-in' )
+      $el.find( '#sign-in-link' ).click()
+      expect( $el ).toContain( 'form#sign-in-form' )
 
   describe 'signing in', ->
     beforeEach ->
@@ -34,12 +35,12 @@ describe 'user session view', ->
         @callback = sinon.spy( @user_session, 'save' )
         @$el = $( @view.render().el )
         @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ''] )
+        @$el.find( '#sign-in-link' ).click()
         @$el.find( "form" ).submit()
         @server.respond()
 
       it 'queries the server', ->
-        #TODO
-        #expect( @callback ).toHaveBeenCalled()
+        expect( @callback ).toHaveBeenCalled()
 
       it 'renders the welcome message', ->
         #expect( 

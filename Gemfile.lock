@@ -213,7 +213,7 @@ DEPENDENCIES
   launchy
   mongoid
   pry-rails
-  rails (= 3.2.1)
+  rails
   rails-backbone
   rspec-rails
   sass-rails

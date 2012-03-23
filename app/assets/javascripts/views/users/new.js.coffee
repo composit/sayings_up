@@ -3,9 +3,9 @@ class Sayings.Views.NewUser extends Backbone.View
   id: 'user'
 
   events:
-    "submit form": "save"
+    'submit form': 'save'
 
-  initialize: () ->
+  initialize: ->
     _.bindAll( this, 'render', 'save', 'saved', 'errored' )
 
   render: ->
