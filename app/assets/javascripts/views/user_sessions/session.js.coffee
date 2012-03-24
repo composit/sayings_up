@@ -6,7 +6,7 @@ class Sayings.Views.UserSession extends Backbone.View
     'submit form#sign-in-form': 'save'
 
   initialize: ->
-    _.bindAll( this, 'render', 'save' )
+    _.bindAll( this, 'render', 'save', 'saved', 'errored' )
 
   render: ->
     $( @el ).html '<a href="#signin" id="sign-in-link">Sign in</a><a href="#signup">Sign up</a>'
@@ -17,6 +17,7 @@ class Sayings.Views.UserSession extends Backbone.View
     return false
 
   save: ( e ) ->
+    $( @el ).find( ".messages" ).html ''
     @model.save(
       { username: $( @el ).find( '#username' ).val(), password: $( @el ).find( '#password' ).val() }
       success: @saved
@@ -25,5 +26,11 @@ class Sayings.Views.UserSession extends Backbone.View
     return false
 
   saved: ( model, response ) ->
+    @$el.find( '.messages' ).prepend "<div class='notice'>Welcome back, " + model.get( 'username' ) + "</div>"
 
   errored: ( model, response ) ->
+    errorString = "<div class='validation-errors'>"
+    _.each JSON.parse( response.responseText ).errors, ( error, field ) ->
+      errorString += "<div class='error'>" + field + " " + error + "</div>"
+    errorString += "</div>"
+    @$el.find( '.messages' ).prepend errorString

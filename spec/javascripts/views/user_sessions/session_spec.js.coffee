@@ -36,6 +36,7 @@ describe 'user session view', ->
         @$el = $( @view.render().el )
         @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ''] )
         @$el.find( '#sign-in-link' ).click()
+        @$el.find( '#username' ).val( 'testuser' )
         @$el.find( "form" ).submit()
         @server.respond()
 
@@ -43,8 +44,33 @@ describe 'user session view', ->
         expect( @callback ).toHaveBeenCalled()
 
       it 'renders the welcome message', ->
-        #expect( 
-        #TODO
+        expect( @$el ).toContain ".notice:contains('Welcome back, testuser')"
 
-    describe 'when the sign in is unsuccessful', ->
+      #it 'logs the user in', ->
       #TODO
+      #  expect( $( @$el ) ).toContain "a:contains('Log out')"
+
+    it 'shows an error message when the signin is not successful', ->
+      $el = $( @view.render().el )
+      @server.respondWith( "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )
+      $el.find( '#sign-in-link' ).click()
+      $el.find( "form" ).submit()
+      @server.respond()
+      expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
+
+    it 'clears the messages from the previous save attempt at each attempt', ->
+      $el = $( @view.render().el )
+      @server.respondWith( "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )
+      $el.find( '#sign-in-link' ).click()
+      $el.find( "form" ).submit()
+      @server.respond()
+      expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
+      @server.restore()
+      @server = sinon.fakeServer.create()
+      @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ""] )
+      $el.find( '#sign-in-link' ).click()
+      $el.find( '#username' ).val( 'testuser' )
+      $el.find( "form" ).submit()
+      @server.respond()
+      expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
+      expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
