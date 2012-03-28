@@ -34,7 +34,7 @@ describe 'user session view', ->
       beforeEach ->
         @callback = sinon.spy( @user_session, 'save' )
         @$el = $( @view.render().el )
-        @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ''] )
+        @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}'] )
         @$el.find( '#sign-in-link' ).click()
         @$el.find( '#username' ).val( 'testuser' )
         @$el.find( "form" ).submit()
@@ -46,9 +46,11 @@ describe 'user session view', ->
       it 'renders the welcome message', ->
         expect( @$el ).toContain ".notice:contains('Welcome back, testuser')"
 
-      #it 'logs the user in', ->
-      #TODO
-      #  expect( $( @$el ) ).toContain "a:contains('Log out')"
+      it 'removes the sign in form', ->
+        expect( @$el ).not.toContain "form#sign-in-form"
+
+      it 'logs the user in', ->
+        expect( $( @$el ) ).toContain "a:contains('Sign out')"
 
     it 'shows an error message when the signin is not successful', ->
       $el = $( @view.render().el )
@@ -74,3 +76,28 @@ describe 'user session view', ->
       @server.respond()
       expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
+
+  describe 'signing out', ->
+    beforeEach ->
+      server = sinon.fakeServer.create()
+      @$el = $( @view.render().el )
+      server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}'] )
+      @$el.find( '#sign-in-link' ).click()
+      @$el.find( '#username' ).val( 'testuser' )
+      @$el.find( "form" ).submit()
+      server.respond()
+      server.restore()
+      @server = sinon.fakeServer.create()
+      @server.respondWith( "DELETE", "/user_sessions/123", [200, { "Content-Type": "application/json" }, ''] )
+      @$el.find( '#sign-out-link' ).click()
+      @server.respond()
+
+    afterEach ->
+      @server.restore()
+
+    it 'displays the sign out message', ->
+      expect( @$el ).toContain 'div:contains("You are signed out")'
+
+    it 'allows the user to sign up or sign in again', ->
+      expect( @$el ).toContain "a:contains('Sign in')"
+      expect( @$el ).toContain "a:contains('Sign up')"

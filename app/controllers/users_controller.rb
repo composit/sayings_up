@@ -13,5 +13,6 @@ class UsersController < ApplicationController
   end
 
   def show
+    respond_with @user
   end
 end

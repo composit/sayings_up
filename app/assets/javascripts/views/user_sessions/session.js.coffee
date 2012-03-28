@@ -4,9 +4,10 @@ class Sayings.Views.UserSession extends Backbone.View
   events:
     'click #sign-in-link': 'new'
     'submit form#sign-in-form': 'save'
+    'click #sign-out-link': 'destroy'
 
   initialize: ->
-    _.bindAll( this, 'render', 'save', 'saved', 'errored' )
+    _.bindAll( this, 'render', 'save', 'saved', 'errored', 'destroyed' )
 
   render: ->
     $( @el ).html '<a href="#signin" id="sign-in-link">Sign in</a><a href="#signup">Sign up</a>'
@@ -27,6 +28,7 @@ class Sayings.Views.UserSession extends Backbone.View
 
   saved: ( model, response ) ->
     @$el.find( '.messages' ).prepend "<div class='notice'>Welcome back, " + model.get( 'username' ) + "</div>"
+    @$el.find( '#sign-in-form' ).replaceWith '<a href="#signout" id="sign-out-link">Sign out</a>'
 
   errored: ( model, response ) ->
     errorString = "<div class='validation-errors'>"
@@ -34,3 +36,13 @@ class Sayings.Views.UserSession extends Backbone.View
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"
     @$el.find( '.messages' ).prepend errorString
+
+  destroy: ( e ) ->
+    @model.destroy(
+      success: @destroyed
+    )
+    return false
+
+  destroyed: ( model, response ) ->
+    @render()
+    $( @el ).prepend "<div class='notice'>You are signed out</div>"

@@ -12,4 +12,8 @@ class User
   attr_accessible :username, :email, :password, :password_confirmation
 
   validates :username, uniqueness: true, presence: true
+
+  def as_json( options = {} )
+    super( options.merge( only: [:_id] ) )
+  end
 end

@@ -26,7 +26,15 @@ describe 'manage my account', %q{
     page.should have_content 'Welcome back, testuser'
   end
 
-  context 'log out' do
-    it 'allows me to log out if I am logged in'
+  it 'logs out' do
+    Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
+    visit '/'
+    click_link 'Sign in'
+    fill_in 'Username', with: 'testuser'
+    fill_in 'Password', with: 'testpass'
+    click_button 'Sign in'
+    page.should have_content 'Welcome back, testuser'
+    click_link 'Sign out'
+    page.should have_content 'You are signed out'
   end
 end

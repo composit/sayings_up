@@ -1,11 +1,12 @@
 Sayings::Application.routes.draw do
   root :to => "exchanges#index"
 
-  resources :exchanges, :only => :index do
-    resources :entries, :only => :index
+  resources :exchanges, only: :index do
+    resources :entries, only: :index
   end
-  resources :entries, :only => :index
-  resources :users, :only => [:create, :show]
+  resources :entries, only: :index
+  resources :users, only: [:create, :show]
+  resources :user_sessions, only: [:create, :destroy]
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

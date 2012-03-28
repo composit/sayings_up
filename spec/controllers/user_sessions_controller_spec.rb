@@ -5,7 +5,7 @@ describe UserSessionsController do
     let( :user ) { stub_model User, id: 123 }
 
     before :each do
-      User.stub( :find_by_username ).with( "testuser" ) { user }
+      User.stub( :where ).with( username: "testuser" ) { [user] }
     end
 
     describe 'if the params authenticate' do
@@ -36,6 +36,21 @@ describe UserSessionsController do
       it 'returns an unprocessable entity status' do
         response.status.should == 422
       end
+    end
+  end
+
+  context 'DELETE' do
+    before :each do
+      session[:user_id] = 123
+      delete :destroy, { id: "123", format: :json }
+    end
+    
+    it 'clears the user id from the session' do
+      session[:user_id].should be_nil
+    end
+
+    it 'responds with a status of "OK"' do
+      response.status.should == 204
     end
   end
 end

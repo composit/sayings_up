@@ -1,6 +1,8 @@
 class Sayings.Models.UserSession extends Backbone.Model
+  idAttribute: '_id'
+
   url: ->
-    if user_id = @get( 'user_id' )
-      '/user_sessions/' + user_id
+    if @get( '_id' )
+      '/user_sessions/' + @get( '_id' )
     else
       '/user_sessions'
