@@ -11,11 +11,28 @@ describe 'user session view', ->
       expect( $( @view.el ) ).toHaveId 'session'
 
   describe 'rendering', ->
-    it 'has a link for signing in', ->
-      expect( $( @view.render().el ) ).toContain "a:contains('Sign in')"
+    describe 'with no logged in user', ->
+      it 'has a link for signing in', ->
+        expect( $( @view.render().el ) ).toContain "a:contains('Sign in')"
 
-    it 'has a link for signing up', ->
-      expect( $( @view.render().el ) ).toContain "a:contains('Sign up')"
+      it 'has a link for signing up', ->
+        expect( $( @view.render().el ) ).toContain "a:contains('Sign up')"
+
+    describe 'with a logged in user', ->
+      beforeEach ->
+        @signed_in_user_session = new Sayings.Models.UserSession( { '_id': '123', 'username': 'testuser' } )
+        @signed_in_view = new Sayings.Views.UserSession( { model: @signed_in_user_session } )
+        @$el = $( @signed_in_view.render().el )
+
+
+      it 'displays the welcome message', ->
+        expect( @$el ).toContain( 'div:contains("Welcome back, testuser")' )
+
+      it 'does not display the sign in link', ->
+        expect( @$el ).not.toContain( 'a:contains("Sign in")' )
+
+      it 'does not display the sign up link', ->
+        expect( @$el ).not.toContain( 'a:contains("Sign up")' )
 
   describe 'new', ->
     it 'has a form for signing in', ->
@@ -76,8 +93,6 @@ describe 'user session view', ->
       @server.respond()
       expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
-
-  it 'remembers if the user is signed in on refresh', ->
 
   describe 'signing out', ->
     beforeEach ->

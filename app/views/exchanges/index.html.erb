@@ -3,7 +3,7 @@
 <%= content_for :javascript do -%>
   <%= javascript_tag do %>
     $( document ).ready( function() {
-      Sayings.init( <%== @exchanges.to_json %> );
+      Sayings.init( <%== @exchanges.to_json %>, <%== current_user.to_json %> );
     } );
   <% end %>
 <% end %>

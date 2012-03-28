@@ -29,10 +29,6 @@ describe 'exchange routes', ->
       expect( @exchangeIndexStub ).toHaveBeenCalledOnce()
       expect( @exchangeIndexStub ).toHaveBeenCalledWith( collection: @router.collection )
 
-    it 'renders the login view', ->
-      @router.index()
-      expect( @userSessionViewStub ).toHaveBeenCalledOnce()
-    
   describe 'show', ->
     beforeEach ->
       @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns( new Backbone.View() )

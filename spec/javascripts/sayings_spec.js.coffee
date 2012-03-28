@@ -21,27 +21,36 @@ describe 'Sayings', ->
       expect( Sayings.exchanges.models[0].get( '_id' ) ).toEqual '12345'
       expect( Sayings.exchanges.models[1].get( '_id' ) ).toEqual '54321'
 
+    it 'accepts current user JSON and instantiates a model from it', ->
+      userJSON = { '_id': '123' }
+      Sayings.init [], userJSON, true
+
+      expect( Sayings.currentUser ).not.toEqual undefined
+      expect( Sayings.currentUser.get( '_id' ) ).toEqual '123'
+
+    it 'instantiates a new current user if none is logged in', ->
+      sinon.spy( Sayings.Models, "UserSession" )
+      Sayings.init [], {}, true
+
+      expect( Sayings.currentUser ).not.toEqual undefined
+      expect( Sayings.Models.UserSession ).toHaveBeenCalled()
+      Sayings.Models.UserSession.restore()
+
     it 'instantiates an Exchanges router', ->
       sinon.spy( Sayings.Routers, "Exchanges" )
-      Sayings.init [], true
+      Sayings.init [], {}, true
       expect( Sayings.Routers.Exchanges ).toHaveBeenCalled()
       Sayings.Routers.Exchanges.restore()
 
-    it 'instantiates an empty users collection', ->
-      Sayings.init [], true
-
-      expect( Sayings.users ).not.toEqual undefined
-      expect( Sayings.users.length ).toEqual 0
-
     it 'instantiates a Users router', ->
       sinon.spy( Sayings.Routers, "Users" )
-      Sayings.init [], true
+      Sayings.init [], {}, true
       expect( Sayings.Routers.Users ).toHaveBeenCalled()
       Sayings.Routers.Users.restore()
 
     it 'instantiates a User sessions router', ->
       sinon.spy( Sayings.Routers, "UserSessions" )
-      Sayings.init [], true
+      Sayings.init [], {}, true
       expect( Sayings.Routers.UserSessions ).toHaveBeenCalled()
       Sayings.Routers.UserSessions.restore()
 
@@ -49,6 +58,6 @@ describe 'Sayings', ->
       Backbone.history.stop()
       Backbone.history.started = false
       sinon.spy( Backbone.history, "start" )
-      Sayings.init [], true
+      Sayings.init [], {}, true
       expect( Backbone.history.start ).toHaveBeenCalled()
       Backbone.history.start.restore()

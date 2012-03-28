@@ -15,8 +15,8 @@ class Sayings.Routers.Exchanges extends Backbone.Router
   index: ->
     view = new Sayings.Views.ExchangesIndex( { collection: @collection } )
     $( '#exchanges' ).html( view.render().el )
-    user_session_view = new Sayings.Views.UserSession( { model: new Sayings.Models.UserSession() } )
-    $( '#account' ).html( user_session_view.render().el )
+    #user_session_view = new Sayings.Views.UserSession( { model: new Sayings.Models.UserSession() } )
+    #$( '#account' ).html( user_session_view.render().el )
 
   show: ( id ) ->
     exchange = @collection.get( id )

@@ -4,9 +4,9 @@ require 'cancan/matchers'
 describe User do
   specify { Factory.build( :user ).should be_valid }
 
-  it "only includes the id attribute in the json" do
+  it "only includes the id and username attributes in the json" do
     user = Factory.build :user
-    user.to_json.should =~ /^{\"_id\":\"\w+\"}$/
+    user.to_json.should =~ /^{\"_id\":\"\w+\",\"username\":\"\w+\"}$/
   end
 
   describe "abilities" do

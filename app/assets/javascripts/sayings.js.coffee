@@ -3,13 +3,13 @@ window.Sayings =
   Collections: {}
   Routers: {}
   Views: {}
-  init: ( exchanges, silent = false ) ->
+  init: ( exchanges, current_user, silent = false ) ->
     @exchanges = new Sayings.Collections.Exchanges( exchanges )
-    @users = new Sayings.Collections.Users()
+    @currentUser = new Sayings.Models.UserSession( current_user )
 
     new Sayings.Routers.Exchanges( { collection: @exchanges } )
-    new Sayings.Routers.Users( { collection: @users } )
-    new Sayings.Routers.UserSessions( { model: new Sayings.Models.UserSession() } )
+    new Sayings.Routers.Users( { collection: new Sayings.Collections.Users() } )
+    new Sayings.Routers.UserSessions( { model: @currentUser } )
 
     if !Backbone.history.started
       Backbone.history.start( { silent: silent } )

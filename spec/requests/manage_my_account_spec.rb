@@ -17,24 +17,30 @@ describe 'manage my account', %q{
   end
 
   it 'logs in' do
-    Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
-    visit '/'
-    click_link 'Sign in'
-    fill_in 'Username', with: 'testuser'
-    fill_in 'Password', with: 'testpass'
-    click_button 'Sign in'
+    sign_in
     page.should have_content 'Welcome back, testuser'
   end
 
   it 'logs out' do
-    Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
-    visit '/'
-    click_link 'Sign in'
-    fill_in 'Username', with: 'testuser'
-    fill_in 'Password', with: 'testpass'
-    click_button 'Sign in'
+    sign_in
     page.should have_content 'Welcome back, testuser'
     click_link 'Sign out'
     page.should have_content 'You are signed out'
   end
+
+  it 'remembers that a user is logged in after a refresh' do
+    sign_in
+    page.should have_content 'Welcome back, testuser'
+    visit '/'
+    page.should have_content 'Welcome back, testuser'
+  end
+end
+
+def sign_in
+  Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
+  visit '/'
+  click_link 'Sign in'
+  fill_in 'Username', with: 'testuser'
+  fill_in 'Password', with: 'testpass'
+  click_button 'Sign in'
 end

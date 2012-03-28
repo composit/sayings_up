@@ -14,6 +14,6 @@ class User
   validates :username, uniqueness: true, presence: true
 
   def as_json( options = {} )
-    super( options.merge( only: [:_id] ) )
+    super( options.merge( only: [:_id, :username] ) )
   end
 end
