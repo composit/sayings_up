@@ -7,30 +7,36 @@ describe "user participates in an exchange", %q{
 }, :js do
 
   let( :exchange ) { Factory( :exchange ) }
-  let( :user ) { Factory( :user ) }
+  let( :user ) { Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
   let( :respond_text ) { 'respond' }
 
   before :each do
-    exchange.entries << Factory( :entry, :content => "Good stuff", :user => user )
-    exchange.entries << Factory( :entry, :content => "Other stuff" )
+    exchange.entries << Factory.build( :entry, :content => "Good stuff", :user => user )
+    exchange.entries << Factory.build( :entry, :content => "Other stuff" )
   end
 
   context "not logged in" do
     it "does not display the 'respond' dialog" do
-      visit "/##{exchange.id}"
+      visit "/#e/#{exchange.id}"
       page.should have_no_content respond_text
     end
   end
 
   context 'logged in' do
     before :each do
-      pending
+      visit '/'
+      click_link 'Sign in'
+      fill_in 'Username', with: 'testuser'
+      fill_in 'Password', with: 'testpass'
+      click_button 'Sign in'
     end
 
     context "viewing an exchange I am not a part of" do
       it "does not display the 'respond' dialog" do
-        visit "/##{exchange.id}"
-        page.should have_no_content respond_text
+        pending
+        #other_exchange = Factory :exchange, entries: []
+        #visit "/#e/#{other_exchange.id}"
+        #page.should have_no_content respond_text
       end
     end
 

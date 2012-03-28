@@ -77,6 +77,8 @@ describe 'user session view', ->
       expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
 
+  it 'remembers if the user is signed in on refresh', ->
+
   describe 'signing out', ->
     beforeEach ->
       server = sinon.fakeServer.create()
