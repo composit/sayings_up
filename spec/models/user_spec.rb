@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'cancan/matchers'
 
 describe User do
-  specify { Factory( :user ).should be_valid }
+  specify { Factory.build( :user ).should be_valid }
 
   describe "abilities" do
     subject { ability }
@@ -12,13 +12,6 @@ describe User do
     it { should be_able_to :read, Exchange.new }
     it { should be_able_to :read, Entry.new }
     it { should be_able_to :create, User.new }
-  end
-
-  context "when authenticating against a password" do
-    let( :user ) { Factory( :user, password: "testpass", password_confirmation: "testpass" ) }
-
-    specify { user.authenticate( "testpass" ).should be_true }
-    specify { user.authenticate( "otherpass" ).should be_false }
   end
 
   context "when validating" do
@@ -40,5 +33,12 @@ describe User do
       user.should_not be_valid
       user.errors.messages.should == { password_digest: ["can't be blank"] }
     end
+  end
+
+  context 'authenticating' do
+    let( :user ) { Factory.build :user, password: 'testpass' }
+
+    specify { user.authenticate( 'testpass' ).should == user }
+    specify { user.authenticate( 'otherpass' ).should be_false }
   end
 end

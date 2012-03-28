@@ -1,23 +1,14 @@
 class UserSessionsController < ApplicationController
-  before_filter :require_user, only: :destroy
-  
-  def new
-    @user_session = UserSession.new
-  end
-  
+  skip_authorization_check
+  respond_to :json
+
   def create
-    @user_session = UserSession.new(params[:user_session])
-    if @user_session.save
-      flash[:notice] = "Login successful!"
-      redirect_back_or_default account_url
+    @user = User.find_by_username params[:user_session][:username]
+    if @user.authenticate params[:user_session][:password]
+      session[:user_id] = @user.id
+      respond_with @user
     else
-      render action: :new
+      respond_with @user, status: :unprocessable_entity
     end
-  end
-  
-  def destroy
-    current_user_session.destroy
-    flash[:notice] = "Logout successful!"
-    redirect_back_or_default( new_user_session_url )
   end
 end
