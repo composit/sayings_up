@@ -9,7 +9,8 @@ window.Sayings =
 
     new Sayings.Routers.Exchanges( { collection: @exchanges } )
     new Sayings.Routers.Users( { collection: new Sayings.Collections.Users() } )
-    new Sayings.Routers.UserSessions( { model: @currentUser } )
+    user_session = new Sayings.Routers.UserSessions( { model: @currentUser } )
+    user_session.new()
 
     if !Backbone.history.started
       Backbone.history.start( { silent: silent } )

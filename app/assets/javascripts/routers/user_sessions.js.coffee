@@ -4,7 +4,6 @@ class Sayings.Routers.UserSessions extends Backbone.Router
 
   routes:
     'login': 'new'
-    '': 'new'
 
   new: ->
     view = new Sayings.Views.UserSession( { model: @model } )

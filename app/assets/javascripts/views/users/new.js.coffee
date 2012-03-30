@@ -24,7 +24,9 @@ class Sayings.Views.NewUser extends Backbone.View
 
   saved: ( model, response ) ->
     @$el.find( '.messages' ).prepend "<div class='notice'>Welcome, " + model.get( 'username' ) + "</div>"
-    $( '#account' ).html '<a href="#logout">Log out</a>'
+    sessionView = new Sayings.Views.UserSession( { model: model } )
+    $( '#account' ).html( sessionView.render().el )
+    sessionView.saved( model )
 
   errored: ( model, response ) ->
     errorString = "<div class='validation-errors'>"

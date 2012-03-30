@@ -4,11 +4,11 @@ class UserSessionsController < ApplicationController
 
   def create
     @user = User.where( username: params[:user_session][:username] ).first
-    if @user.authenticate params[:user_session][:password]
+    if @user && @user.authenticate( params[:user_session][:password] )
       session[:user_id] = @user.id
       respond_with @user
     else
-      respond_with @user, status: :unprocessable_entity
+      respond_with User.new, status: :unprocessable_entity
     end
   end
 

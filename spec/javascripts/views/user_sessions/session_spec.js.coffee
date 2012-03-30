@@ -51,7 +51,7 @@ describe 'user session view', ->
       beforeEach ->
         @callback = sinon.spy( @user_session, 'save' )
         @$el = $( @view.render().el )
-        @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}'] )
+        @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"id":"123"}'] )
         @$el.find( '#sign-in-link' ).click()
         @$el.find( '#username' ).val( 'testuser' )
         @$el.find( "form" ).submit()
@@ -68,6 +68,9 @@ describe 'user session view', ->
 
       it 'logs the user in', ->
         expect( $( @$el ) ).toContain "a:contains('Sign out')"
+
+      it 'sets the global current user', ->
+        expect( Sayings.currentUser.get( 'id' ) ).toEqual '123'
 
     it 'shows an error message when the signin is not successful', ->
       $el = $( @view.render().el )

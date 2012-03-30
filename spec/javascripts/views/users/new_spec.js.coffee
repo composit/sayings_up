@@ -24,11 +24,15 @@ describe 'user new view', ->
     describe 'when the save is successful', ->
       beforeEach ->
         @callback = sinon.spy( @user, 'save' )
+        @userSessionViewStub = sinon.stub( Sayings.Views, 'UserSession' ).returns( new Backbone.View() )
         @$el = $( @view.render().el )
         @$el.find( '#username' ).val( 'testuser' )
-        @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, ''] )
+        @server.respondWith( "POST", "/users", [200, { "Content-Type": "application/json" }, '{"_id":"12345"}'] )
         @$el.find( "form" ).submit()
         @server.respond()
+
+      afterEach ->
+        Sayings.Views.UserSession.restore()
 
       it 'saves the record', ->
         expect( @callback ).toHaveBeenCalled()
@@ -36,9 +40,10 @@ describe 'user new view', ->
       it 'shows a success message when the save is successful', ->
         expect( @$el ).toContain ".notice:contains('Welcome, testuser')"
 
-      it 'logs the user in', ->
-        #TODO should this be handled by another view? No access to the nav div
-        #expect( $( "#account" ) ).toContain "a:contains('Log out')"
+      describe 'when logging the user in', ->
+        it 'fires the saved method on a new user session view', ->
+          expect( @userSessionViewStub ).toHaveBeenCalledOnce()
+          #TODO make sure the view renders
 
     it 'shows an error message when the save is not successful', ->
       @server.respondWith( "POST", "/users", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )

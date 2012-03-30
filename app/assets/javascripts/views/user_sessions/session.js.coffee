@@ -30,6 +30,7 @@ class Sayings.Views.UserSession extends Backbone.View
     return false
 
   saved: ( model, response ) ->
+    Sayings.currentUser = model
     @$el.html "<div class='messages'><div class='notice'>Welcome back, " + model.get( 'username' ) + "</div></div>"
     @$el.append '<a href="#signout" id="sign-out-link">Sign out</a>'
 
