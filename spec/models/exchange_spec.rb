@@ -2,19 +2,19 @@ require 'spec_helper'
 
 describe Exchange do
   it "creates a new instance given valid attributes" do
-    Factory( :exchange ).should be_valid
+    FactoryGirl.build( :exchange ).should be_valid
   end
 
   it "only includes the id and entries attributes in the json" do
-    exchange = Factory.build( :exchange, :entries => [Factory.build( :entry )] )
+    exchange = FactoryGirl.build( :exchange, :entries => [FactoryGirl.build( :entry )] )
     exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"entries\":\[.+\]}$/
   end
 
   it "adds users" do
     pending
-    user_1 = Factory( :user )
-    user_2 = Factory( :user )
-    exchange = Factory( :exchange )
+    user_1 = FactoryGirl( :user )
+    user_2 = FactoryGirl( :user )
+    exchange = FactoryGirl( :exchange )
     exchange.users << user_1
     exchange.users << user_2
     exchange.save
@@ -23,9 +23,9 @@ describe Exchange do
 
   it "removes users" do
     pending
-    user_1 = Factory( :user )
-    user_2 = Factory( :user )
-    exchange = Factory( :exchange )
+    user_1 = FactoryGirl( :user )
+    user_2 = FactoryGirl( :user )
+    exchange = FactoryGirl( :exchange )
     exchange.users << user_1
     exchange.users << user_2
     exchange.save
@@ -37,8 +37,8 @@ describe Exchange do
 
   it "creates entries via nested attributes" do
     pending
-    user = Factory( :user )
-    exchange = Factory( :exchange )
+    user = FactoryGirl( :user )
+    exchange = FactoryGirl( :exchange )
     exchange.users << user
     exchange.save
     exchange.update_attributes( :entries_attributes => [{ :content => "this is a test", :user_id => user.id }] )
@@ -49,34 +49,34 @@ describe Exchange do
 
   it "sets the most recent entry date" do
     pending
-    exchange = Factory( :exchange )
-    entry = Factory( :entry, :created_at => "2005-05-05", :exchange => exchange )
+    exchange = FactoryGirl( :exchange )
+    entry = FactoryGirl( :entry, :created_at => "2005-05-05", :exchange => exchange )
     exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2005-05-05" )
   end
 
   it "does not override the most recent entry with older dates" do
     pending
-    exchange = Factory( :exchange )
-    Factory( :entry, :created_at => "2005-05-05", :exchange => exchange )
-    Factory( :entry, :created_at => "2001-01-01", :exchange => exchange )
+    exchange = FactoryGirl( :exchange )
+    FactoryGirl( :entry, :created_at => "2005-05-05", :exchange => exchange )
+    FactoryGirl( :entry, :created_at => "2001-01-01", :exchange => exchange )
     exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2005-05-05" )
   end
 
   it "overrides the most recent entry with newer dates" do
     pending
-    exchange = Factory( :exchange )
-    Factory( :entry, :created_at => "2001-01-01", :exchange => exchange )
-    Factory( :entry, :created_at => "2009-09-09", :exchange => exchange )
+    exchange = FactoryGirl( :exchange )
+    FactoryGirl( :entry, :created_at => "2001-01-01", :exchange => exchange )
+    FactoryGirl( :entry, :created_at => "2009-09-09", :exchange => exchange )
     exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2009-09-09" )
   end
 
   it "determines ordered entries" do
     pending
-    exchange = Factory( :exchange )
-    Factory( :entry, :created_at => "2001-01-01", :exchange => exchange )
-    Factory( :entry, :created_at => "2009-09-09", :exchange => exchange )
-    Factory( :entry, :created_at => "2005-05-05", :exchange => exchange )
-    Factory( :entry, :created_at => "2007-07-07", :exchange => exchange )
+    exchange = FactoryGirl( :exchange )
+    FactoryGirl( :entry, :created_at => "2001-01-01", :exchange => exchange )
+    FactoryGirl( :entry, :created_at => "2009-09-09", :exchange => exchange )
+    FactoryGirl( :entry, :created_at => "2005-05-05", :exchange => exchange )
+    FactoryGirl( :entry, :created_at => "2007-07-07", :exchange => exchange )
     exchange.ordered_entries.collect { |entry| entry.created_at.strftime( "%Y-%m-%y" ) }.should eql( ["2001-01-01", "2005-05-05", "2007-07-07", "2009-09-09"] )
   end
 end

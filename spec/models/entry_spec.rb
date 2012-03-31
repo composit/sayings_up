@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Entry do
   it "creates a new instance given valid attributes" do
-    Factory.build( :entry ).should be_valid
+    FactoryGirl.build( :entry ).should be_valid
   end
 
   it "only includes the id and content attributes in the json" do
@@ -16,8 +16,8 @@ describe Entry do
   end
 
   it 'persists the user to the database' do
-    user = Factory( :user )
-    entry = Factory.build( :entry )
+    user = FactoryGirl.create( :user )
+    entry = FactoryGirl.build( :entry )
     entry.user = user
     entry.save!
     entry.reload.user.should == user
@@ -25,7 +25,7 @@ describe Entry do
 
   it "requires the existence of a user" do
     pending
-    entry = Factory.build( :entry, :user_id => nil )
+    entry = FactoryGirl.build( :entry, :user_id => nil )
     entry.should_not be_valid
     entry.errors[:user_id].length.should eql( 1 )
     entry.errors[:user_id].should include( "can't be blank" )
@@ -33,7 +33,7 @@ describe Entry do
 
   it "does not comments if it is the initial entry in an exchange associated with a comment" do
     pending
-    exchange = Factory( :exchange )
+    exchange = FactoryGirl( :exchange )
     first_entry = exchange.entries.build( :user_id => User.create.id, :created_at => "2001-01-01" )
     second_entry = exchange.entries.build( :user_id => User.create.id, :created_at => "2002-02-02" )
     first_entry.comments.build

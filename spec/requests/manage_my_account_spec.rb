@@ -37,7 +37,7 @@ describe 'manage my account', %q{
 end
 
 def sign_in
-  Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
+  FactoryGirl.create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
   visit '/'
   click_link 'Sign in'
   fill_in 'Username', with: 'testuser'

@@ -6,13 +6,13 @@ describe "user participates in an exchange", %q{
   I want to be able to add entries to an exchange
 }, :js do
 
-  let( :exchange ) { Factory( :exchange ) }
-  let( :user ) { Factory( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
+  let( :exchange ) { FactoryGirl.create( :exchange ) }
+  let( :user ) { FactoryGirl.create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
   let( :respond_text ) { 'respond' }
 
   before :each do
-    exchange.entries << Factory.build( :entry, :content => "Good stuff", :user => user )
-    exchange.entries << Factory.build( :entry, :content => "Other stuff" )
+    exchange.entries << FactoryGirl.build( :entry, :content => "Good stuff", :user => user )
+    exchange.entries << FactoryGirl.build( :entry, :content => "Other stuff" )
   end
 
   context "not logged in" do
@@ -24,7 +24,7 @@ describe "user participates in an exchange", %q{
 
   context 'logged in' do
     before :each do
-      @other_exchange = Factory( :exchange )
+      @other_exchange = FactoryGirl.create( :exchange )
       visit '/'
       click_link 'Sign in'
       fill_in 'Username', with: 'testuser'
