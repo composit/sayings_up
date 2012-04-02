@@ -3,7 +3,7 @@ describe 'exchange show view', ->
     @entry1 = new Backbone.Model( { id: 1, content: "One" } )
     @entry2 = new Backbone.Model( { id: 2, content: "Two" } )
     @entry3 = new Backbone.Model( { id: 3, content: "Three" } )
-    @exchange = new Sayings.Models.Exchange( { id: 4, entries: [@entry1, @entry2, @entry3] } )
+    @exchange = new Sayings.Models.Exchange( { id: 4, user_ids: [3,4], entries: [@entry1, @entry2, @entry3] } )
     @view = new Sayings.Views.ShowExchange( { model: @exchange } )
 
   describe 'instantiation', ->
@@ -27,3 +27,11 @@ describe 'exchange show view', ->
       expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry1 } )
       expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry2 } )
       expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry3 } )
+
+    it 'displays a respond link if the user has rights', ->
+      Sayings.currentUser = new Sayings.Models.UserSession( { 'id': 4 } )
+      expect( @view.render().el ).toContain 'respond'
+    
+    it 'does not display a respond link if the user does not have rights', ->
+      Sayings.currentUser = new Sayings.Models.UserSession( { 'id': 1 } )
+      expect( @view.render().el ).not.toContain 'respond'

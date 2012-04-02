@@ -9,10 +9,6 @@ class Exchange
   def as_json( options = {} )
     super( options.merge( include: :entries, only: [:_id, :content] ) )
   end
-
-  #def to_json( options = {} )
-  #  super( options.merge( only: [ :_id ] ) )
-  #and
 =begin
   field :parent_comment_id
   field :parent_entry_id

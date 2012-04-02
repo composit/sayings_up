@@ -4,6 +4,7 @@ class Sayings.Models.Exchange extends Backbone.Model
 
   defaults:
     content: null
+    user_ids: []
 
   initialize: () ->
     @parseEntries()
