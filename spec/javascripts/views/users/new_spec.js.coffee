@@ -1,7 +1,7 @@
 describe 'user new view', ->
   beforeEach ->
     @user = new Sayings.Models.User()
-    @view = new Sayings.Views.NewUser( { model: @user } )
+    @view = new Sayings.Views.NewUser { model: @user }
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -44,7 +44,6 @@ describe 'user new view', ->
       describe 'when logging the user in', ->
         it 'fires the saved method on a new user session view', ->
           @userSessionViewMock.verify()
-          #@userSessionViewMock.restore()
 
     it 'shows an error message when the save is not successful', ->
       @server.respondWith( "POST", "/users", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )

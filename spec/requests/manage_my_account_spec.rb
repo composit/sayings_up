@@ -4,7 +4,7 @@ describe 'manage my account', %q{
   In order to keep track of my identity through conversations
   As a user
   I want to create and manage my account
-}, :js do
+}, :js, :slow do
 
   it 'creates an account' do
     visit '/'

@@ -26,19 +26,19 @@ describe 'user session view', ->
 
 
       it 'displays the welcome message', ->
-        expect( @$el ).toContain( 'div:contains("Welcome back, testuser")' )
+        expect( @$el ).toContain 'div:contains("Welcome back, testuser")'
 
       it 'does not display the sign in link', ->
-        expect( @$el ).not.toContain( 'a:contains("Sign in")' )
+        expect( @$el ).not.toContain 'a:contains("Sign in")'
 
       it 'does not display the sign up link', ->
-        expect( @$el ).not.toContain( 'a:contains("Sign up")' )
+        expect( @$el ).not.toContain 'a:contains("Sign up")'
 
   describe 'new', ->
     it 'has a form for signing in', ->
       $el = $( @view.render().el )
       $el.find( '#sign-in-link' ).click()
-      expect( $el ).toContain( 'form#sign-in-form' )
+      expect( $el ).toContain 'form#sign-in-form'
 
   describe 'signing in', ->
     beforeEach ->
@@ -53,7 +53,7 @@ describe 'user session view', ->
         @$el = $( @view.render().el )
         @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"id":"123"}'] )
         @$el.find( '#sign-in-link' ).click()
-        @$el.find( '#username' ).val( 'testuser' )
+        @$el.find( '#username' ).val 'testuser'
         @$el.find( "form" ).submit()
         @server.respond()
 

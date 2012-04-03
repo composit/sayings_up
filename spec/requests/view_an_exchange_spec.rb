@@ -4,7 +4,7 @@ describe "user views an exchange", %q{
   In order to view an exchange
   As a user
   I want to see all the entries, etc. involved in the exchange
-}, :js do
+}, :js, :slow do
 
   let( :exchange ) { FactoryGirl.create( :exchange ) }
 

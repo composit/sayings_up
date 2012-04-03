@@ -4,7 +4,7 @@ describe "user participates in an exchange", %q{
   In order to have a meaningful discussion
   As a user
   I want to be able to add entries to an exchange
-}, :js do
+}, :js, :slow do
 
   let( :exchange ) { FactoryGirl.create( :exchange ) }
   let( :user ) { FactoryGirl.create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
@@ -52,14 +52,20 @@ describe "user participates in an exchange", %q{
         page.should have_content respond_text
       end
 
-      it "displays my response when I submit one"
+      it "displays my response when I submit one" do
+        click_link respond_text
+        fill_in 'Response', with: 'test response'
+        click_button 'Respond'
+        page.should have_content 'test response'
+      end
+      
       it "does not allow me to submit a blank response"
       it "allows me to delete my previous entries, replacing the content with 'deleted'"
       it "does not allow me to delete entries not by me"
     end
 
     context "responding to a comment on one of my entries" do
-      it "creates a new exchange when I respond to a comment"
+      it "creates a new exchange"
     end
   end
 end

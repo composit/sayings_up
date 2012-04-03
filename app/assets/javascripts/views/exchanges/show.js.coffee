@@ -1,16 +1,17 @@
 class Sayings.Views.ShowExchange extends Backbone.View
   className: 'exchange'
-  template: JST["exchanges/show"]
    
   render: ->
-    $( @el ).html @template( @model )
+    $( @el ).html JST['exchanges/show'] @model
 
     self = this
     @model.entries.each ( entry ) ->
-      entryView = new Sayings.Views.ShowEntry( { model: entry } )
-      self.$( "#entries" ).append( entryView.render().el )
+      entryView = new Sayings.Views.ShowEntry { model: entry }
+      self.$( '#entries' ).append entryView.render().el
     if Sayings.currentUser and Sayings.currentUser.id in @model.get 'user_ids'
-      self.$( "#entries" ).append( "<a href='#'>respond</a>" )
+      newEntry = new Sayings.Models.Entry()
+      newEntryView = new Sayings.Views.NewEntry { model: newEntry }
+      self.$( '#entries' ).append newEntryView.render().el
     return this
 
   #addEntry: (entry) ->

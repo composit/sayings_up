@@ -1,7 +1,7 @@
 class Sayings.Views.ShowEntry extends Backbone.View
-  template: JST["entries/show"]
+  className: 'entry'
 
   render: ->
-    $( @el ).html( @template( model: @model ) )
-    $( @el ).html( @model.get( 'content' ) )
+    $view = $( @el ).html JST['entries/show'] @model
+    $view.find( '.content' ).html @model.get 'content'
     return this
