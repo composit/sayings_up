@@ -7,6 +7,9 @@ class Ability
     can :read, Exchange
     can :read, Entry
     can :create, User
+    can :create, Exchange do |exchange|
+      exchange.user_ids.first == user.id
+    end
 =begin
     can :read, Entry
     can :create, Entry do |entry|

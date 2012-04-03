@@ -49,16 +49,16 @@ describe 'user session view', ->
 
     describe 'when the sign in is successful', ->
       beforeEach ->
-        @callback = sinon.spy( @user_session, 'save' )
+        @callback = sinon.spy @user_session, 'save'
         @$el = $( @view.render().el )
-        @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"id":"123"}'] )
+        @server.respondWith 'POST', '/user_sessions', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
         @$el.find( '#sign-in-link' ).click()
         @$el.find( '#username' ).val 'testuser'
-        @$el.find( "form" ).submit()
+        @$el.find( 'form' ).submit()
         @server.respond()
 
       it 'queries the server', ->
-        expect( @callback ).toHaveBeenCalled()
+        expect( @callback ).toHaveBeenCalledOnce()
 
       it 'renders the welcome message', ->
         expect( @$el ).toContain ".notice:contains('Welcome back, testuser')"

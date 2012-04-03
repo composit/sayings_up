@@ -1,16 +1,16 @@
 class Sayings.Views.ExchangesIndex extends Backbone.View
   template: JST["exchanges/index"]
     
-  initialize: () ->
+  initialize: ->
     _.bindAll(this, 'addOne', 'addAll', 'render')
     #@options.exchanges.bind('reset', @addAll)
        
-  render: () ->
+  render: ->
     $( @el ).html @template( collection: @collection )
     @addAll()
     return this
    
-  addAll: () ->
+  addAll: ->
     @collection.each @addOne
   
   addOne: ( exchange ) ->

@@ -6,11 +6,12 @@ class Sayings.Models.Exchange extends Backbone.Model
     content: null
     user_ids: []
 
-  initialize: () ->
+  initialize: ->
     @parseEntries()
 
-  parseEntries: () ->
-    @entries = new Sayings.Collections.Entries( @get( 'entries' ) )
+  parseEntries: =>
+    @entries = new Sayings.Collections.Entries @get 'entries'
+    @entries.url = '/exchanges/' + @id + '/entries'
 
 #  initialize: () ->
 #    if @has( 'entries' ) ->

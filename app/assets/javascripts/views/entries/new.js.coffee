@@ -1,8 +1,14 @@
 class Sayings.Views.NewEntry extends Backbone.View
   id: 'new-entry'
 
+  initialize: ->
+    _.bindAll( this, 'save' )
+    @model = new Sayings.Models.Entry()
+    @model.collection = @collection
+
   events:
     'click #respond-link': 'new'
+    'submit form#new-entry-form': 'save'
 
   render: ->
     $( @el ).html '<a id="respond-link" href="#">respond</a>'
@@ -10,4 +16,10 @@ class Sayings.Views.NewEntry extends Backbone.View
 
   new: ->
     $( @el ).html JST['entries/new']
+    return false
+
+  save: ->
+    @model.save(
+      { content: @$( '#content' ).val() }
+    )
     return false

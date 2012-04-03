@@ -1,13 +1,13 @@
 class Sayings.Views.UserSession extends Backbone.View
   id: 'session'
 
+  initialize: ->
+    _.bindAll( this, 'render', 'save', 'saved', 'errored', 'destroyed' )
+
   events:
     'click #sign-in-link': 'new'
     'submit form#sign-in-form': 'save'
     'click #sign-out-link': 'destroy'
-
-  initialize: ->
-    _.bindAll( this, 'render', 'save', 'saved', 'errored', 'destroyed' )
 
   render: ->
     if( @model && !@model.isNew() )
@@ -21,9 +21,9 @@ class Sayings.Views.UserSession extends Backbone.View
     return false
 
   save: ( e ) ->
-    $( @el ).find( ".messages" ).html ''
+    @$( ".messages" ).html ''
     @model.save(
-      { username: $( @el ).find( '#username' ).val(), password: $( @el ).find( '#password' ).val() }
+      { username: @$( '#username' ).val(), password: @$( '#password' ).val() }
       success: @saved
       error: @errored
     )
@@ -39,7 +39,7 @@ class Sayings.Views.UserSession extends Backbone.View
     _.each JSON.parse( response.responseText ).errors, ( error, field ) ->
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"
-    @$el.find( '.messages' ).prepend errorString
+    @$( '.messages' ).prepend errorString
 
   destroy: ( e ) ->
     @model.destroy(

@@ -1,27 +1,11 @@
 describe 'Exchange', ->
   describe 'when instantiated', ->
     beforeEach ->
-      @exchange = new Sayings.Models.Exchange( { 'entries': [{ '_id': '123' }, { '_id': '456' }] } )
+      @exchange = new Sayings.Models.Exchange { '_id': '789', 'entries': [{ '_id': '123' }, { '_id': '456' }] }
 
     it 'exhibits attributes', ->
-      @exchange.set( { content: 'Test Exchange' } )
+      @exchange.set { content: 'Test Exchange' }
       expect( @exchange.get 'content' ).toEqual 'Test Exchange'
-
-    describe 'url', ->
-      beforeEach ->
-        collection = { url: '/exchanges' }
-        @exchange.collection = collection
-
-      describe 'when id is set', ->
-        it 'returns the collection URL and id', ->
-          collection = new Sayings.Collections.Exchanges
-          @exchange.collection = collection
-          @exchange.id = 999
-          expect( @exchange.url() ).toEqual '/exchanges/999'
-
-      describe 'when no id is set', ->
-        it 'returns the collection URL', ->
-          expect( @exchange.url() ).toEqual '/exchanges'
 
     it 'creates a collection for nested entries', ->
       expect( @exchange.entries instanceof Sayings.Collections.Entries ).toBeTruthy()
@@ -32,6 +16,26 @@ describe 'Exchange', ->
       expect( @exchange.entries.first().get( '_id' ) ).toEqual '123'
       expect( @exchange.entries.last() instanceof Sayings.Models.Entry ).toBeTruthy()
       expect( @exchange.entries.last().get( '_id' ) ).toEqual( '456' )
+
+    describe 'url', ->
+      beforeEach ->
+        collection = { url: '/exchanges' }
+        @exchange.collection = collection
+
+      describe 'when id is set', ->
+        beforeEach ->
+          @exchange.id = 999
+
+        it 'returns the collection URL and id', ->
+          expect( @exchange.url() ).toEqual '/exchanges/999'
+
+        it 'sets the entry collection\'s url', ->
+          expect( @exchange.entries.url ).toEqual '/exchanges/789/entries'
+      
+      describe 'when no id is set', ->
+        it 'returns the collection URL', ->
+          @exchange.id = null
+          expect( @exchange.url() ).toEqual '/exchanges'
 
     xit 'should not save when content is empty'
       #TODO

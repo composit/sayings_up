@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'cancan/matchers'
 
 describe User do
   specify { FactoryGirl.build( :user ).should be_valid }
@@ -7,16 +6,6 @@ describe User do
   it "only includes the id and username attributes in the json" do
     user = FactoryGirl.build :user
     user.to_json.should =~ /^{\"_id\":\"\w+\",\"username\":\"\w+\"}$/
-  end
-
-  describe "abilities" do
-    subject { ability }
-    let( :ability ) { Ability.new user }
-
-    let( :user ) { FactoryGirl.create :user }
-    it { should be_able_to :read, Exchange.new }
-    it { should be_able_to :read, Entry.new }
-    it { should be_able_to :create, User.new }
   end
 
   context "when validating" do
