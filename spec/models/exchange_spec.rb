@@ -5,9 +5,23 @@ describe Exchange do
     FactoryGirl.build( :exchange ).should be_valid
   end
 
-  it "only includes the id and entries attributes in the json" do
+  it "only includes the id, entries and user_id attributes in the json" do
     exchange = FactoryGirl.build( :exchange, :entries => [FactoryGirl.build( :entry )] )
-    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"entries\":\[.+\]}$/
+    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"user_ids":\[\w+\],\"entries\":\[.+\]}$/
+  end
+
+  it 'contains entries' do
+    exchange = FactoryGirl.build( :exchange )
+    exchange.entries << FactoryGirl.build_list( :entry, 11 )
+    exchange.save!
+    exchange.reload.entries.length.should == 11
+  end
+
+  it 'populates its user_ids based on the entries' do
+    exchange = FactoryGirl.build( :exchange )
+    exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ) )
+    exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ) )
+    exchange.user_ids.should == [123,345]
   end
 
   it "adds users" do

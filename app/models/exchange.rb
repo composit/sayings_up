@@ -7,13 +7,16 @@ class Exchange
   embeds_many :entries
 
   def as_json( options = {} )
-    super( options.merge( include: :entries, only: [:_id, :content] ) )
+    super( options.merge( include: :entries, only: [:_id, :content], methods: :user_ids ) )
+  end
+  
+  def user_ids
+    entries.collect( &:user_id ).uniq
   end
 =begin
   field :parent_comment_id
   field :parent_entry_id
   field :parent_exchange_id
-  field :user_ids, type: Array, default: []
   field :most_recent_entry_date, type: Time, default: Time.now
 
   index :user_ids

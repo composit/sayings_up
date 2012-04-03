@@ -29,9 +29,9 @@ describe 'exchange show view', ->
       expect( @entryViewStub ).toHaveBeenCalledWith( { model: @entry3 } )
 
     it 'displays a respond link if the user has rights', ->
-      Sayings.currentUser = new Sayings.Models.UserSession( { 'id': 4 } )
-      expect( @view.render().el ).toContain 'respond'
+      Sayings.currentUser = new Sayings.Models.UserSession( { '_id': 4 } )
+      expect( $( @view.render().el ) ).toContain 'a:contains("respond")'
     
     it 'does not display a respond link if the user does not have rights', ->
-      Sayings.currentUser = new Sayings.Models.UserSession( { 'id': 1 } )
-      expect( @view.render().el ).not.toContain 'respond'
+      Sayings.currentUser = new Sayings.Models.UserSession( { '_id': 1 } )
+      expect( $( @view.render().el ) ).not.toContain 'a:contains("respond")'
