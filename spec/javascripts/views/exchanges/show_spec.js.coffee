@@ -3,7 +3,7 @@ describe 'exchange show view', ->
     @entry1 = new Backbone.Model { id: 1, content: "One" }
     @entry2 = new Backbone.Model { id: 2, content: "Two" }
     @entry3 = new Backbone.Model { id: 3, content: "Three" }
-    @exchange = new Sayings.Models.Exchange { id: 4, user_ids: [3,4], entries: [@entry1, @entry2, @entry3] }
+    @exchange = new Sayings.Models.Exchange { id: 4, ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3] }
     @view = new Sayings.Views.ShowExchange { model: @exchange }
 
   describe 'instantiation', ->

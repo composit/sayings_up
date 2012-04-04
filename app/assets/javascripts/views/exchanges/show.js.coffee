@@ -9,7 +9,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
     $( @el ).html JST['exchanges/show'] @model
 
     @addEntries()
-    @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'user_ids'
+    @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
     return this
 
   addEntries: ->

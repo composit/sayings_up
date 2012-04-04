@@ -7,7 +7,7 @@ describe Exchange do
 
   it "only includes the id, entries and user_id attributes in the json" do
     exchange = FactoryGirl.build( :exchange, :entries => [FactoryGirl.build( :entry )] )
-    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"user_ids":\[\w+\],\"entries\":\[.+\]}$/
+    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"ordered_user_ids":\[\w+\],\"entries\":\[.+\]}$/
   end
 
   it 'contains entries' do
@@ -17,11 +17,21 @@ describe Exchange do
     exchange.reload.entries.length.should == 11
   end
 
-  it 'populates its user_ids based on the entries' do
-    exchange = FactoryGirl.build( :exchange )
-    exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ) )
-    exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ) )
-    exchange.user_ids.should == [123,345]
+  context 'ordered_user_ids' do
+    before :each do
+      exchange = FactoryGirl.build( :exchange )
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 1.day.ago )
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: Time.zone.now )
+    end
+
+    it 'populates its ordered_user_ids based on the entries' do
+      exchange.ordered_user_ids.should == [345,678,123]
+    end
+    
+    it 'returns unique ordered_user_ids' do
+
+    end
   end
 
   it "adds users" do

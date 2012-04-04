@@ -8,7 +8,7 @@ class Ability
     can :read, Entry
     can :create, User
     can :create, Exchange do |exchange|
-      exchange.user_ids.first == user.id
+      exchange.ordered_user_ids.first == user.id
     end
 =begin
     can :read, Entry
@@ -17,9 +17,6 @@ class Ability
     end
     can :create, Comment
     can :read, Exchange
-    can :create, Exchange do |exchange|
-      exchange.users.first == user
-    end
     can :edit, Exchange do |exchange|
       exchange.users.include?( user )
     end

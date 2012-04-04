@@ -7,11 +7,11 @@ class Exchange
   embeds_many :entries
 
   def as_json( options = {} )
-    super( options.merge( include: :entries, only: [:_id, :content], methods: :user_ids ) )
+    super( options.merge( include: :entries, only: [:_id, :content], methods: :ordered_user_ids ) )
   end
   
-  def user_ids
-    entries.collect( &:user_id ).uniq
+  def ordered_user_ids
+    entries.order_by( :created_at ).collect( &:user_id ).uniq
   end
 =begin
   field :parent_comment_id
