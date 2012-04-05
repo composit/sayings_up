@@ -12,8 +12,8 @@ describe Ability do
 
   context 'creating exchanges' do
     before :each do
-      #parent_exchange = FactoryGirl.create( :exchange )
-      @exchange = FactoryGirl.build( :exchange ) #, parent_exchange: parent_exchange )
+      #parent_exchange = FactoryGirl.create :exchange
+      @exchange = FactoryGirl.build :exchange #, parent_exchange: parent_exchange
       @exchange.entries << FactoryGirl.build( :entry, user: user )
     end
 
@@ -34,6 +34,20 @@ describe Ability do
   end
 
   context 'creating entries' do
+    let( :exchange ) { FactoryGirl.create :exchange }
 
+    before :each do
+      exchange.entries << FactoryGirl.build( :entry, user: user )
+    end
+
+    it 'is able to create an entry if it is a user on the entry\'s exchange' do
+      puts exchange.entries.inspect
+      ability.should be_able_to :create, exchange.entries.build
+    end
+
+    it 'is not able to create an entry if it is not a user on the entry\'s exchange' do
+      exchange.entries.first.user = FactoryGirl.create :user
+      ability.should_not be_able_to :create, exchange.entries.build
+    end
   end
 end

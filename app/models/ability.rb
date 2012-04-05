@@ -10,6 +10,9 @@ class Ability
     can :create, Exchange do |exchange|
       exchange.ordered_user_ids.first == user.id
     end
+    can :create, Entry do |entry|
+      entry.exchange.ordered_user_ids.include? user.id
+    end
 =begin
     can :read, Entry
     can :create, Entry do |entry|

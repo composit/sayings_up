@@ -18,8 +18,9 @@ describe Exchange do
   end
 
   context 'ordered_user_ids' do
+    let( :exchange ) { FactoryGirl.build( :exchange ) }
+
     before :each do
-      exchange = FactoryGirl.build( :exchange )
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 1.day.ago )
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: Time.zone.now )
@@ -30,7 +31,8 @@ describe Exchange do
     end
     
     it 'returns unique ordered_user_ids' do
-
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
+      exchange.ordered_user_ids.should == [345,678,123]
     end
   end
 

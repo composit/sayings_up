@@ -4,7 +4,7 @@ Sayings::Application.routes.draw do
   resources :exchanges, only: :index do
     resources :entries, only: [:index, :create]
   end
-  resources :entries, only: :index
+  resources :entries, only: :create
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]
 

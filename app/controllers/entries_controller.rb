@@ -1,17 +1,19 @@
 class EntriesController < ApplicationController
-  #load_and_authorize_resource :exchange
-  #load_and_authorize_resource :entry, through: :exchange
+  load_and_authorize_resource :exchange
+  load_and_authorize_resource :entry, through: :exchange
+  
+  respond_to :json
 
-  def index
-    if( @exchange = Exchange.where( _id: params[:exchange_id] ).first )
-      @entries = @exchange.entries.accessible_by( current_ability )
-    else
-      @exchange = Exchange.new
-    end
-    authorize! :read, @exchange
+  #def index
+  #  if( @exchange = Exchange.where( _id: params[:exchange_id] ).first )
+  #    @entries = @exchange.entries.accessible_by( current_ability )
+  #  else
+  #    @exchange = Exchange.new
+  #  end
+  #  authorize! :read, @exchange
 
-    render json: @entries if @entries
-  end
+  #  render json: @entries if @entries
+  #end
 
 =begin
   def new
@@ -26,4 +28,7 @@ class EntriesController < ApplicationController
     end
   end
 =end
+  def create
+    respond_with @entry
+  end
 end

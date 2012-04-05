@@ -8,7 +8,7 @@ class ExchangesController < ApplicationController
 
   def show
     #render json: Exchange.find( params[:id] )
-    respond_with( @exchange )
+    respond_with @exchange
   end
 =begin
   def index

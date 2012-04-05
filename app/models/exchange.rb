@@ -11,7 +11,7 @@ class Exchange
   end
   
   def ordered_user_ids
-    entries.order_by( :created_at ).collect( &:user_id ).uniq
+    entries.sort_by( &:created_at ).collect( &:user_id ).uniq
   end
 =begin
   field :parent_comment_id

@@ -49,4 +49,8 @@ describe UsersController do
       end
     end
   end
+  
+  context 'GET/1' do
+    it 'tests'
+  end
 end
