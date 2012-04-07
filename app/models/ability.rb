@@ -16,7 +16,6 @@ class Ability
       entry.exchange.ordered_user_ids.include?( user.id ) && entry.user_id == user.id
     end
     can :read, Entry
-    can :manage, Entry
 =begin
     can :read, Entry
     can :create, Entry do |entry|

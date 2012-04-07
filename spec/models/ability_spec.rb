@@ -40,7 +40,7 @@ describe Ability do
     end
   end
 
-  context 'creating entries' do
+  context 'entries' do
     let( :exchange ) { FactoryGirl.create :exchange }
     let( :new_entry ) { exchange.entries.build }
 
@@ -59,7 +59,8 @@ describe Ability do
     end
     
     it 'is not able to create an entry if it is not the user for that entry' do
-      #TODO
+      new_entry.user = FactoryGirl.create :user
+      ability.should_not be_able_to :create, new_entry
     end
   end
 end
