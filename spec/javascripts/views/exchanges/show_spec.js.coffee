@@ -45,3 +45,11 @@ describe 'exchange show view', ->
         Sayings.currentUser = new Sayings.Models.UserSession { '_id': 1 }
         @view.render()
         expect( @newEntryViewStub ).not.toHaveBeenCalled()
+
+    it 'renders whenever an entry is added', ->
+      #renderSpy = sinon.spy()
+      #@view.on 'render', renderSpy
+      sinon.spy( @view, 'render' )
+      @view.model.entries.add( new Backbone.Model() )
+      #@view.render()
+      expect( @view.render ).toHaveBeenCalled()

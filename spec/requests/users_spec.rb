@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "Users" do
+describe 'Users' do
 =begin
   Scenario: Display exchange history
     Given the following entries:

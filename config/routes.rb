@@ -2,9 +2,8 @@ Sayings::Application.routes.draw do
   root :to => "exchanges#index"
 
   resources :exchanges, only: :index do
-    resources :entries, only: [:index, :create]
+    resources :entries, only: [:index, :create, :show]
   end
-  resources :entries, only: :create
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]
 

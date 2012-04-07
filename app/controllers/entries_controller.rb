@@ -29,6 +29,7 @@ class EntriesController < ApplicationController
   end
 =end
   def create
-    respond_with @entry
+    @entry.save
+    respond_with @exchange, @entry
   end
 end

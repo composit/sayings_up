@@ -5,7 +5,7 @@ class Entry
   field :user_id, type: Integer
   field :content, type: String
 
-  attr_accessible
+  attr_accessible :content
 
   embedded_in :exchange
 

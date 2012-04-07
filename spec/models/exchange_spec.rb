@@ -34,6 +34,11 @@ describe Exchange do
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
       exchange.ordered_user_ids.should == [345,678,123]
     end
+
+    it 'does not break if entries do not yet have a created_at value' do
+      exchange.entries.build
+      exchange.ordered_user_ids.should == [345,678,nil,123]
+    end
   end
 
   it "adds users" do

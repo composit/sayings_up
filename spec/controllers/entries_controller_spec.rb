@@ -2,10 +2,11 @@ require 'spec_helper'
 
 describe EntriesController do
   context 'POST' do
-    let( :entry ) { mock_model Entry }
+    let( :entry ) { mock_model( Entry ).as_null_object }
     let( :entries ) { stub( new: entry ) }
     let( :exchange ) { mock_model Exchange, entries: entries }
     let( :ability ) { Object.new }
+    let( :params ) { { exchange_id: 123, entry: {}, format: :json } }
 
     before :each do
       ability.extend CanCan::Ability
@@ -17,9 +18,12 @@ describe EntriesController do
 
     it 'finds the appropriate exchange' do
       Exchange.should_receive( :find ).with "123"
-      post :create, { exchange_id: 123, entry: {}, format: :json }
+      post :create, params
     end
-    
-    it 'saves the entry'
+
+    it 'saves the entry' do
+      entry.should_receive :save
+      post :create, params
+    end
   end
 end

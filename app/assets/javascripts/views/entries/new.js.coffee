@@ -2,7 +2,7 @@ class Sayings.Views.NewEntry extends Backbone.View
   id: 'new-entry'
 
   initialize: ->
-    _.bindAll( this, 'save' )
+    _.bindAll( this, 'render', 'new', 'save', 'saved' )
     @model = new Sayings.Models.Entry()
     @model.collection = @collection
 
@@ -21,5 +21,9 @@ class Sayings.Views.NewEntry extends Backbone.View
   save: ->
     @model.save(
       { content: @$( '#content' ).val() }
+      success: @saved
     )
     return false
+
+  saved: ->
+    @collection.add( @model )

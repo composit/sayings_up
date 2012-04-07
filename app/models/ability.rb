@@ -13,6 +13,7 @@ class Ability
     can :create, Entry do |entry|
       entry.exchange.ordered_user_ids.include? user.id
     end
+    can :manage, Entry
 =begin
     can :read, Entry
     can :create, Entry do |entry|

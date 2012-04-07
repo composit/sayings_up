@@ -30,7 +30,7 @@ describe Ability do
       ability.should_not be_able_to :create, @exchange
     end
 
-    it 'is not able to create an exchange if it is not a user in the parent exchange'
+    it 'is not able to create an exchange if it is not the user for the parent entry'
   end
 
   context 'creating entries' do
@@ -41,7 +41,6 @@ describe Ability do
     end
 
     it 'is able to create an entry if it is a user on the entry\'s exchange' do
-      puts exchange.entries.inspect
       ability.should be_able_to :create, exchange.entries.build
     end
 
