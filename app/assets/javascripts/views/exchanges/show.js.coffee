@@ -22,7 +22,3 @@ class Sayings.Views.ShowExchange extends Backbone.View
   addResponder: ->
     newEntryView = new Sayings.Views.NewEntry { collection: @model.entries }
     @$( '#entries' ).append newEntryView.render().el
-
-
-  #addEntry: (entry) ->
-  #  entryView = new Sayings.Views.ShowEntry( { model: entry } )

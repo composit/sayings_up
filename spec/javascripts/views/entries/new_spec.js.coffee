@@ -1,6 +1,7 @@
 describe 'new entry view', ->
   beforeEach ->
-    @collection = { url: '/exchanges/123/entries' }
+    @collection = new Backbone.Collection()
+    @collection.url = '/exchanges/123/entries'
     @view = new Sayings.Views.NewEntry { collection: @collection }
 
   describe 'instantiation', ->
@@ -33,6 +34,7 @@ describe 'new entry view', ->
     describe 'when the save is successful', ->
       beforeEach ->
         @callback = sinon.spy @view.model, 'save'
+        @addSpy = sinon.spy @collection, 'add'
         @$el = $( @view.render().el )
         @server.respondWith 'POST', '/exchanges/123/entries', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
         @$el.find( '#respond-link' ).click()
@@ -43,5 +45,5 @@ describe 'new entry view', ->
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
 
-      it 'renders the new content', ->
-        expect( @$el ).toContain 'div.content:contains("Good entry")'
+      it 'adds the model to the collection', ->
+        expect( @addSpy ).toHaveBeenCalledOnce()

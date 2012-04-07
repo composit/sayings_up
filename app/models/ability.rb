@@ -5,14 +5,17 @@ class Ability
     user ||= User.new # guest user
 
     can :read, Exchange
-    can :read, Entry
     can :create, User
     can :create, Exchange do |exchange|
       exchange.ordered_user_ids.first == user.id
     end
-    can :create, Entry do |entry|
-      entry.exchange.ordered_user_ids.include? user.id
+    can :update, Exchange do |exchange|
+      exchange.ordered_user_ids.include? user.id
     end
+    can :manage, Entry do |entry|
+      entry.exchange.ordered_user_ids.include?( user.id ) && entry.user_id == user.id
+    end
+    can :read, Entry
     can :manage, Entry
 =begin
     can :read, Entry

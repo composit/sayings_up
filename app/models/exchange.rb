@@ -14,7 +14,7 @@ class Exchange
     #entries.sort_by( &:created_at ).collect( &:user_id ).uniq
     entries.sort_by do |entry|
       entry.created_at || Time.zone.now
-    end.collect( &:user_id ).uniq
+    end.collect( &:user_id ).uniq[0..1]
   end
 =begin
   field :parent_comment_id

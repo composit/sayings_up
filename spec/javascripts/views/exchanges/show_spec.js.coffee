@@ -46,10 +46,10 @@ describe 'exchange show view', ->
         @view.render()
         expect( @newEntryViewStub ).not.toHaveBeenCalled()
 
+  describe 'adding entries', ->
     it 'renders whenever an entry is added', ->
-      #renderSpy = sinon.spy()
-      #@view.on 'render', renderSpy
-      sinon.spy( @view, 'render' )
-      @view.model.entries.add( new Backbone.Model() )
-      #@view.render()
-      expect( @view.render ).toHaveBeenCalled()
+      renderSpy = sinon.spy( Sayings.Views.ShowExchange.prototype, 'render' )
+      view = new Sayings.Views.ShowExchange { model: @exchange }
+      view.model.entries.trigger( 'add' )
+      expect( renderSpy ).toHaveBeenCalled()
+      renderSpy.restore()

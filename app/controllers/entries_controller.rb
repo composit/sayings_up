@@ -29,6 +29,8 @@ class EntriesController < ApplicationController
   end
 =end
   def create
+    @entry.user = current_user
+    logger.info 'this'
     @entry.save
     respond_with @exchange, @entry
   end

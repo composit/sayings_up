@@ -21,23 +21,27 @@ describe Exchange do
     let( :exchange ) { FactoryGirl.build( :exchange ) }
 
     before :each do
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 1.day.ago )
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: Time.zone.now )
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.ago )
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 2.days.ago )
     end
 
     it 'populates its ordered_user_ids based on the entries' do
-      exchange.ordered_user_ids.should == [345,678,123]
+      exchange.ordered_user_ids.should == [345,123]
     end
     
     it 'returns unique ordered_user_ids' do
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
-      exchange.ordered_user_ids.should == [345,678,123]
+      exchange.ordered_user_ids.should == [345,123]
     end
 
     it 'does not break if entries do not yet have a created_at value' do
       exchange.entries.build
-      exchange.ordered_user_ids.should == [345,678,nil,123]
+      exchange.ordered_user_ids.should == [345,123]
+    end
+
+    it 'only allows two users' do
+      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: 1.day.ago )
+      exchange.ordered_user_ids.should == [345,123]
     end
   end
 
