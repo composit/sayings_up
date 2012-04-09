@@ -6,8 +6,8 @@ describe Exchange do
   end
 
   it "only includes the id, entries and user_id attributes in the json" do
-    exchange = FactoryGirl.build( :exchange, :entries => [FactoryGirl.build( :entry )] )
-    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"ordered_user_ids":\[\w+\],\"entries\":\[.+\]}$/
+    exchange = FactoryGirl.build( :exchange )
+    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"ordered_user_ids":\[\],\"entries\":\[\]}$/
   end
 
   it 'contains entries' do
@@ -42,6 +42,12 @@ describe Exchange do
     it 'only allows two users' do
       exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: 1.day.ago )
       exchange.ordered_user_ids.should == [345,123]
+    end
+
+    it 'does not include entries that has not yet been saved' do
+      exchange.entries.destroy_all
+      exchange.entries.build( user: FactoryGirl.create( :user ) )
+      exchange.ordered_user_ids.should == []
     end
   end
 

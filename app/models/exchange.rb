@@ -11,9 +11,8 @@ class Exchange
   end
   
   def ordered_user_ids
-    #entries.sort_by( &:created_at ).collect( &:user_id ).uniq
-    entries.sort_by do |entry|
-      entry.created_at || Time.zone.now
+    entries.where( :created_at.exists => true ).sort_by do |entry|
+      entry.created_at
     end.collect( &:user_id ).uniq[0..1]
   end
 =begin

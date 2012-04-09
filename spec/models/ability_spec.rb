@@ -11,32 +11,35 @@ describe Ability do
   it { should be_able_to :create, User.new }
 
   context 'exchanges' do
+    let( :exchange ) { FactoryGirl.build :exchange }
+
     before :each do
-      #parent_exchange = FactoryGirl.create :exchange
-      @exchange = FactoryGirl.build :exchange #, parent_exchange: parent_exchange
-      @exchange.entries << FactoryGirl.build( :entry, user: user )
+      exchange.entries << FactoryGirl.create( :entry, user: user )
     end
 
-    it { should be_able_to :create, @exchange }
+    it { should be_able_to :create, exchange }
 
     it 'is not able to create an exchange if it is not a user in the exchange' do
-      @exchange.entries.first.user = FactoryGirl.create :user
-      ability.should_not be_able_to :create, @exchange
+      exchange.entries.first.user = FactoryGirl.create :user
+      ability.should_not be_able_to :create, exchange
     end
 
     it 'is not able to create an exchange if it is the secondary user in the exchange' do
-      @exchange.entries.first.user = FactoryGirl.create :user
-      @exchange.entries << FactoryGirl.build( :entry, user: user )
-      ability.should_not be_able_to :create, @exchange
+      exchange.entries.first.user = FactoryGirl.create :user
+      exchange.entries << FactoryGirl.build( :entry, user: user )
+      ability.should_not be_able_to :create, exchange
     end
 
     it 'is not able to create an exchange if it is not the user for the parent entry'
 
-    it { should be_able_to :update, @exchange }
+    it 'is able to update the exchange if it is a user in the exchange' do
+      exchange.save!
+      ability.should be_able_to :update, exchange
+    end
 
     it 'is not able to update an exchange if it is not a user in the exchange' do
-      @exchange.entries.first.user = FactoryGirl.create :user
-      ability.should_not be_able_to :update, @exchange
+      exchange.entries.first.user = FactoryGirl.create :user
+      ability.should_not be_able_to :update, exchange
     end
   end
 
@@ -55,11 +58,7 @@ describe Ability do
 
     it 'is not able to create an entry if it is not a user on the entry\'s exchange' do
       exchange.entries.first.user = FactoryGirl.create :user
-      ability.should_not be_able_to :create, new_entry
-    end
-    
-    it 'is not able to create an entry if it is not the user for that entry' do
-      new_entry.user = FactoryGirl.create :user
+      puts "entries: #{exchange.entries.inspect}"
       ability.should_not be_able_to :create, new_entry
     end
   end

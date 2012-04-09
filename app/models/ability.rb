@@ -7,13 +7,13 @@ class Ability
     can :read, Exchange
     can :create, User
     can :create, Exchange do |exchange|
-      exchange.ordered_user_ids.first == user.id
+      exchange.entries.first.user_id == user.id
     end
     can :update, Exchange do |exchange|
       exchange.ordered_user_ids.include? user.id
     end
     can :manage, Entry do |entry|
-      entry.exchange.ordered_user_ids.include?( user.id ) && entry.user_id == user.id
+      entry.exchange.ordered_user_ids.include?( user.id )
     end
     can :read, Entry
 =begin
