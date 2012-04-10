@@ -14,17 +14,24 @@ describe 'entry show view', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good entry")'
 
-  describe 'commenting', ->
-    beforeEach ->
-      @newCommentView = new Backbone.View()
-      @newCommentViewStub = sinon.stub( Sayings.Views, 'NewComment' ).returns @newCommentView
+  describe 'comments', ->
+    it 'renders the comments when the comments link is clicked', ->
+      commentIndexView = new Backbone.View()
+      commentIndexViewStub = sinon.stub( Sayings.Views, 'CommentsIndex' ).returns commentIndexView
+      $( @view.render().el ).find( '.view-comments' ).click()
+      expect( commentIndexViewStub ).toHaveBeenCalled()
+      commentIndexViewStub.restore()
 
-    it 'displays a comment link if the user has rights', ->
-      Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
-      @view.render()
-      expect( @newCommentViewStub ).toHaveBeenCalledOnce()
+    #beforeEach ->
+    #  @newCommentView = new Backbone.View()
+    #  @newCommentViewStub = sinon.stub( Sayings.Views, 'NewComment' ).returns @newCommentView
+
+    #it 'displays a comment link if the user has rights', ->
+    #  Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
+    #  @view.render()
+    #  expect( @newCommentViewStub ).toHaveBeenCalledOnce()
     
-    it 'does not display a respond link if the user does not have rights', ->
-      @view.render()
-      expect( @newCommentViewStub ).not.toHaveBeenCalled()
+    #it 'does not display a comment link if the user does not have rights', ->
+    #  @view.render()
+    #  expect( @newCommentViewStub ).not.toHaveBeenCalled()
 
