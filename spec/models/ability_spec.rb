@@ -48,7 +48,6 @@ describe Ability do
     let( :new_entry ) { exchange.entries.build }
 
     before :each do
-      new_entry.user_id = user.id
       exchange.entries << FactoryGirl.build( :entry, user: user )
     end
 
@@ -58,7 +57,6 @@ describe Ability do
 
     it 'is not able to create an entry if it is not a user on the entry\'s exchange' do
       exchange.entries.first.user = FactoryGirl.create :user
-      puts "entries: #{exchange.entries.inspect}"
       ability.should_not be_able_to :create, new_entry
     end
   end
