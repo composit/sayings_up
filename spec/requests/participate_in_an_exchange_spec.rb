@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "user participates in an exchange", %q{
+describe 'user participates in an exchange', %q{
   In order to have a meaningful discussion
   As a user
   I want to be able to add entries to an exchange
@@ -11,12 +11,12 @@ describe "user participates in an exchange", %q{
   let( :respond_text ) { 'respond' }
 
   before :each do
-    exchange.entries << FactoryGirl.build( :entry, :content => "Good stuff", :user => user )
-    exchange.entries << FactoryGirl.build( :entry, :content => "Other stuff" )
+    exchange.entries << FactoryGirl.build( :entry, :content => 'Good stuff', :user => user )
+    exchange.entries << FactoryGirl.build( :entry, :content => 'Other stuff' )
   end
 
-  context "not logged in" do
-    it "does not display the 'respond' dialog" do
+  context 'not logged in' do
+    it 'does not display the "respond" dialog' do
       visit "/#e/#{exchange.id}"
       page.should have_no_content respond_text
     end
@@ -25,15 +25,11 @@ describe "user participates in an exchange", %q{
   context 'logged in' do
     before :each do
       @other_exchange = FactoryGirl.create( :exchange )
-      visit '/'
-      click_link 'Sign in'
-      fill_in 'Username', with: 'testuser'
-      fill_in 'Password', with: 'testpass'
-      click_button 'Sign in'
+      sign_in
     end
 
-    context "viewing an exchange I am not a part of" do
-      it "does not display the 'respond' dialog" do
+    context 'viewing an exchange I am not a part of' do
+      it 'does not display the "respond" dialog' do
         #TODO visiting the exchange page directly freezes capybara-webkit
         click_link @other_exchange.id.to_s
         #visit "/#e/#{@other_exchange.id}"
@@ -41,31 +37,52 @@ describe "user participates in an exchange", %q{
       end
     end
 
-    context "viewing an exchange I am involved in" do
+    context 'viewing an exchange I am involved in' do
       before :each do
         #TODO visiting the exchange page directly freezes capybara-webkit
         click_link exchange.id.to_s
         #visit "/#e/#{exchange.id}"
       end
 
-      it "displays the 'respond' dialog" do
+      it 'displays the "respond" dialog' do
         page.should have_content respond_text
       end
 
-      it "displays my response when I submit one" do
+      it 'displays my response when I submit one' do
         click_link respond_text
         fill_in 'Response', with: 'test response'
         click_button 'Respond'
         page.should have_content 'test response'
       end
       
-      it "does not allow me to submit a blank response"
-      it "allows me to delete my previous entries, replacing the content with 'deleted'"
-      it "does not allow me to delete entries not by me"
+      it 'does not allow me to submit a blank response'
+      it 'allows me to delete my previous entries, replacing the content with "deleted"'
+      it 'does not allow me to delete entries not by me'
     end
 
-    context "responding to a comment on one of my entries" do
-      it "creates a new exchange"
+    context 'commenting on an exchange' do
+      it 'allows me to comment on an exchange' do
+        sign_in
+        click_link exchange.id.to_s
+        click_link 'comment'
+        fill_in 'Comment', with: 'test comment'
+        click_button 'Comment'
+        page.should have_content 'test comment'
+      end
+
+      it 'does not display the comment link if I am not signed in'
     end
+
+    context 'responding to a comment on one of my entries' do
+      it 'creates a new exchange'
+    end
+  end
+
+  def sign_in
+    visit '/'
+    click_link 'Sign in'
+    fill_in 'Username', with: 'testuser'
+    fill_in 'Password', with: 'testpass'
+    click_button 'Sign in'
   end
 end

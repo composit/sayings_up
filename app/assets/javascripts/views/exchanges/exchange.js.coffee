@@ -1,6 +1,4 @@
 class Sayings.Views.Exchange extends Backbone.View
-  template: JST["exchanges/exchange"]
-  
   #events:
   #  "click .destroy" : "destroy"
       
@@ -13,5 +11,5 @@ class Sayings.Views.Exchange extends Backbone.View
   #  return false
     
   render: ->
-    $( this.el ).html( @template( { model: @model } ) )
+    $( this.el ).html( JST['exchanges/exchange']( { model: @model } ) )
     return this

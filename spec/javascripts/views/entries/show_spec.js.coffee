@@ -13,3 +13,18 @@ describe 'entry show view', ->
   describe 'rendering', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good entry")'
+
+  describe 'commenting', ->
+    beforeEach ->
+      @newCommentView = new Backbone.View()
+      @newCommentViewStub = sinon.stub( Sayings.Views, 'NewComment' ).returns @newCommentView
+
+    it 'displays a comment link if the user has rights', ->
+      Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
+      @view.render()
+      expect( @newCommentViewStub ).toHaveBeenCalledOnce()
+    
+    it 'does not display a respond link if the user does not have rights', ->
+      @view.render()
+      expect( @newCommentViewStub ).not.toHaveBeenCalled()
+
