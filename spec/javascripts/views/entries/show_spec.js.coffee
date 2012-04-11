@@ -1,7 +1,7 @@
 describe 'entry show view', ->
   beforeEach ->
-    @entry = new Sayings.Models.Entry( { id: 123, content: 'Good entry' } )
-    @view = new Sayings.Views.ShowEntry( { model: @entry } )
+    @entry = new Sayings.Models.Entry { id: 123, content: 'Good entry', comments: [{ '_id': '123' }] }
+    @view = new Sayings.Views.ShowEntry { model: @entry }
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -18,9 +18,10 @@ describe 'entry show view', ->
     it 'renders the comments when the comments link is clicked', ->
       commentIndexView = new Backbone.View()
       commentIndexViewStub = sinon.stub( Sayings.Views, 'CommentsIndex' ).returns commentIndexView
-      $( @view.render().el ).find( '.view-comments' ).click()
+      $( @view.render().el ).find( '.show-comments' ).click()
       expect( commentIndexViewStub ).toHaveBeenCalled()
-      commentIndexViewStub.restore()
+      expect( commentIndexViewStub ).toHaveBeenCalledWith { collection: @entry.comments }
+      Sayings.Views.CommentsIndex.restore()
 
     #beforeEach ->
     #  @newCommentView = new Backbone.View()

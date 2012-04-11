@@ -4,3 +4,9 @@ class Sayings.Models.Entry extends Backbone.Model
 
   defaults:
     content: null
+
+  initialize: ->
+    @parseComments()
+
+  parseComments: =>
+    @comments = new Sayings.Collections.Comments @get 'comments'

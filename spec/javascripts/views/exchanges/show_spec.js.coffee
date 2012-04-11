@@ -1,8 +1,8 @@
 describe 'exchange show view', ->
   beforeEach ->
-    @entry1 = new Backbone.Model { id: 1, content: "One" }
-    @entry2 = new Backbone.Model { id: 2, content: "Two" }
-    @entry3 = new Backbone.Model { id: 3, content: "Three" }
+    @entry1 = new Backbone.Model { id: 1, content: 'One' }
+    @entry2 = new Backbone.Model { id: 2, content: 'Two' }
+    @entry3 = new Backbone.Model { id: 3, content: 'Three' }
     @exchange = new Sayings.Models.Exchange { id: 4, ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3] }
     @view = new Sayings.Views.ShowExchange { model: @exchange }
 
@@ -16,12 +16,12 @@ describe 'exchange show view', ->
   describe 'rendering', ->
     beforeEach ->
       @entryView = new Backbone.View()
-      @entryViewStub = sinon.stub( Sayings.Views, "ShowEntry" ).returns @entryView
+      @entryViewStub = sinon.stub( Sayings.Views, 'ShowEntry' ).returns @entryView
 
     afterEach ->
       Sayings.Views.ShowEntry.restore()
 
-    it "creates an Entry view for each entry", ->
+    it 'creates an Entry view for each entry', ->
       @view.render()
       expect( @entryViewStub ).toHaveBeenCalledThrice()
       expect( @entryViewStub ).toHaveBeenCalledWith { model: @entry1 }
