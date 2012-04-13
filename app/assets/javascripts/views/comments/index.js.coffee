@@ -14,4 +14,4 @@ class Sayings.Views.CommentsIndex extends Backbone.View
 
   addComment: ( comment ) ->
     commentView = new Sayings.Views.ShowComment { model: comment }
-    @$( '.comments' ).append commentView.render().el
+    @$( '.comments' ).html commentView.render().el
