@@ -1,21 +1,25 @@
 require 'spec_helper'
 
-describe EntriesController do
+describe CommentsController do
   context 'POST' do
     let( :current_user ) { stub }
-    let( :entry ) { mock_model( Entry ).as_null_object }
-    let( :entries ) { stub( new: entry ) }
+    let( :comment ) { mock_model( Comment ).as_null_object }
+    let( :comments ) { stub( new: comment ) }
+    let( :entry ) { mock_model Entry, comments: comments }
+    let( :entries ) { stub }
     let( :exchange ) { mock_model Exchange, entries: entries }
     let( :ability ) { Object.new }
-    let( :params ) { { exchange_id: 123, entry: {}, format: :json } }
+    let( :params ) { { exchange_id: 123, entry_id: 456, comment: {}, format: :json } }
 
     before :each do
       @controller.stub( :current_user ) { current_user }
       ability.extend CanCan::Ability
       @controller.stub( :current_ability ) { ability }
       ability.can :read, Exchange
-      ability.can :create, Entry
+      ability.can :read, Entry
+      ability.can :create, Comment
       Exchange.stub( :find ).with( '123' ) { exchange }
+      entries.stub( :find ).with( '456' ) { entry }
     end
 
     after :each do
@@ -26,12 +30,16 @@ describe EntriesController do
       Exchange.should_receive( :find ).with '123'
     end
 
-    it 'assigns the current user' do
-      entry.should_receive( :user= ).with current_user
+    it 'finds the appropriate entry' do
+      entries.should_receive( :find ).with '456'
     end
 
-    it 'saves the entry' do
-      entry.should_receive :save
+    it 'assigns the current user' do
+      comment.should_receive( :user= ).with current_user
+    end
+
+    it 'saves the comment' do
+      comment.should_receive :save
     end
   end
 end

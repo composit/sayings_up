@@ -60,4 +60,9 @@ describe Ability do
       ability.should_not be_able_to :create, new_entry
     end
   end
+
+  context 'comments' do
+    it { should be_able_to :create, Comment.new }
+    #TODO what if the user is not logged in?
+  end
 end

@@ -1,7 +1,7 @@
 describe 'Entry', ->
   describe 'when instantiated', ->
     beforeEach ->
-      @entry = new Sayings.Models.Entry { 'content': 'Good entry', 'comments': [{ '_id': '123' }, { '_id': '456' }] }
+      @entry = new Sayings.Models.Entry { '_id': '999', 'content': 'Good entry', 'exchange_id': '789', 'comments': [{ '_id': '123' }, { '_id': '456' }] }
 
     it 'exhibits attributes', ->
       @entry.set { content: 'Some content' }
@@ -20,14 +20,20 @@ describe 'Entry', ->
 
     describe 'url', ->
       beforeEach ->
-        collection = { url: '/entries' }
+        collection = { url: '/entries', '_id': '123' }
         @entry.collection = collection
 
       describe 'when id is set', ->
-        it 'returns the collection URL and id', ->
+        beforeEach ->
           @entry.id = 999
+
+        it 'returns the collection URL and id', ->
           expect( @entry.url() ).toEqual '/entries/999'
+
+        it 'sets the comment collection\'s url', ->
+          expect( @entry.comments.url ).toEqual '/exchanges/789/entries/999/comments'
 
       describe 'when no id is set', ->
         it 'returns the collection URL', ->
+          @entry.id = null
           expect( @entry.url() ).toEqual '/entries'

@@ -8,27 +8,19 @@ class Entry
   attr_accessible :content
 
   embedded_in :exchange
+  embeds_many :comments
+  belongs_to :user
 
   def as_json( options = {} )
-    super( options.merge( only: [:_id, :content] ) )
+    super( options.merge( only: [:_id, :content, :exchange_id], include: :comments, methods: :exchange_id ) )
   end
 
-  def user=( user )
-    self.user_id = user.id
-    @user = user
-  end
-
-  def user
-    @user ||= User.where( _id: user_id ).first
+  def exchange_id
+    exchange.id if exchange
   end
 
 =begin
   index :created_at
-
-  belongs_to_related :user
-  embeds_many :comments
-
-  embedded_in :exchange, inverse_of: :entries
 
   after_save :set_exchange_date
 

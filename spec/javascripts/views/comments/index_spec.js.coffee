@@ -27,3 +27,29 @@ describe 'comments index view', ->
       expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment1 }
       expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment2 }
       expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment3 }
+
+    describe 'respondability', ->
+      beforeEach ->
+        @newCommentView = new Backbone.View()
+        @newCommentViewStub = sinon.stub( Sayings.Views, 'NewComment' ).returns @newCommentView
+
+      afterEach ->
+        Sayings.Views.NewComment.restore()
+
+      it 'displays a comment link if the user is logged in', ->
+        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
+        @view.render()
+        expect( @newCommentViewStub ).toHaveBeenCalledOnce()
+      
+      it 'does not display a respond link if the user is not logged in', ->
+        Sayings.currentUser = new Sayings.Models.UserSession
+        @view.render()
+        expect( @newCommentViewStub ).not.toHaveBeenCalled()
+
+  describe 'adding comments', ->
+    it 'renders whenever a comment is added', ->
+      renderSpy = sinon.spy( Sayings.Views.CommentsIndex.prototype, 'render' )
+      view = new Sayings.Views.CommentsIndex { collection: @comments }
+      view.collection.trigger( 'add' )
+      expect( renderSpy ).toHaveBeenCalled()
+      renderSpy.restore()

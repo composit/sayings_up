@@ -1,14 +1,12 @@
 require 'spec_helper'
 
 describe Comment do
-  it "creates a new instance of an entry comment given valid attributes" do
-    pending
-    exchange = FactoryGirl( :exchange )
-    entry = FactoryGirl.build( :entry )
-    exchange.entries << entry
-    comment = FactoryGirl.build( :comment )
-    entry.comments << comment
-    comment.should be_valid
+  it 'is valid' do
+    FactoryGirl.build( :comment ).should be_valid
+  end
+
+  it 'only includes the id and content in the json' do
+    subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
   end
 
   it "requires the existence of a user" do

@@ -7,11 +7,19 @@ describe 'Routes' do
   specify { { put: 'exchanges/1' }.should_not be_routable }
   specify { { delete: 'exchanges/1' }.should_not be_routable }
 
-  specify { { get: 'exchanges/1/entries' }.should route_to( controller: 'entries', action: 'index', exchange_id: '1' ) }
+  #specify { { get: 'exchanges/1/entries' }.should route_to( controller: 'entries', action: 'index', exchange_id: '1' ) }
+  specify { { get: 'exchanges/1/entries' }.should_not be_routable }
   specify { { get: 'exchanges/1/entries/2' }.should route_to( controller: 'entries', action: 'show', exchange_id: '1', id: '2' ) }
   specify { { post: 'exchanges/1/entries' }.should route_to( controller: 'entries', action: 'create', exchange_id: '1' ) }
   specify { { put: 'exchanges/1/entries/2' }.should_not be_routable }
   specify { { delete: 'exchanges/1/entries/2' }.should_not be_routable }
+
+  #specify { { get: 'exchanges/1/entries/2/comments' }.should route_to( controller: 'comments', action: 'index', exchange_id: '1', entry_id: '2' ) }
+  specify { { get: 'exchanges/1/entries/2/comments' }.should_not be_routable }
+  specify { { get: 'exchanges/1/entries/2/comments/3' }.should route_to( controller: 'comments', action: 'show', exchange_id: '1', entry_id: '2', id: '3' ) }
+  specify { { post: 'exchanges/1/entries/2/comments' }.should route_to( controller: 'comments', action: 'create', exchange_id: '1', entry_id: '2' ) }
+  specify { { put: 'exchanges/1/entries/2/comments/3' }.should_not be_routable }
+  specify { { delete: 'exchanges/1/entries/2/comments/3' }.should_not be_routable }
 
   specify { { get: 'users' }.should_not be_routable }
   specify { { get: 'users/1' }.should route_to( controller: 'users', action: 'show', id: '1' ) }

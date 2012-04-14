@@ -26,4 +26,4 @@ class Sayings.Views.NewEntry extends Backbone.View
     return false
 
   saved: ->
-    @collection.add( @model )
+    @collection.add @model

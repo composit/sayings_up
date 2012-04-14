@@ -5,12 +5,17 @@ class Comment
   field :user_id
   field :content
 
-  attr_accessible
+  attr_accessible :content
 
+  embedded_in :entry
+  belongs_to :user
+
+  def as_json( options = {} )
+    super( options.merge( only: [:_id, :content] ) )
+  end
 =begin
   belongs_to_related :user
   has_one_related :exchange
-  embedded_in :entry, inverse_of: :comments
 
   validates :user_id, presence: true
 

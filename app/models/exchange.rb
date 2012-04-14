@@ -7,7 +7,23 @@ class Exchange
   embeds_many :entries
 
   def as_json( options = {} )
-    super( options.merge( include: :entries, only: [:_id, :content], methods: :ordered_user_ids ) )
+    super(
+      options.merge(
+        only: [:_id, :content],
+        methods: :ordered_user_ids,
+        include: {
+          entries: {
+            include: {
+              comments: {
+                only: :content
+              }
+            },
+            only: [:_id, :content, :exchange_id],
+            methods: :exchange_id
+          }
+        }
+      )
+    )
   end
   
   def ordered_user_ids

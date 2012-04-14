@@ -64,9 +64,10 @@ describe 'user participates in an exchange', %q{
       it 'allows me to comment on an exchange' do
         sign_in
         click_link exchange.id.to_s
-        click_link 'comment'
+        click_link 'comments'
+        click_link 'add comment'
         fill_in 'Comment', with: 'test comment'
-        click_button 'Comment'
+        click_button 'Add comment'
         page.should have_content 'test comment'
       end
 

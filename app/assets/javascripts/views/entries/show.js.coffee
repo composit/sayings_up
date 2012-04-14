@@ -14,5 +14,5 @@ class Sayings.Views.ShowEntry extends Backbone.View
 
   showComments: ->
     commentsView = new Sayings.Views.CommentsIndex( { collection: @model.comments } )
-    $( @el ).parents( '.exchange' ).append( commentsView.render().el )
+    $( @el ).parents( '.exchange' ).find( '.comments' ).html( commentsView.render().el )
     return false
