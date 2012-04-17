@@ -6,7 +6,7 @@ describe Entry do
   end
 
   it 'only includes the id, comments and content attributes in the json' do
-    subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"comments\":\[]}/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"comments\":\[\]}$/
   end
 
   it 'contains comments' do

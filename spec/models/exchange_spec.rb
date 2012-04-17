@@ -6,48 +6,44 @@ describe Exchange do
   end
 
   it "only includes the id, entries and user_id attributes in the json" do
-    exchange = FactoryGirl.build( :exchange )
-    exchange.to_json.should =~ /^{\"_id\":\"\w+\",\"ordered_user_ids":\[\],\"entries\":\[\]}$/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"ordered_user_ids":\[\],\"entries\":\[\]}$/
   end
 
   it 'contains entries' do
-    exchange = FactoryGirl.build( :exchange )
-    exchange.entries << FactoryGirl.build_list( :entry, 11 )
-    exchange.save!
-    exchange.reload.entries.length.should == 11
+    subject.entries << FactoryGirl.build_list( :entry, 11 )
+    subject.save!
+    subject.reload.entries.length.should == 11
   end
 
   context 'ordered_user_ids' do
-    let( :exchange ) { FactoryGirl.build( :exchange ) }
-
     before :each do
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.ago )
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 2.days.ago )
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.ago )
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 2.days.ago )
     end
 
     it 'populates its ordered_user_ids based on the entries' do
-      exchange.ordered_user_ids.should == [345,123]
+      subject.ordered_user_ids.should == [345,123]
     end
     
     it 'returns unique ordered_user_ids' do
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
-      exchange.ordered_user_ids.should == [345,123]
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.since )
+      subject.ordered_user_ids.should == [345,123]
     end
 
     it 'does not break if entries do not yet have a created_at value' do
-      exchange.entries.build
-      exchange.ordered_user_ids.should == [345,123]
+      subject.entries.build
+      subject.ordered_user_ids.should == [345,123]
     end
 
     it 'only allows two users' do
-      exchange.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: 1.day.ago )
-      exchange.ordered_user_ids.should == [345,123]
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 678 ), created_at: 1.day.ago )
+      subject.ordered_user_ids.should == [345,123]
     end
 
     it 'does not include entries that has not yet been saved' do
-      exchange.entries.destroy_all
-      exchange.entries.build( user: FactoryGirl.create( :user ) )
-      exchange.ordered_user_ids.should == []
+      subject.entries.destroy_all
+      subject.entries.build( user: FactoryGirl.create( :user ) )
+      subject.ordered_user_ids.should == []
     end
   end
 

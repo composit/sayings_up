@@ -71,7 +71,12 @@ describe 'user participates in an exchange', %q{
         page.should have_content 'test comment'
       end
 
-      it 'does not display the comment link if I am not signed in'
+      it 'does not display the comment link if I am not signed in' do
+        visit '/'
+        click_link exchange.id.to_s
+        click_link 'comments'
+        page.should have_no_content 'Add comment'
+      end
     end
 
     context 'responding to a comment on one of my entries' do
