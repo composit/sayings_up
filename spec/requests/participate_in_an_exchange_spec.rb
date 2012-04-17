@@ -80,7 +80,15 @@ describe 'user participates in an exchange', %q{
     end
 
     context 'responding to a comment on one of my entries' do
-      it 'creates a new exchange'
+      it 'creates a new exchange' do
+        sign_in
+        click_link exchange.id.to_s
+        click_link 'comments'
+        click_link 'respond'
+        fill_in 'Response', with: 'test response'
+        click_button 'respond'
+        page.should have_content 'test response'
+      end
     end
   end
 

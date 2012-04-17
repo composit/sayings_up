@@ -13,3 +13,21 @@ describe 'comment show view', ->
   describe 'rendering', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good comment")'
+
+    describe 'respondability', ->
+      beforeEach ->
+        @newExchangeView = new Backbone.View()
+        @newExchangeViewStub = sinon.stub( Sayings.Views, 'NewExchange' ).returns @newExchangeView
+
+      afterEach ->
+        Sayings.Views.NewExchange.restore()
+
+      it 'displays a respond link if the user has rights', ->
+        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
+        @view.render()
+        expect( @newExchangeViewStub ).toHaveBeenCalledOnce()
+
+      it 'does not display a respond link if the user does not have rights', ->
+        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 1 }
+        @view.render()
+        expect( @newExchangeViewStub ).not.toHaveBeenCalled()
