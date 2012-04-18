@@ -1,4 +1,32 @@
 class Sayings.Views.NewExchange extends Backbone.View
+  className: 'new-exchange'
+
+  initialize: ->
+    _.bindAll( this, 'render', 'new', 'save', 'saved' )
+    @model = new Sayings.Models.Exchange()
+    @model.url = '/exchanges'
+
+  events:
+    'click .respond-link': 'new'
+    'submit form#new-exchange-form': 'save'
+
+  render: ->
+    $( @el ).html '<a class="respond-link" href="#">respond</a>'
+    return this
+
+  new: ->
+    $( @el ).html JST['exchanges/new']
+    return false
+
+  save: ->
+    @model.save(
+      { content: @$( '#content' ).val() }
+      success: @saved
+    )
+    return false
+
+  saved: ->
+    console.log 'good save, bro'
   #template: JST["exchanges/new"]
   
   #events:

@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'Routes' do
   specify { { get: 'exchanges' }.should route_to( controller: 'exchanges', action: 'index' ) }
-  specify { { get: 'exchanges/1' }.should_not be_routable }
-  specify { { post: 'exchanges' }.should_not be_routable }
+  specify { { get: 'exchanges/1' }.should route_to( controller: 'exchanges', action: 'show', id: '1' ) }
+  specify { { post: 'exchanges' }.should route_to( controller: 'exchanges', action: 'create' ) }
   specify { { put: 'exchanges/1' }.should_not be_routable }
   specify { { delete: 'exchanges/1' }.should_not be_routable }
 

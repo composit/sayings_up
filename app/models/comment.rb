@@ -2,16 +2,20 @@ class Comment
   include Mongoid::Document
   include Mongoid::Timestamps
 
-  field :user_id
   field :content
 
   attr_accessible :content
 
   embedded_in :entry
   belongs_to :user
+  has_one :child_exchange, class_name: 'Exchange', inverse_of: :parent_comment
 
   def as_json( options = {} )
     super( options.merge( only: [:_id, :content] ) )
+  end
+
+  def entry_user_id
+    entry.user_id if entry
   end
 =begin
   belongs_to_related :user

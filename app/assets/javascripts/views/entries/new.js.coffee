@@ -7,11 +7,11 @@ class Sayings.Views.NewEntry extends Backbone.View
     @model.collection = @collection
 
   events:
-    'click #respond-link': 'new'
+    'click .respond-link': 'new'
     'submit form#new-entry-form': 'save'
 
   render: ->
-    $( @el ).html '<a id="respond-link" href="#">respond</a>'
+    $( @el ).html '<a class="respond-link" href="#">respond</a>'
     return this
 
   new: ->

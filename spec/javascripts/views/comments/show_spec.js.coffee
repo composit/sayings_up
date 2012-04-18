@@ -1,6 +1,6 @@
 describe 'comment show view', ->
   beforeEach ->
-    @comment = new Sayings.Models.Comment { id: 123, content: 'Good comment' }
+    @comment = new Sayings.Models.Comment { id: 123, content: 'Good comment', entry_user_id: 4 }
     @view = new Sayings.Views.ShowComment { model: @comment }
 
   describe 'instantiation', ->
@@ -22,7 +22,7 @@ describe 'comment show view', ->
       afterEach ->
         Sayings.Views.NewExchange.restore()
 
-      it 'displays a respond link if the user has rights', ->
+      it 'displays a respond link if the comment is on one of the current user\'s entries', ->
         Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
         @view.render()
         expect( @newExchangeViewStub ).toHaveBeenCalledOnce()

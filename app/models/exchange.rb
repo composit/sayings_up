@@ -5,6 +5,9 @@ class Exchange
   attr_accessible
 
   embeds_many :entries
+  belongs_to :parent_exchange, class_name: 'Exchange'
+  belongs_to :parent_entry, class_name: 'Entry'
+  belongs_to :parent_comment, class_name: 'Comment'
 
   def as_json( options = {} )
     super(
@@ -15,10 +18,11 @@ class Exchange
           entries: {
             include: {
               comments: {
-                only: :content
+                only: :content,
+                methods: :entry_user_id
               }
             },
-            only: [:_id, :content, :exchange_id],
+            only: [:_id, :content],
             methods: :exchange_id
           }
         }
@@ -30,6 +34,23 @@ class Exchange
     entries.where( :created_at.exists => true ).sort_by do |entry|
       entry.created_at
     end.collect( &:user_id ).uniq[0..1]
+  end
+
+  def initial_values=( values )
+    self.parent_exchange_id = values[:parent_exchange_id]
+    self.parent_entry_id = values[:parent_entry_id]
+    self.parent_comment_id = values[:parent_comment_id]
+    entry_one = Entry.new( content: parent_comment.content, user_id: parent_comment.user_id )
+    entry_two = Entry.new( content: values[:content], user_id: values[:user_id] )
+    self.entries << [entry_one, entry_two]
+  end
+
+  def parent_entry
+    parent_exchange.entries.find parent_entry_id
+  end
+
+  def parent_comment
+    parent_entry.comments.find parent_comment_id
   end
 =begin
   field :parent_comment_id

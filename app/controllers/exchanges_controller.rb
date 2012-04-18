@@ -10,6 +10,12 @@ class ExchangesController < ApplicationController
     #render json: Exchange.find( params[:id] )
     respond_with @exchange
   end
+
+  def create
+    @exchange.initial_values[:user_id] = current_user.id
+    @exchange.save
+    respond_with @exchange
+  end
 =begin
   def index
     authorize! :read, Exchange

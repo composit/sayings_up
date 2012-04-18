@@ -9,6 +9,12 @@ describe Comment do
     subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
   end
 
+  it 'returns the entry\'s user_id' do
+    user = FactoryGirl.create :user
+    subject.entry = FactoryGirl.build :entry, user: user
+    subject.entry_user_id.should == user.id
+  end
+
   it "requires the existence of a user" do
     pending
     comment = FactoryGirl.build( :entry, :user_id => nil )
