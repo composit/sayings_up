@@ -9,10 +9,14 @@ describe Comment do
     subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
   end
 
-  it 'returns the entry\'s user_id' do
-    user = FactoryGirl.create :user
-    subject.entry = FactoryGirl.build :entry, user: user
-    subject.entry_user_id.should == user.id
+  context 'exchange and entry values' do
+    let( :user ) { FactoryGirl.create :user }
+    let!( :exchange ) { FactoryGirl.create :exchange, entries: [entry] }
+    let!( :entry ) { FactoryGirl.create :entry, comments: [subject], user: user }
+
+    specify { subject.entry_user_id.should == user.id }
+    specify { subject.exchange_id.should == exchange.id }
+    specify { subject.entry_id.should == entry.id }
   end
 
   it "requires the existence of a user" do

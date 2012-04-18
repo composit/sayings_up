@@ -14,6 +14,14 @@ class Comment
     super( options.merge( only: [:_id, :content] ) )
   end
 
+  def exchange_id
+    entry.exchange.id
+  end
+
+  def entry_id
+    entry.id
+  end
+
   def entry_user_id
     entry.user_id if entry
   end

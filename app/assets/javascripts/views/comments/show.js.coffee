@@ -11,5 +11,6 @@ class Sayings.Views.ShowComment extends Backbone.View
     return this
 
   addResponder: ->
-    newExchangeView = new Sayings.Views.NewExchange()
+    newExchange = new Sayings.Models.Exchange initial_values: { parent_exchange_id: @model.get( 'exchange_id' ), parent_entry_id: @model.get( 'entry_id' ), parent_comment_id: @model.get '_id' }
+    newExchangeView = new Sayings.Views.NewExchange model: newExchange
     $( @el ).append newExchangeView.render().el

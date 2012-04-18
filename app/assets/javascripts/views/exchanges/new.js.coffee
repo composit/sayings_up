@@ -3,7 +3,6 @@ class Sayings.Views.NewExchange extends Backbone.View
 
   initialize: ->
     _.bindAll( this, 'render', 'new', 'save', 'saved' )
-    @model = new Sayings.Models.Exchange()
     @model.url = '/exchanges'
 
   events:
@@ -16,17 +15,22 @@ class Sayings.Views.NewExchange extends Backbone.View
 
   new: ->
     $( @el ).html JST['exchanges/new']
+    #$( @el ).find( '#parent_exchange_id' ).val @model.get 'parent_exchange_id'
+    #$( @el ).find( '#parent_entry_id' ).val @model.get 'parent_entry_id'
+    #$( @el ).find( '#parent_comment_id' ).val @model.get 'parent_comment_id'
     return false
 
   save: ->
+    if vals = @model.get 'initial_values'
+      vals.content = @$( '#content' ).val()
+      @model.set 'initial_values', vals
     @model.save(
-      { content: @$( '#content' ).val() }
+      {}
       success: @saved
     )
     return false
 
   saved: ->
-    console.log 'good save, bro'
   #template: JST["exchanges/new"]
   
   #events:

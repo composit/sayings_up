@@ -1,7 +1,7 @@
 describe 'comment show view', ->
   beforeEach ->
-    @comment = new Sayings.Models.Comment { id: 123, content: 'Good comment', entry_user_id: 4 }
-    @view = new Sayings.Views.ShowComment { model: @comment }
+    @comment = new Sayings.Models.Comment _id: '789', content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456'
+    @view = new Sayings.Views.ShowComment model: @comment
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -16,18 +16,29 @@ describe 'comment show view', ->
 
     describe 'respondability', ->
       beforeEach ->
+        @newExchange = new Backbone.Model()
+        @newExchangeStub = sinon.stub( Sayings.Models, 'Exchange' ).returns @newExchange
         @newExchangeView = new Backbone.View()
         @newExchangeViewStub = sinon.stub( Sayings.Views, 'NewExchange' ).returns @newExchangeView
 
       afterEach ->
         Sayings.Views.NewExchange.restore()
+        Sayings.Models.Exchange.restore()
 
-      it 'displays a respond link if the comment is on one of the current user\'s entries', ->
-        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
-        @view.render()
-        expect( @newExchangeViewStub ).toHaveBeenCalledOnce()
+      describe 'if the comment is on one of the current user\'s entries', ->
+        beforeEach ->
+          Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
+          @view.render()
+
+        it 'builds a new exchange model', ->
+          expect( @newExchangeStub ).toHaveBeenCalledOnce()
+          expect( @newExchangeStub ).toHaveBeenCalledWith initial_values: { parent_exchange_id: '123', parent_entry_id: '456', parent_comment_id: '789' }
+
+        it 'displays a respond link if the comment is on one of the current user\'s entries', ->
+          expect( @newExchangeViewStub ).toHaveBeenCalledOnce()
+          expect( @newExchangeViewStub ).toHaveBeenCalledWith model: @newExchange
 
       it 'does not display a respond link if the user does not have rights', ->
-        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 1 }
+        Sayings.currentUser = new Sayings.Models.UserSession '_id': 1
         @view.render()
         expect( @newExchangeViewStub ).not.toHaveBeenCalled()

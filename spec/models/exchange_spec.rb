@@ -65,60 +65,60 @@ describe Exchange do
   end
 
   context 'initial values' do
+    let( :parent_exchange ) { FactoryGirl.create :exchange, entries: [parent_entry] }
+    let( :parent_entry ) { FactoryGirl.create :entry, comments: [parent_comment] }
+    let( :parent_comment ) { FactoryGirl.create :comment, content: 'comment content', user_id: commenter.id }
+    let( :commenter ) { mock_model User }
+    let( :user ) { mock_model User }
+    let( :initial_values ) { { parent_exchange_id: parent_exchange.id, parent_entry_id: parent_entry.id, parent_comment_id: parent_comment.id, content: 'good exchange', user_id: user.id } }
+
     #TODO move all this logic into a factory
     describe 'when the comment, entry and exchange ids match up' do
-      let( :parent_exchange ) { FactoryGirl.create :exchange, entries: [parent_entry] }
-      let( :parent_entry ) { FactoryGirl.create :entry, comments: [parent_comment] }
-      let( :parent_comment ) { FactoryGirl.create :comment, content: 'comment content', user_id: commenter.id }
-      let( :commenter ) { mock_model User }
-      let( :user ) { mock_model User }
-      let( :initial_values ) { { parent_exchange_id: parent_exchange.id, parent_entry_id: parent_entry.id, parent_comment_id: parent_comment.id, content: 'good exchange', user_id: user.id } }
+      before :each do
+        subject.initial_values = initial_values
+      end
 
       context 'setting parents' do
-        before :each do
-          subject.initial_values = initial_values
-        end
-
         specify { subject.parent_exchange_id.should == parent_exchange.id }
         specify { subject.parent_entry_id.should == parent_entry.id }
         specify { subject.parent_comment_id.should == parent_comment.id }
       end
       
       context 'initial entry' do
-        after :each do
-          subject.initial_values = initial_values
+        let( :first_entry ) { subject.entries[0] }
+
+        it 'has content matching the parent comment\'s content' do
+          first_entry.content.should == 'comment content'
         end
 
-        it 'bla' do
-          subject.entries.should_receive( :<< ).with [{ content: 'comment content', user_id: commenter.id}, { content: 'good entry', user_id: user.id }]
+        it 'has a user id matching the parent comment\'s user id' do
+          first_entry.user_id.should == commenter.id
         end
-
-        #it 'has content matching the parent comment\'s content' do
-        #  subject.entries.should_receive( :build ).ordered.with hash_including content: 'comment content'
-        #end
-
-        #it 'has a user id matching the parent comment\'s user id' do
-        #  subject.entries.should_receive( :build ).with hash_including user_id: commenter.id
-        #end
       end
 
       context 'initial response' do
-        #after :each do
-        #  subject.initial_values = initial_values
-        #end
+        let( :second_entry ) { subject.entries[1] }
 
-        #it 'is assigned the passed in content' do
-        #  subject.entries.should_receive( :build ).ordered.with( hash_including content: 'good exchange' ).once
-        #end
-        #it 'is assigned the passed in user id'
+        it 'is assigned the passed in content' do
+          second_entry.content.should == 'good exchange'
+        end
+
+        it 'assigns the user' do
+          second_entry.user_id.should == user.id
+        end
       end
     end
 
     describe 'when the comment, entry and exchange ids do not match up' do
-      it 'does not assign the parent_comment_id'
-      it 'does not assign the parent_entry_id'
-      it 'does not assign the parent_exchange_id'
-      it 'does not build any entries'
+      let( :other_comment ) { FactoryGirl.create :comment }
+
+      before :each do
+        initial_values[:parent_comment_id] = other_comment.id
+      end
+
+      it 'raises an error' do
+        lambda { subject.initial_values = initial_values }.should raise_error Mongoid::Errors::DocumentNotFound
+      end
     end
   end
 

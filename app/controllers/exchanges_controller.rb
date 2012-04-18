@@ -1,5 +1,6 @@
 class ExchangesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource except: :create
+
   respond_to :html, only: :index
   respond_to :json
 
@@ -7,12 +8,13 @@ class ExchangesController < ApplicationController
   end
 
   def show
-    #render json: Exchange.find( params[:id] )
     respond_with @exchange
   end
 
   def create
-    @exchange.initial_values[:user_id] = current_user.id
+    @exchange = Exchange.new
+    @exchange.initial_values = params[:initial_values].merge( { user_id: current_user.id } )
+    authorize! :create, @exchange
     @exchange.save
     respond_with @exchange
   end
