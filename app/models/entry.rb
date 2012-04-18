@@ -12,7 +12,7 @@ class Entry
   belongs_to :user
 
   def as_json( options = {} )
-    super( options.merge( only: [:_id, :content, :exchange_id], include: :comments, methods: :exchange_id ) )
+    super( options.merge( only: [:_id, :content], include: { comments: { only: [:_id, :content], methods: [:exchange_id, :entry, :entry_user_id, :child_exchange_data] } }, methods: :exchange_id ) )
   end
 
   def exchange_id
