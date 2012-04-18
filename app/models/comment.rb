@@ -25,6 +25,10 @@ class Comment
   def entry_user_id
     entry.user_id if entry
   end
+
+  def child_exchange_data
+    { id: child_exchange.id, entry_count: child_exchange.entries.count } if child_exchange
+  end
 =begin
   belongs_to_related :user
   has_one_related :exchange

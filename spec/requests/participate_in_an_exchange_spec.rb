@@ -80,23 +80,33 @@ describe 'user participates in an exchange', %q{
     end
 
     context 'responding to a comment on one of my entries' do
-      it 'creates a new exchange' do
+      it 'creates a new exchange', :focus do
+        exchange.entries.first.comments << FactoryGirl.create( :comment, content: 'Good comment' )
         sign_in
         click_link exchange.id.to_s
         click_link 'comments'
-        click_link 'respond'
-        fill_in 'Response', with: 'test response'
-        click_button 'respond'
-        page.should have_content 'test response'
+        within( '.comment' ) do
+          click_link 'respond'
+          fill_in 'content', with: 'test response'
+          click_button 'Respond'
+        end
+        page.should have_content 'Good comment (2)'
       end
     end
   end
 
   def sign_in
     visit '/'
+    sign_out
     click_link 'Sign in'
     fill_in 'Username', with: 'testuser'
     fill_in 'Password', with: 'testpass'
     click_button 'Sign in'
+  end
+
+  def sign_out
+    if page.has_content? 'Sign out'
+      click_link 'Sign out'
+    end
   end
 end

@@ -19,7 +19,7 @@ class Exchange
             include: {
               comments: {
                 only: [:_id, :content],
-                methods: [:exchange_id, :entry_id, :entry_user_id]
+                methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data]
               }
             },
             only: [:_id, :content],

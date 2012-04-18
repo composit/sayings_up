@@ -8,8 +8,8 @@ describe 'new comment view', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
-    it 'has an id of "new-comment"', ->
-      expect( $( @view.el ) ).toHaveId 'new-comment'
+    it 'has an class of "new-comment"', ->
+      expect( $( @view.el ) ).toHaveClass 'new-comment'
 
     it 'creates a new model in the local collection', ->
       expect( @view.model.collection ).toEqual @collection

@@ -1,5 +1,5 @@
 class Sayings.Views.NewComment extends Backbone.View
-  id: 'new-comment'
+  className: 'new-comment'
 
   initialize: ->
     _.bindAll( this, 'render', 'new', 'save', 'saved' )

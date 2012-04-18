@@ -14,6 +14,10 @@ describe 'comment show view', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good comment")'
 
+    it 'displays a link containing the number of entries in a child exchange if one exists', ->
+      @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
+      expect( $( @view.render().el ) ).toContain 'a:contains("11 entries")'
+
     describe 'respondability', ->
       beforeEach ->
         @newExchange = new Backbone.Model()
@@ -28,15 +32,22 @@ describe 'comment show view', ->
       describe 'if the comment is on one of the current user\'s entries', ->
         beforeEach ->
           Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
-          @view.render()
 
         it 'builds a new exchange model', ->
+          @view.render()
           expect( @newExchangeStub ).toHaveBeenCalledOnce()
           expect( @newExchangeStub ).toHaveBeenCalledWith initial_values: { parent_exchange_id: '123', parent_entry_id: '456', parent_comment_id: '789' }
 
         it 'displays a respond link if the comment is on one of the current user\'s entries', ->
+          @view.render()
           expect( @newExchangeViewStub ).toHaveBeenCalledOnce()
           expect( @newExchangeViewStub ).toHaveBeenCalledWith model: @newExchange
+
+        it 'does not display a respond link if the comment already has a child exchange', ->
+          @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
+          @view.render()
+          expect( @newExchangeViewStub ).not.toHaveBeenCalled()
+
 
       it 'does not display a respond link if the user does not have rights', ->
         Sayings.currentUser = new Sayings.Models.UserSession '_id': 1

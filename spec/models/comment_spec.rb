@@ -17,6 +17,13 @@ describe Comment do
     specify { subject.entry_user_id.should == user.id }
     specify { subject.exchange_id.should == exchange.id }
     specify { subject.entry_id.should == entry.id }
+
+    it 'returns info about a child exchange' do
+      child_exchange = FactoryGirl.create( :exchange )
+      child_exchange.entries = FactoryGirl.create_list :entry, 11
+      subject.child_exchange = child_exchange
+      subject.child_exchange_data.should == { id: child_exchange.id, entry_count: 11 } 
+    end
   end
 
   it "requires the existence of a user" do

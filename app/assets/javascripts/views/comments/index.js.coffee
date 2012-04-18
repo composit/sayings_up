@@ -6,7 +6,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
     @collection.on 'add', @render
 
   render: ->
-    $( @el ).html JST['comments/index']
+    $( @el ).html ''
     @addComments()
     @newComment() if Sayings.currentUser and Sayings.currentUser.id
     return this
@@ -15,9 +15,9 @@ class Sayings.Views.CommentsIndex extends Backbone.View
     @collection.each @addComment
 
   addComment: ( comment ) ->
-    commentView = new Sayings.Views.ShowComment { model: comment }
-    @$( '.comments' ).append commentView.render().el
+    commentView = new Sayings.Views.ShowComment model: comment
+    $( @el ).append commentView.render().el
 
   newComment: ->
-    newCommentView = new Sayings.Views.NewComment { collection: @collection }
-    @$( '.comments' ).append newCommentView.render().el
+    newCommentView = new Sayings.Views.NewComment collection: @collection
+    $( @el ).append newCommentView.render().el
