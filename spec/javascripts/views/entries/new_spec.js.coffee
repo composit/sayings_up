@@ -34,6 +34,7 @@ describe 'new entry view', ->
     describe 'when the save is successful', ->
       beforeEach ->
         @callback = sinon.spy @view.model, 'save'
+        @parseSpy = sinon.spy @view.model, 'parseComments'
         @addSpy = sinon.spy @collection, 'add'
         @$el = $( @view.render().el )
         @server.respondWith 'POST', '/exchanges/123/entries', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
@@ -44,6 +45,10 @@ describe 'new entry view', ->
 
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
+
+      it 'parses the comments to give them the correct url', ->
+        #TODO it seems like this should be an event the model itself listens for
+        expect( @parseSpy ).toHaveBeenCalledOnce()
 
       it 'adds the model to the collection', ->
         expect( @addSpy ).toHaveBeenCalledOnce()

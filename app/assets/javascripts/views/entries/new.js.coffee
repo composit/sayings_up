@@ -26,4 +26,5 @@ class Sayings.Views.NewEntry extends Backbone.View
     return false
 
   saved: ->
+    @model.parseComments()
     @collection.add @model
