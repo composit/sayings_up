@@ -5,7 +5,7 @@ describe EntriesController do
     let( :current_user ) { stub }
     let( :entry ) { mock_model( Entry ).as_null_object }
     let( :entries ) { stub( new: entry ) }
-    let( :exchange ) { mock_model Exchange, entries: entries }
+    let( :exchange ) { mock_model( Exchange, entries: entries ).as_null_object }
     let( :ability ) { Object.new }
     let( :params ) { { exchange_id: 123, entry: {}, format: :json } }
 
@@ -31,7 +31,7 @@ describe EntriesController do
     end
 
     it 'saves the entry' do
-      entry.should_receive :save
+      exchange.should_receive :save
     end
   end
 end

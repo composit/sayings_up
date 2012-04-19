@@ -7,7 +7,7 @@ describe CommentsController do
     let( :comments ) { stub( new: comment ) }
     let( :entry ) { mock_model Entry, comments: comments }
     let( :entries ) { stub }
-    let( :exchange ) { mock_model Exchange, entries: entries }
+    let( :exchange ) { mock_model( Exchange, entries: entries ).as_null_object }
     let( :ability ) { Object.new }
     let( :params ) { { exchange_id: 123, entry_id: 456, comment: {}, format: :json } }
 
@@ -39,7 +39,7 @@ describe CommentsController do
     end
 
     it 'saves the comment' do
-      comment.should_receive :save
+      exchange.should_receive :save
     end
   end
 end

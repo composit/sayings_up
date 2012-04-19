@@ -122,6 +122,13 @@ describe Exchange do
     end
   end
 
+  it 'cascades callbacks' do
+    exchange = FactoryGirl.build :exchange
+    exchange.entries = [FactoryGirl.build( :entry ), FactoryGirl.build( :entry )]
+    exchange.save!
+    exchange.entries.each { |entry| entry.created_at.should_not be_nil }
+  end
+
   it "adds users" do
     pending
     user_1 = FactoryGirl( :user )

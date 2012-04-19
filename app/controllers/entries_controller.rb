@@ -30,7 +30,7 @@ class EntriesController < ApplicationController
 =end
   def create
     @entry.user = current_user
-    @entry.save
+    @exchange.save
     respond_with @exchange, @entry
   end
 end

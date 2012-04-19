@@ -8,7 +8,7 @@ class Entry
   attr_accessible :content
 
   embedded_in :exchange
-  embeds_many :comments
+  embeds_many :comments, cascade_callbacks: true
   belongs_to :user
 
   def as_json( options = {} )
