@@ -90,7 +90,7 @@ describe 'user participates in an exchange', %q{
           fill_in 'content', with: 'test response'
           click_button 'Respond'
         end
-        page.should have_content 'Good comment (2)'
+        page.should have_content '2 entries'
       end
     end
   end

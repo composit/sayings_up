@@ -1,31 +1,29 @@
 class Sayings.Routers.Exchanges extends Backbone.Router
   initialize: ( options ) ->
+    _.bindAll( this, 'index', 'show', 'renderExchange' )
     @collection = options.collection
 
   routes:
-    #'/new': 'newExchange'
-    #'/:id/edit': 'edit'
     '': 'index'
     'e/:id': 'show'
 
-  #newExchange: ->
-  #  @view = new Sayings.Views.NewExchange(collection: @exchanges)
-  #  $('#exchanges').html(@view.render().el)
-
   index: ->
-    view = new Sayings.Views.ExchangesIndex( { collection: @collection } )
-    $( '#exchanges' ).html( view.render().el )
-    #user_session_view = new Sayings.Views.UserSession( { model: new Sayings.Models.UserSession() } )
-    #$( '#account' ).html( user_session_view.render().el )
+    view = new Sayings.Views.ExchangesIndex collection: @collection
+    $( '#exchanges' ).html view.render().el
 
   show: ( id ) ->
-    exchange = @collection.get( id )
+    if exchange = @collection.get id
+      @renderExchange exchange
+    else
+      exchange = new Sayings.Models.Exchange _id: id
+      @collection.add exchange
+      exchange.fetch(
+        success: =>
+          exchange.parseEntries()
+          @renderExchange( exchange )
+      )
    
-    @view = new Sayings.Views.ShowExchange( model: exchange )
-    $( '#exchanges' ).html( @view.render().el )
-    
-  #edit: (id) ->
-  #  exchange = @exchanges.get(id)
 
-  #  @view = new Sayings.Views.EditExchange(model: exchange)
-  #  $('#exchanges').html(@view.render().el)
+  renderExchange: ( exchange ) ->
+    view = new Sayings.Views.ShowExchange model: exchange
+    $( '#exchanges' ).html view.render().el
