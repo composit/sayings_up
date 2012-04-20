@@ -6,7 +6,6 @@ class Sayings.Models.Entry extends Backbone.Model
     content: null
 
   initialize: ->
-    #@parseComments()
     @parseComments()
 
   parseComments: =>
