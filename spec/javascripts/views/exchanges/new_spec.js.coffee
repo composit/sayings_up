@@ -1,7 +1,8 @@
 describe 'new entry view', ->
   beforeEach ->
     @model = new Backbone.Model parent_exchange_id: '123', parent_entry_id: '456', parent_comment_id: '789'
-    @view = new Sayings.Views.NewExchange model: @model
+    @parent_comment = new Backbone.Model()
+    @view = new Sayings.Views.NewExchange model: @model, parent_comment: @parent_comment
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -35,13 +36,21 @@ describe 'new entry view', ->
     describe 'when the save is successful', ->
       #TODO test values sent in all forms
       beforeEach ->
-        @callback = sinon.spy @view.model, 'save'
+        @callback = sinon.spy @model, 'save'
+        @setSpy = sinon.spy @parent_comment, 'set'
         $el = $( @view.render().el )
-        @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
+        @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"_id":"234"}']
         $el.find( '.respond-link' ).click()
         $el.find( '#content' ).val 'Good exchange'
         $el.find( 'form' ).submit()
         @server.respond()
 
+      afterEach ->
+        @parent_comment.set.restore()
+
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
+
+      it 'sets the child exchange data on the parent comment', ->
+        expect( @setSpy ).toHaveBeenCalledOnce()
+        expect( @setSpy ).toHaveBeenCalledWith 'child_exchange_data', { id: '234', entry_count: 2 }

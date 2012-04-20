@@ -15,9 +15,6 @@ class Sayings.Views.NewExchange extends Backbone.View
 
   new: ->
     $( @el ).html JST['exchanges/new']
-    #$( @el ).find( '#parent_exchange_id' ).val @model.get 'parent_exchange_id'
-    #$( @el ).find( '#parent_entry_id' ).val @model.get 'parent_entry_id'
-    #$( @el ).find( '#parent_comment_id' ).val @model.get 'parent_comment_id'
     return false
 
   save: ->
@@ -31,6 +28,7 @@ class Sayings.Views.NewExchange extends Backbone.View
     return false
 
   saved: ->
+    @options.parent_comment.set( 'child_exchange_data', { id: @model.get( '_id' ), entry_count: 2 } )
   #template: JST["exchanges/new"]
   
   #events:

@@ -41,7 +41,7 @@ describe 'comment show view', ->
         it 'displays a respond link if the comment is on one of the current user\'s entries', ->
           @view.render()
           expect( @newExchangeViewStub ).toHaveBeenCalledOnce()
-          expect( @newExchangeViewStub ).toHaveBeenCalledWith model: @newExchange
+          expect( @newExchangeViewStub ).toHaveBeenCalledWith model: @newExchange, parent_comment: @comment
 
         it 'does not display a respond link if the comment already has a child exchange', ->
           @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }

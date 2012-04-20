@@ -1,10 +1,10 @@
 describe 'comments index view', ->
   beforeEach ->
-    @comment1 = new Backbone.Model { id: 1, content: 'One' }
-    @comment2 = new Backbone.Model { id: 2, content: 'Two' }
-    @comment3 = new Backbone.Model { id: 3, content: 'Three' }
+    @comment1 = new Backbone.Model id: 1, content: 'One'
+    @comment2 = new Backbone.Model id: 2, content: 'Two'
+    @comment3 = new Backbone.Model id: 3, content: 'Three'
     @comments = new Sayings.Collections.Comments [@comment1, @comment2, @comment3]
-    @view = new Sayings.Views.CommentsIndex { collection: @comments }
+    @view = new Sayings.Views.CommentsIndex collection: @comments
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -24,9 +24,9 @@ describe 'comments index view', ->
     it 'creates a Comment view for each comment', ->
       @view.render()
       expect( @commentViewStub ).toHaveBeenCalledThrice()
-      expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment1 }
-      expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment2 }
-      expect( @commentViewStub ).toHaveBeenCalledWith { model: @comment3 }
+      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment1
+      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment2
+      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment3
 
     describe 'respondability', ->
       beforeEach ->
@@ -37,7 +37,7 @@ describe 'comments index view', ->
         Sayings.Views.NewComment.restore()
 
       it 'displays a comment link if the user is logged in', ->
-        Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
+        Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
         @view.render()
         expect( @newCommentViewStub ).toHaveBeenCalledOnce()
       
@@ -46,10 +46,18 @@ describe 'comments index view', ->
         @view.render()
         expect( @newCommentViewStub ).not.toHaveBeenCalled()
 
-  describe 'adding comments', ->
+  describe 'updating comments', ->
+    beforeEach ->
+      @renderSpy = sinon.spy Sayings.Views.CommentsIndex.prototype, 'render'
+      @commentsView = new Sayings.Views.CommentsIndex collection: @comments
+
+    afterEach ->
+      @renderSpy.restore()
+
     it 'renders whenever a comment is added', ->
-      renderSpy = sinon.spy( Sayings.Views.CommentsIndex.prototype, 'render' )
-      view = new Sayings.Views.CommentsIndex { collection: @comments }
-      view.collection.trigger( 'add' )
-      expect( renderSpy ).toHaveBeenCalled()
-      renderSpy.restore()
+      @commentsView.collection.trigger 'add'
+      expect( @renderSpy ).toHaveBeenCalledOnce()
+
+    it 'renders when the comments are changed', ->
+      @commentsView.collection.trigger 'change'
+      expect( @renderSpy ).toHaveBeenCalledOnce()

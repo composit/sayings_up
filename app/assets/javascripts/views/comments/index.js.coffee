@@ -4,6 +4,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
   initialize: ->
     _.bindAll( this, 'render', 'addComments', 'addComment', 'newComment' )
     @collection.on 'add', @render
+    @collection.on 'change', @render
 
   render: ->
     $( @el ).html ''
