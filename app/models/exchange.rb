@@ -12,7 +12,7 @@ class Exchange
   def as_json( options = {} )
     super(
       options.merge(
-        only: [:_id, :content],
+        only: [:_id, :content, :parent_exchange_id, :parent_entry_id, :parent_comment_id],
         methods: :ordered_user_ids,
         include: {
           entries: {

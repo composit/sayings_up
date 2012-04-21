@@ -4,12 +4,13 @@ class Sayings.Views.ShowExchange extends Backbone.View
   initialize: ->
     _.bindAll( this, 'render', 'addEntries', 'addEntry', 'addResponder' )
     @model.entries.on 'add', @render
-   
+
   render: ->
     $( @el ).html JST['exchanges/show'] @model
 
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
+    @addParentLink() if @model.get 'parent_exchange_id'
     return this
 
   addEntries: ->
@@ -18,7 +19,12 @@ class Sayings.Views.ShowExchange extends Backbone.View
   addEntry: ( entry ) ->
     entryView = new Sayings.Views.ShowEntry model: entry
     @$( '.entries' ).append entryView.render().el
+    if @options.entryId == entry.id
+      entryView.showComments()
 
   addResponder: ->
     newEntryView = new Sayings.Views.NewEntry collection: @model.entries
     @$( '.entries' ).append newEntryView.render().el
+
+  addParentLink: ->
+    $( @el ).prepend '<a href="#e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' ) + '">back</a>'

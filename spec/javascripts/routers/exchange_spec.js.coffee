@@ -71,3 +71,6 @@ describe 'exchange routes', ->
 
       it 'parses the exchange\'s entries', ->
         expect( @parseSpy ).toHaveBeenCalledOnce()
+
+    it 'passes along the entry and comment ids if set', ->
+      #TODO pass along

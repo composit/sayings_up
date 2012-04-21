@@ -5,25 +5,25 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   routes:
     '': 'index'
+    'e/:id/:entryId/:commentId': 'show'
     'e/:id': 'show'
 
   index: ->
     view = new Sayings.Views.ExchangesIndex collection: @collection
     $( '#exchanges' ).html view.render().el
 
-  show: ( id ) ->
+  show: ( id, entryId, commentId ) ->
     if exchange = @collection.get id
-      @renderExchange exchange
+      @renderExchange exchange, entryId, commentId
     else
       exchange = new Sayings.Models.Exchange _id: id
       @collection.add exchange
       exchange.fetch(
         success: =>
           exchange.parseEntries()
-          @renderExchange( exchange )
+          @renderExchange exchange, entryId, commentId
       )
-   
 
-  renderExchange: ( exchange ) ->
-    view = new Sayings.Views.ShowExchange model: exchange
-    $( '#exchanges' ).html view.render().el
+  renderExchange: ( exchange, entryId, commentId ) ->
+    @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
+    $( '#exchanges' ).html @view.render().el
