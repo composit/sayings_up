@@ -44,10 +44,21 @@ describe 'exchange routes', ->
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '999'
 
+    it 'fires the show route with entry and comment ids', ->
+      @router.on 'route:show', @routeSpy
+      @router.navigate 'e/123/456/789', { trigger: true }
+      expect( @routeSpy ).toHaveBeenCalledOnce()
+      expect( @routeSpy ).toHaveBeenCalledWith '123', '456', '789'
+
     it 'renders the show view', ->
       @router.show '999'
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
-      expect( @exchangeViewStub ).toHaveBeenCalledWith( model: @exchange )
+      expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: undefined, commentId: undefined
+
+    it 'renders the show view with entry and comment ids', ->
+      @router.show '999', '456', '789'
+      expect( @exchangeViewStub ).toHaveBeenCalledOnce()
+      expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: '456', commentId: '789'
 
     describe 'when the exchange info isn\'t already loaded', ->
       beforeEach ->
@@ -71,6 +82,3 @@ describe 'exchange routes', ->
 
       it 'parses the exchange\'s entries', ->
         expect( @parseSpy ).toHaveBeenCalledOnce()
-
-    it 'passes along the entry and comment ids if set', ->
-      #TODO pass along

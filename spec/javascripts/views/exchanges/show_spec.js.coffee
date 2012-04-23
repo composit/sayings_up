@@ -4,7 +4,7 @@ describe 'exchange show view', ->
     @entry2 = new Backbone.Model id: 2, content: 'Two'
     @entry3 = new Backbone.Model id: 3, content: 'Three'
     @exchange = new Sayings.Models.Exchange id: 4, ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3]
-    @view = new Sayings.Views.ShowExchange model: @exchange
+    @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -21,15 +21,12 @@ describe 'exchange show view', ->
     afterEach ->
       Sayings.Views.ShowEntry.restore()
 
-    it 'creates an Entry view for each entry', ->
+    it 'creates an Entry view for each entry, with a comment id if appropriate', ->
       @view.render()
       expect( @entryViewStub ).toHaveBeenCalledThrice()
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry1
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry2
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry3
-
-    it 'expands the comments for an entry if specified', ->
-      #TODO expand comments
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry1, commentId: undefined
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry2, commentId: 9
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry3, commentId: undefined
 
     describe 'respondability', ->
       beforeEach ->

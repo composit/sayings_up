@@ -1,7 +1,7 @@
 describe 'entry show view', ->
   beforeEach ->
-    @entry = new Sayings.Models.Entry { id: 123, content: 'Good entry', comments: [{ '_id': '123' }] }
-    @view = new Sayings.Views.ShowEntry { model: @entry }
+    @entry = new Sayings.Models.Entry id: 123, content: 'Good entry', comments: [{ '_id': '123' }]
+    @view = new Sayings.Views.ShowEntry model: @entry
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -15,13 +15,23 @@ describe 'entry show view', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good entry")'
 
   describe 'comments', ->
-    it 'renders the comments when the comments link is clicked', ->
-      commentIndexView = new Backbone.View()
-      commentIndexViewStub = sinon.stub( Sayings.Views, 'CommentsIndex' ).returns commentIndexView
-      $( @view.render().el ).find( '.show-comments' ).click()
-      expect( commentIndexViewStub ).toHaveBeenCalled()
-      expect( commentIndexViewStub ).toHaveBeenCalledWith { collection: @entry.comments }
+    beforeEach ->
+      @commentIndexView = new Backbone.View()
+      @commentIndexViewStub = sinon.stub( Sayings.Views, 'CommentsIndex' ).returns @commentIndexView
+      
+    afterEach ->
       Sayings.Views.CommentsIndex.restore()
+
+    it 'shows the comments if a comment id is set', ->
+      viewWithComments = new Sayings.Views.ShowEntry model: @entry, commentId: 456
+      viewWithComments.render()
+      expect( @commentIndexViewStub ).toHaveBeenCalled()
+      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments, commentId: @options.commentId
+
+    it 'renders the comments when the comments link is clicked', ->
+      $( @view.render().el ).find( '.show-comments' ).click()
+      expect( @commentIndexViewStub ).toHaveBeenCalled()
+      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments, commentId: undefined
 
     #beforeEach ->
     #  @newCommentView = new Backbone.View()
