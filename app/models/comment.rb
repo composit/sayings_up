@@ -11,15 +11,15 @@ class Comment
   has_one :child_exchange, class_name: 'Exchange', inverse_of: :parent_comment
 
   def as_json( options = {} )
-    super( options.merge( only: [:_id, :content] ) )
+    super( options.merge( only: [:_id, :content], methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username] ) )
   end
 
   def exchange_id
-    entry.exchange.id
+    entry && entry.exchange && entry.exchange.id
   end
 
   def entry_id
-    entry.id
+    entry.id if entry
   end
 
   def entry_user_id
@@ -28,6 +28,10 @@ class Comment
 
   def child_exchange_data
     { id: child_exchange.id, entry_count: child_exchange.entries.count } if child_exchange
+  end
+
+  def user_username
+    user.username if user
   end
 =begin
   belongs_to_related :user

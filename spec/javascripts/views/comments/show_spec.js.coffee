@@ -1,6 +1,6 @@
 describe 'comment show view', ->
   beforeEach ->
-    @comment = new Sayings.Models.Comment _id: '789', content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456'
+    @comment = new Sayings.Models.Comment _id: '789', content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456', user_username: 'test user'
     @view = new Sayings.Views.ShowComment model: @comment
 
   describe 'instantiation', ->
@@ -12,7 +12,10 @@ describe 'comment show view', ->
 
   describe 'rendering', ->
     it 'displays the content', ->
-      expect( $( @view.render().el ) ).toContain 'div.content:contains("Good comment")'
+      expect( $( @view.render().el ) ).toContain 'p.content:contains("Good comment")'
+
+    it 'displays the username', ->
+      expect( $( @view.render().el ) ).toContain '.comment-footer .username:contains("test user")'
 
     describe 'current', ->
       it 'adds a current class if current is set to true', ->

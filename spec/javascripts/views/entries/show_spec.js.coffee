@@ -1,6 +1,6 @@
 describe 'entry show view', ->
   beforeEach ->
-    @entry = new Sayings.Models.Entry _id: 123, content: 'Good entry', comments: [{ '_id': '123' }]
+    @entry = new Sayings.Models.Entry _id: 123, content: 'Good entry', comments: [{ '_id': '123' },{},{}], user_username: 'test user'
     @view = new Sayings.Views.ShowEntry model: @entry
     @entries = new Backbone.Collection
     @entries.add @entry
@@ -16,6 +16,9 @@ describe 'entry show view', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain '.content:contains("Good entry")'
 
+    it 'displays the username', ->
+      expect( $( @view.render().el ) ).toContain '.entry-footer .username:contains("test user")'
+
     describe 'current', ->
       it 'adds a current class if current is set to true', ->
         @entry.set 'current', true
@@ -23,6 +26,9 @@ describe 'entry show view', ->
 
       it 'does not add a current class if current is not set to true', ->
         expect( $( @view.render().el ) ).not.toHaveClass 'current'
+
+      it 'displays the number of comments', ->
+        expect( $( @view.render().el ) ).toContain 'a:contains("3 comments")'
 
   describe 'comments', ->
     beforeEach ->

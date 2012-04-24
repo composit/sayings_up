@@ -6,7 +6,7 @@ describe Comment do
   end
 
   it 'only includes the id and content in the json' do
-    subject.to_json.should =~ /{\"_id\":\"\w+\",\"content\":null}/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}$/
   end
 
   context 'exchange and entry values' do
@@ -24,6 +24,11 @@ describe Comment do
       subject.child_exchange = child_exchange
       subject.child_exchange_data.should == { id: child_exchange.id, entry_count: 11 } 
     end
+  end
+
+  it 'returns the user\'s username' do
+    subject.user = FactoryGirl.build :user, username: 'test user'
+    subject.user_username.should == 'test user'
   end
 
   it "requires the existence of a user" do

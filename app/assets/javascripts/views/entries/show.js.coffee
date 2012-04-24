@@ -11,6 +11,8 @@ class Sayings.Views.ShowEntry extends Backbone.View
   render: ->
     $( @el ).html JST['entries/show'] @model
     @$( '.content' ).html @model.get 'content'
+    @$( '.username' ).html @model.get 'user_username'
+    @$( '.show-comments' ).html @model.comments.length + ' comments'
     if @model.get 'current'
       $( @el ).addClass 'current'
     else

@@ -6,7 +6,7 @@ describe Exchange do
   end
 
   it "only includes the id, entries and user_id attributes in the json" do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"parent_comment_id\":\w+,\"parent_entry_id\":\w+,\"parent_exchange_id\":\w+,\"ordered_user_ids\":\[\],\"entries\":\[\]}$/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"parent_comment_id\":null,\"parent_entry_id\":null,\"parent_exchange_id\":null,\"ordered_user_ids\":\[\],\"entries\":\[\]}$/
     #TODO test instances with entries/comments
   end
 
