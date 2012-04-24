@@ -11,6 +11,7 @@ class Sayings.Views.ShowComment extends Backbone.View
       @addChildLink()
     else if Sayings.currentUser and Sayings.currentUser.id == @model.get 'entry_user_id'
       @addResponder()
+    $( @el ).addClass( 'current' ) if @model.get 'current'
     return this
 
   addResponder: ->

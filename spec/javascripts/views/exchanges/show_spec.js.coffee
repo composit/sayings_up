@@ -1,8 +1,9 @@
 describe 'exchange show view', ->
   beforeEach ->
-    @entry1 = new Backbone.Model id: 1, content: 'One'
-    @entry2 = new Backbone.Model id: 2, content: 'Two'
-    @entry3 = new Backbone.Model id: 3, content: 'Three'
+    @comment = new Sayings.Models.Comment _id: 9
+    @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comments: []
+    @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comments: [@comment]
+    @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comments: []
     @exchange = new Sayings.Models.Exchange id: 4, ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
@@ -15,18 +16,28 @@ describe 'exchange show view', ->
 
   describe 'rendering', ->
     beforeEach ->
-      @entryView = new Backbone.View()
+      @showSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'showComments'
+      @entryView = new Sayings.Views.ShowEntry model: @entry2
       @entryViewStub = sinon.stub( Sayings.Views, 'ShowEntry' ).returns @entryView
 
     afterEach ->
-      Sayings.Views.ShowEntry.restore()
+      @showSpy.restore()
+      @entryViewStub.restore()
 
-    it 'creates an Entry view for each entry, with a comment id if appropriate', ->
+    it 'creates an Entry view for each entry', ->
       @view.render()
       expect( @entryViewStub ).toHaveBeenCalledThrice()
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry1, commentId: undefined
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry2, commentId: 9
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry3, commentId: undefined
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry1
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry2
+      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry3
+
+    it 'shows the comments for an entry if indicated', ->
+      @view.render()
+      expect( @showSpy ).toHaveBeenCalledOnce()
+
+    it 'adds a "current" designation to a comment if indicated', ->
+      @view.render()
+      expect( @comment.get 'current' ).toBeTruthy()
 
     describe 'respondability', ->
       beforeEach ->
@@ -56,7 +67,8 @@ describe 'exchange show view', ->
   describe 'adding entries', ->
     it 'renders whenever an entry is added', ->
       renderSpy = sinon.spy Sayings.Views.ShowExchange.prototype, 'render'
-      view = new Sayings.Views.ShowExchange model: @exchange
+      exchange = new Sayings.Models.Exchange entries: []
+      view = new Sayings.Views.ShowExchange model: exchange
       view.model.entries.trigger 'add'
       expect( renderSpy ).toHaveBeenCalled()
       renderSpy.restore()

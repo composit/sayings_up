@@ -22,16 +22,10 @@ describe 'entry show view', ->
     afterEach ->
       Sayings.Views.CommentsIndex.restore()
 
-    it 'shows the comments if a comment id is set', ->
-      viewWithComments = new Sayings.Views.ShowEntry model: @entry, commentId: 456
-      viewWithComments.render()
-      expect( @commentIndexViewStub ).toHaveBeenCalled()
-      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments, commentId: @options.commentId
-
     it 'renders the comments when the comments link is clicked', ->
       $( @view.render().el ).find( '.show-comments' ).click()
       expect( @commentIndexViewStub ).toHaveBeenCalled()
-      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments, commentId: undefined
+      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments
 
     #beforeEach ->
     #  @newCommentView = new Backbone.View()

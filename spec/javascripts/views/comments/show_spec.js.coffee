@@ -14,6 +14,14 @@ describe 'comment show view', ->
     it 'displays the content', ->
       expect( $( @view.render().el ) ).toContain 'div.content:contains("Good comment")'
 
+    describe 'current', ->
+      it 'adds a current class if current is set to true', ->
+        @comment.set 'current', true
+        expect( $( @view.render().el ) ).toHaveClass 'current'
+
+      it 'does not add a current class if current is not set to true', ->
+        expect( $( @view.render().el ) ).not.toHaveClass 'current'
+
     it 'displays a link containing the number of entries in a child exchange if one exists', ->
       @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
       expect( $( @view.render().el ) ).toContain 'a:contains("11 entries")'

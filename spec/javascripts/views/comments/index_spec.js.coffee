@@ -4,7 +4,7 @@ describe 'comments index view', ->
     @comment2 = new Backbone.Model id: 2, content: 'Two'
     @comment3 = new Backbone.Model id: 3, content: 'Three'
     @comments = new Sayings.Collections.Comments [@comment1, @comment2, @comment3]
-    @view = new Sayings.Views.CommentsIndex collection: @comments
+    @view = new Sayings.Views.CommentsIndex collection: @comments, commentId: 2
 
   describe 'instantiation', ->
     it 'creates a div element', ->

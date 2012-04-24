@@ -122,20 +122,25 @@ a:hover, a:active {
         font-weight: bold;
         color: #d2d0c0;
       }
+    }
 
-      .comments {
+    .comments {
+      margin: 10px 0;
+      font-size: .8em;
+      color: #888;
+      background-color: #444;
+      line-height: 1.2em;
+
+      .comment {
         margin: 10px 0;
-        font-size: .8em;
-        color: #888;
-        background-color: #444;
-        line-height: 1.2em;
+      }
 
-        .comment {
-          margin: 10px 0;
-        }
+      .current .content {
+        color: red;
       }
     }
   }
+
   #sidebar {
     float: right;
     width: 200px;
@@ -149,6 +154,7 @@ a:hover, a:active {
         font-size: 1.2em;
       }
   }
+
   #footer {
     clear: both;
     font-size: .8em;

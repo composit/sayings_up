@@ -10,7 +10,6 @@ class Sayings.Views.ShowEntry extends Backbone.View
   render: ->
     $( @el ).html JST['entries/show'] @model
     @$( '.content' ).html @model.get 'content'
-    @showComments() unless typeof @options.commentId == 'undefined'
     return this
 
   showComments: ->
