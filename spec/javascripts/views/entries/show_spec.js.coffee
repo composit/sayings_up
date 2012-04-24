@@ -1,7 +1,9 @@
 describe 'entry show view', ->
   beforeEach ->
-    @entry = new Sayings.Models.Entry id: 123, content: 'Good entry', comments: [{ '_id': '123' }]
+    @entry = new Sayings.Models.Entry _id: 123, content: 'Good entry', comments: [{ '_id': '123' }]
     @view = new Sayings.Views.ShowEntry model: @entry
+    @entries = new Backbone.Collection
+    @entries.add @entry
 
   describe 'instantiation', ->
     it 'creates a div element', ->
@@ -12,7 +14,15 @@ describe 'entry show view', ->
 
   describe 'rendering', ->
     it 'displays the content', ->
-      expect( $( @view.render().el ) ).toContain 'div.content:contains("Good entry")'
+      expect( $( @view.render().el ) ).toContain '.content:contains("Good entry")'
+
+    describe 'current', ->
+      it 'adds a current class if current is set to true', ->
+        @entry.set 'current', true
+        expect( $( @view.render().el ) ).toHaveClass 'current'
+
+      it 'does not add a current class if current is not set to true', ->
+        expect( $( @view.render().el ) ).not.toHaveClass 'current'
 
   describe 'comments', ->
     beforeEach ->
@@ -26,6 +36,25 @@ describe 'entry show view', ->
       $( @view.render().el ).find( '.show-comments' ).click()
       expect( @commentIndexViewStub ).toHaveBeenCalled()
       expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments
+
+    it 'marks itself as the current entry', ->
+      @view.showComments()
+      expect( @view.model.get 'current' ).toBeTruthy()
+
+    it 'unmarks other current entries', ->
+      otherEntry = new Sayings.Models.Entry _id: 456
+      otherEntry.set 'current', true
+      @entries.add otherEntry
+      @view.showComments()
+      expect( otherEntry.get 'current' ).toBeFalsy()
+
+  it 're-renders if the model\'s current state changes', ->
+    renderSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'render'
+    entry = new Sayings.Models.Entry
+    view = new Sayings.Views.ShowEntry model: entry
+    view.model.trigger 'change:current'
+    expect( renderSpy ).toHaveBeenCalled()
+    renderSpy.restore()
 
     #beforeEach ->
     #  @newCommentView = new Backbone.View()

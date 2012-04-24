@@ -103,40 +103,54 @@ a:hover, a:active {
     width: 830px;
     padding: 5px;
 
-    .entry {
-      margin: 40px 0;
+    .entries {
+      float: left;
+      width: 520px;
 
-      p {
-        font-family: Georgia, 'Times New Roman', Times, serif;
-        font-size: 15px;
-        font-weight: 400;
-        text-align: justify;
-        line-height: 1.5em;
-        color: #fff;
-      }
+      .entry {
+        margin: 40px 0;
 
-      .entry-footer {
-        clear: both;
-        text-align: right;
-        font-size: .8em;
-        font-weight: bold;
-        color: #d2d0c0;
-      }
-    }
+        p {
+          font-family: Georgia, 'Times New Roman', Times, serif;
+          font-size: 15px;
+          font-weight: 400;
+          text-align: justify;
+          line-height: 1.5em;
+          color: #fff;
+        }
 
-    .comments {
-      margin: 10px 0;
-      font-size: .8em;
-      color: #888;
-      background-color: #444;
-      line-height: 1.2em;
-
-      .comment {
-        margin: 10px 0;
+        .entry-footer {
+          clear: both;
+          text-align: right;
+          font-size: .8em;
+          font-weight: bold;
+          color: #d2d0c0;
+        }
       }
 
       .current .content {
-        color: red;
+        border: 1px solid red;
+      }
+    }
+
+    .comment-area {
+      float: left;
+      width: 300px;
+
+      .comments {
+        margin: 10px 0;
+        font-size: .8em;
+        color: #888;
+        background-color: #444;
+        line-height: 1.2em;
+
+        .comment {
+          margin: 10px 0;
+        }
+
+        .current .content {
+          border: 1px solid red;
+        }
       }
     }
   }
