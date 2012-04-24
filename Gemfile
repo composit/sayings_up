@@ -20,6 +20,7 @@ end
 gem 'backbone-support'
 gem 'bcrypt-ruby'
 gem 'cancan'
+gem 'capistrano'
 gem 'jquery-rails'
 gem 'rails-backbone'
 gem 'ejs'
