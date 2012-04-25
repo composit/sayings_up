@@ -3,21 +3,20 @@ set :repository,  "git@github.com:composit/sayings_up.git"
 set :user, 'root'
 set :branch, 'master'
 set :deploy_via, :remote_cache
+ssh_options[:forward_agent] = true
 
 require 'capistrano/ext/multistage'
 set :stages, %w( staging )
 set :default_stage, 'staging'
 
 require 'rvm/capistrano'
-set :rvm_ruby_string, '1.9.3'
+set :rvm_type, :system
+set :rvm_ruby_string, '1.9.3-p125'
 
 set :scm, :git
 # Or: `accurev`, `bzr`, `cvs`, `darcs`, `git`, `mercurial`, `perforce`, `subversion` or `none`
 
 server 'parasites', :app, :web, :db, primary: true
-
-# if you want to clean up old releases on each deploy uncomment this:
-after "deploy:restart", "deploy:cleanup"
 
 # if you're still using the script/reaper helper you will need
 # these http://github.com/rails/irs_process_scripts
