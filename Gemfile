@@ -53,3 +53,7 @@ group :development, :test do
   gem 'pry-rails'
   gem 'rspec-rails'
 end
+
+group :staging do
+  gem 'passenger'
+end
