@@ -22,7 +22,10 @@ class Sayings.Views.ShowEntry extends Backbone.View
   showComments: ->
     @model.collection.each @markCurrent
     commentsView = new Sayings.Views.CommentsIndex collection: @model.comments
-    $( @el ).parents( '.exchange' ).find( '.comment-area' ).html commentsView.render().el
+    $previousComments = $( @el ).parents( '.exchange' ).find( '.comments' ).last()
+    $( @el ).parents( '.exchange' ).find( '.comment-area' ).append commentsView.render().el
+    distance = $previousComments.height() + 10
+    $previousComments.animate { 'margin-top': '-' + distance + 'px' }, 1000, 'easeInOutQuart'
     return false
 
   markCurrent: ( entry ) ->

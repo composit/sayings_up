@@ -10,6 +10,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
     $( @el ).html ''
     @addComments()
     @newComment() if Sayings.currentUser and Sayings.currentUser.id
+    $( window ).scroll( @scrollHappened )
     return this
 
   addComments: ->
@@ -22,3 +23,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
   newComment: ->
     newCommentView = new Sayings.Views.NewComment collection: @collection
     $( @el ).append newCommentView.render().el
+
+  scrollHappened: ->
+    position = $( 'html body' ).scrollTop()
+    $( '.comments' ).last().offset { top: 58 + position * 0.5 }

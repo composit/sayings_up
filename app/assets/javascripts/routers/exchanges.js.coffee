@@ -26,4 +26,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   renderExchange: ( exchange, entryId, commentId ) ->
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
-    $( '#exchanges' ).html @view.render().el
+    $previousExchange = $( '#exchanges .exchange' ).last()
+    $( '#exchanges' ).append @view.render().el
+    distance = $previousExchange.height()
+    $previousExchange.animate { 'margin-top': '-' + distance + 'px' }, 1000, 'easeInOutQuart'
