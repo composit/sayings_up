@@ -23,6 +23,7 @@ gem 'cancan'
 gem 'capistrano'
 gem 'jquery-rails'
 gem 'rails-backbone'
+gem 'rvm-capistrano'
 gem 'ejs'
 
 # Use unicorn as the web server
