@@ -6,7 +6,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
     @model.entries.on 'add', @render
 
   render: ->
-    $( @el ).html JST['exchanges/show'] @model
+    $( @el ).html JST['exchanges/show']
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
     @addParentLink() if @model.get 'parent_exchange_id'

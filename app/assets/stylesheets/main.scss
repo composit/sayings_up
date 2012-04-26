@@ -102,46 +102,47 @@ a:hover, a:active {
     float: left;
     width: 850px;
     padding: 5px;
-  }
-
-  #exchanges {
     overflow: hidden;
-    .exchange {
-      border: 1px solid red;
-    }
   }
 
-  .entries {
+  #entries-column {
     float: left;
     width: 520px;
+    position: relative;
 
-    .entry {
-      margin: 40px 0;
+    .exchange {
+      position: relative;
 
-      p {
-        font-family: Georgia, 'Times New Roman', Times, serif;
-        font-size: 15px;
-        font-weight: 400;
-        text-align: justify;
-        line-height: 1.5em;
-        color: #fff;
+      .entries {
+        .entry {
+          margin: 40px 0;
+
+          p {
+            font-family: Georgia, 'Times New Roman', Times, serif;
+            font-size: 15px;
+            font-weight: 400;
+            text-align: justify;
+            line-height: 1.5em;
+            color: #fff;
+          }
+
+          .entry-footer {
+            clear: both;
+            text-align: right;
+            font-size: .8em;
+            font-weight: bold;
+            color: #d2d0c0;
+          }
+        }
+
+        .current .content {
+          border: 1px solid red;
+        }
       }
-
-      .entry-footer {
-        clear: both;
-        text-align: right;
-        font-size: .8em;
-        font-weight: bold;
-        color: #d2d0c0;
-      }
-    }
-
-    .current .content {
-      border: 1px solid red;
     }
   }
 
-  .comment-area {
+  #comments-column {
     float: left;
     width: 300px;
     position: relative;
