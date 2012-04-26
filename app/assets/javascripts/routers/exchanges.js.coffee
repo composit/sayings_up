@@ -29,11 +29,12 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     $previousExchange = $( '#entries-column .exchange' ).last()
     @$el = $( @view.render().el )
     if typeof entryId != 'undefined'
-      distance = @$el.outerHeight true
-      @$el.css( 'top', -1 * distance + 'px' )
-      $( '#entries-column' ).prepend @$el
-      #@$el.animate { 'top': 0 }, 1000, 'easeInOutQuart'
-      $previousExchange.hide 'slow', -> $previousExchange.remove()
+      $previousExchange.animate { 'top': '1000px' }, 500, 'easeInQuart', =>
+        $( '#entries-column' ).prepend @$el
+        distance = @$el.outerHeight true
+        @$el.css( 'top', -1 * distance + 'px' )
+        @$el.animate { 'top': 0 }, 500, 'easeOutQuart'
+        $previousExchange.remove()
     else
       $previousExchange.css 'padding-bottom', 1000
       distance = $previousExchange.outerHeight true

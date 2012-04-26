@@ -13,7 +13,7 @@ class Exchange
     super(
       options.merge(
         only: [:_id, :content, :parent_exchange_id, :parent_entry_id, :parent_comment_id],
-        methods: :ordered_user_ids,
+        methods: [:ordered_user_ids, :ordered_usernames],
         include: {
           entries: {
             include: {
@@ -22,8 +22,8 @@ class Exchange
                 methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username]
               }
             },
-            only: [:_id, :content],
-            methods: [:exchange_id, :user_username]
+            only: [:_id, :content, :user_id],
+            methods: :exchange_id
           }
         }
       )
@@ -31,9 +31,11 @@ class Exchange
   end
   
   def ordered_user_ids
-    entries.where( :created_at.exists => true ).sort_by do |entry|
-      entry.created_at
-    end.collect( &:user_id ).uniq[0..1]
+    ordered_users.collect &:id
+  end
+
+  def ordered_usernames
+    ordered_users.collect &:username
   end
 
   def initial_values=( values )
@@ -54,6 +56,13 @@ class Exchange
   def parent_comment
     parent_entry.comments.find parent_comment_id
   end
+
+  private
+    def ordered_users
+      @ordered_users ||= entries.where( :created_at.exists => true ).sort_by do |entry|
+        entry.created_at
+      end.collect( &:user ).compact.uniq[0..1]
+    end
 =begin
   field :parent_comment_id
   field :parent_entry_id

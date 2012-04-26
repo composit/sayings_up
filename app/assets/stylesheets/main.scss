@@ -94,6 +94,7 @@ a:hover, a:active {
 
   #nav {
     background: #111;
+    color: #888;
     padding: 5px;
     text-align: right;
   }
@@ -113,22 +114,56 @@ a:hover, a:active {
     .exchange {
       position: relative;
 
+      .exchange-header {
+        background-color: #111;
+        color: #888;
+
+        .first-username {
+          width: 33%;
+          float: left;
+        }
+
+        .second-username {
+          width: 33%;
+          float: right;
+          text-align: right;
+        }
+
+        .back-link {
+          width: 33%;
+          float: left;
+          text-align: center;
+        }
+
+        .exchange-header-footer {
+          clear: both;
+        }
+      }
+
       .entries {
+        .first-user {
+          background-color: #222;
+        }
+
+        .second-user {
+          text-align: right;
+          background-color: #111;
+        }
+
         .entry {
-          margin: 40px 0;
+          padding: 40px 0;
 
           p {
             font-family: Georgia, 'Times New Roman', Times, serif;
             font-size: 15px;
             font-weight: 400;
-            text-align: justify;
             line-height: 1.5em;
             color: #fff;
           }
 
           .entry-footer {
+            text-align: center;
             clear: both;
-            text-align: right;
             font-size: .8em;
             font-weight: bold;
             color: #d2d0c0;
@@ -136,7 +171,7 @@ a:hover, a:active {
         }
 
         .current .content {
-          border: 1px solid red;
+          border: 1px solid #000;
         }
       }
     }
@@ -169,7 +204,7 @@ a:hover, a:active {
       }
 
       .current .content {
-        border: 1px solid red;
+        border: 1px solid #333;
       }
     }
   }

@@ -4,7 +4,7 @@ describe 'exchange show view', ->
     @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comments: []
     @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comments: [@comment]
     @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comments: []
-    @exchange = new Sayings.Models.Exchange id: 4, ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3]
+    @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
   describe 'instantiation', ->
@@ -23,6 +23,10 @@ describe 'exchange show view', ->
     afterEach ->
       @showSpy.restore()
       @entryViewStub.restore()
+
+    it 'shows the usernames', ->
+      expect( $( @view.render().el ) ).toContain '.first-username:contains("user one")'
+      expect( $( @view.render().el ) ).toContain '.second-username:contains("user two")'
 
     it 'creates an Entry view for each entry', ->
       @view.render()
@@ -67,7 +71,7 @@ describe 'exchange show view', ->
   describe 'adding entries', ->
     it 'renders whenever an entry is added', ->
       renderSpy = sinon.spy Sayings.Views.ShowExchange.prototype, 'render'
-      exchange = new Sayings.Models.Exchange entries: []
+      exchange = new Sayings.Models.Exchange entries: [], ordered_usernames: []
       view = new Sayings.Views.ShowExchange model: exchange
       view.model.entries.trigger 'add'
       expect( renderSpy ).toHaveBeenCalled()

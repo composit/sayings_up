@@ -6,7 +6,7 @@ describe Exchange do
   end
 
   it "only includes the id, entries and user_id attributes in the json" do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"parent_comment_id\":null,\"parent_entry_id\":null,\"parent_exchange_id\":null,\"ordered_user_ids\":\[\],\"entries\":\[\]}$/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"parent_comment_id\":null,\"parent_entry_id\":null,\"parent_exchange_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entries\":\[\]}$/
     #TODO test instances with entries/comments
   end
 
@@ -18,8 +18,8 @@ describe Exchange do
 
   context 'ordered_user_ids' do
     before :each do
-      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123 ), created_at: 1.day.ago )
-      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345 ), created_at: 2.days.ago )
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 123, username: 'one' ), created_at: 1.day.ago )
+      subject.entries << FactoryGirl.build( :entry, user: FactoryGirl.create( :user, id: 345, username: 'two' ), created_at: 2.days.ago )
     end
 
     it 'populates its ordered_user_ids based on the entries' do
@@ -45,6 +45,10 @@ describe Exchange do
       subject.entries.destroy_all
       subject.entries.build( user: FactoryGirl.create( :user ) )
       subject.ordered_user_ids.should == []
+    end
+
+    it 'returns ordered usernames' do
+      subject.ordered_usernames.should == ['two', 'one']
     end
   end
 

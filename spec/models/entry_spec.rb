@@ -6,7 +6,7 @@ describe Entry do
   end
 
   it 'only includes the id, comments and content attributes in the json' do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"user_username\":null,\"comments\":\[\]}$/
+    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"comments\":\[\]}$/
   end
 
   it 'contains comments' do
@@ -35,11 +35,6 @@ describe Entry do
     entry = Entry.new
     exchange.entries << entry
     entry.exchange_id.should == exchange.id
-  end
-
-  it 'returns the user name' do
-    subject.user = FactoryGirl.build :user, username: 'test user'
-    subject.user_username.should == 'test user'
   end
 
   it 'requires the existence of a user' do
