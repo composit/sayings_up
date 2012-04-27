@@ -1,5 +1,4 @@
 class Sayings.Views.NewUser extends Backbone.View
-  template: JST['users/new']
   id: 'user'
 
   events:
@@ -9,7 +8,7 @@ class Sayings.Views.NewUser extends Backbone.View
     _.bindAll( this, 'render', 'save', 'saved', 'errored' )
 
   render: ->
-    $( @el ).html @template( @model )
+    $( @el ).html JST['users/new']
     return this
 
   save: ( e ) ->
@@ -24,9 +23,9 @@ class Sayings.Views.NewUser extends Backbone.View
 
   saved: ( model, response ) ->
     @$( '.messages' ).prepend "<div class='notice'>Welcome, " + model.get( 'username' ) + "</div>"
-    sessionView = new Sayings.Views.UserSession( { model: model } )
-    $( '#account' ).html( sessionView.render().el )
-    sessionView.saved( model )
+    sessionView = new Sayings.Views.UserSession model: new Sayings.Models.UserSession( model )
+    $( '#account' ).html sessionView.render().el
+    @$el.remove()
 
   errored: ( model, response ) ->
     errorString = "<div class='validation-errors'>"

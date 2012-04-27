@@ -4,6 +4,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
   initialize: ->
     _.bindAll( this, 'render', 'addUsernames', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
     @model.entries.on 'add', @render
+    @model.on 'change', @render
 
   render: ->
     $( @el ).html JST['exchanges/show']

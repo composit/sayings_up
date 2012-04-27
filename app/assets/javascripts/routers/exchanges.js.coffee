@@ -25,6 +25,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
       )
 
   renderExchange: ( exchange, entryId, commentId ) ->
+    Sayings.exchange = exchange
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
     $previousExchange = $( '#entries-column .exchange' ).last()
     @$el = $( @view.render().el )

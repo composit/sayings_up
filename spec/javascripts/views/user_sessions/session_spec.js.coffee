@@ -49,6 +49,8 @@ describe 'user session view', ->
 
     describe 'when the sign in is successful', ->
       beforeEach ->
+        Sayings.exchange = new Backbone.Model
+        sinon.spy Sayings.exchange, 'trigger'
         @callback = sinon.spy @user_session, 'save'
         @$el = $( @view.render().el )
         @server.respondWith 'POST', '/user_sessions', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
@@ -56,6 +58,8 @@ describe 'user session view', ->
         @$el.find( '#username' ).val 'testuser'
         @$el.find( 'form' ).submit()
         @server.respond()
+
+      afterEach ->
 
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
@@ -70,11 +74,15 @@ describe 'user session view', ->
         expect( $( @$el ) ).toContain "a:contains('Sign out')"
 
       it 'sets the global current user', ->
-        expect( Sayings.currentUser.get( 'id' ) ).toEqual '123'
+        expect( Sayings.currentUser.get 'id' ).toEqual '123'
+
+      it 'triggers a change on the current exchange', ->
+        expect( Sayings.exchange.trigger ).toHaveBeenCalledOnce()
+        expect( Sayings.exchange.trigger ).toHaveBeenCalled 'change'
 
     it 'shows an error message when the signin is not successful', ->
       $el = $( @view.render().el )
-      @server.respondWith( "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )
+      @server.respondWith "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}']
       $el.find( '#sign-in-link' ).click()
       $el.find( "form" ).submit()
       @server.respond()
@@ -82,16 +90,16 @@ describe 'user session view', ->
 
     it 'clears the messages from the previous save attempt at each attempt', ->
       $el = $( @view.render().el )
-      @server.respondWith( "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}'] )
+      @server.respondWith "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}']
       $el.find( '#sign-in-link' ).click()
       $el.find( "form" ).submit()
       @server.respond()
       expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
       @server.restore()
       @server = sinon.fakeServer.create()
-      @server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ""] )
+      @server.respondWith "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ""]
       $el.find( '#sign-in-link' ).click()
-      $el.find( '#username' ).val( 'testuser' )
+      $el.find( '#username' ).val 'testuser'
       $el.find( "form" ).submit()
       @server.respond()
       expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
@@ -101,14 +109,16 @@ describe 'user session view', ->
     beforeEach ->
       server = sinon.fakeServer.create()
       @$el = $( @view.render().el )
-      server.respondWith( "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}'] )
+      server.respondWith "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}']
       @$el.find( '#sign-in-link' ).click()
-      @$el.find( '#username' ).val( 'testuser' )
+      @$el.find( '#username' ).val 'testuser'
       @$el.find( "form" ).submit()
       server.respond()
       server.restore()
       @server = sinon.fakeServer.create()
-      @server.respondWith( "DELETE", "/user_sessions/123", [200, { "Content-Type": "application/json" }, ''] )
+      @server.respondWith "DELETE", "/user_sessions/123", [200, { "Content-Type": "application/json" }, '']
+      Sayings.exchange = new Backbone.Model
+      sinon.spy Sayings.exchange, 'trigger'
       @$el.find( '#sign-out-link' ).click()
       @server.respond()
 
@@ -121,3 +131,10 @@ describe 'user session view', ->
     it 'allows the user to sign up or sign in again', ->
       expect( @$el ).toContain "a:contains('Sign in')"
       expect( @$el ).toContain "a:contains('Sign up')"
+
+    it 'removes the current user id', ->
+      expect( typeof Sayings.currentUser.id ).toEqual 'undefined'
+
+    it 'triggers a change on the current exchange', ->
+      expect( Sayings.exchange.trigger ).toHaveBeenCalledOnce
+      expect( Sayings.exchange.trigger ).toHaveBeenCalledWith 'change'

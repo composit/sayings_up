@@ -1,11 +1,11 @@
 describe 'exchange routes', ->
   beforeEach ->
-    @exchange = new Sayings.Models.Exchange( '_id': '999', 'content': 'Test', 'entries': [{ '_id': '888' }] )
+    @exchange = new Sayings.Models.Exchange '_id': '999', 'content': 'Test', 'entries': [{ '_id': '888' }]
     @exchanges = new Sayings.Collections.Exchanges collection: [@exchange]
     @router = new Sayings.Routers.Exchanges collection: @exchanges
     @routeSpy = sinon.spy()
     try
-      Backbone.history.start { silent: true }
+      Backbone.history.start silent: true
       Backbone.history.started = true
     catch e
     @router.navigate 'elsewhere'
@@ -54,6 +54,10 @@ describe 'exchange routes', ->
       @router.show '999'
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
       expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: undefined, commentId: undefined
+
+    it 'sets the global exchange', ->
+      @router.show '999'
+      expect( Sayings.exchange ).toEqual @exchange
 
     it 'renders the show view with entry and comment ids', ->
       @router.show '999', '456', '789'

@@ -33,6 +33,7 @@ class Sayings.Views.UserSession extends Backbone.View
     Sayings.currentUser = model
     @$el.html "<div class='messages'><div class='notice'>Welcome back, " + model.get( 'username' ) + "</div></div>"
     @$el.append '<a href="#signout" id="sign-out-link">Sign out</a>'
+    Sayings.exchange.trigger 'change' if Sayings.exchange
 
   errored: ( model, response ) ->
     errorString = "<div class='validation-errors'>"
@@ -49,5 +50,7 @@ class Sayings.Views.UserSession extends Backbone.View
 
   destroyed: ( model, response ) ->
     @model = new Sayings.Models.UserSession()
+    Sayings.currentUser = @model
     @render()
     $( @el ).prepend "<div class='notice'>You are signed out</div>"
+    Sayings.exchange.trigger 'change' if Sayings.exchange

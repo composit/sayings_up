@@ -68,11 +68,20 @@ describe 'exchange show view', ->
     it 'does not show the parent link if there is no parent', ->
       expect( $( @view.render().el ) ).not.toContain 'a:contains("back")'
 
-  describe 'adding entries', ->
+  describe 're-rendering', ->
+    beforeEach ->
+      @renderSpy = sinon.spy Sayings.Views.ShowExchange.prototype, 'render'
+      @exchange = new Sayings.Models.Exchange entries: [], ordered_usernames: []
+      @view = new Sayings.Views.ShowExchange model: @exchange
+
+    afterEach ->
+      @renderSpy.restore()
+
     it 'renders whenever an entry is added', ->
-      renderSpy = sinon.spy Sayings.Views.ShowExchange.prototype, 'render'
-      exchange = new Sayings.Models.Exchange entries: [], ordered_usernames: []
-      view = new Sayings.Views.ShowExchange model: exchange
-      view.model.entries.trigger 'add'
-      expect( renderSpy ).toHaveBeenCalled()
-      renderSpy.restore()
+      @exchange.entries.trigger 'add'
+      expect( @renderSpy ).toHaveBeenCalled()
+
+    it 'renders whenever the model changes', ->
+      @exchange.trigger 'change'
+      expect( @renderSpy ).toHaveBeenCalled()
+
