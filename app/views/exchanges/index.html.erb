@@ -7,6 +7,7 @@
   <%= javascript_tag do %>
     $( document ).ready( function() {
       Sayings.init( <%== @exchanges.to_json %>, <%== current_user.to_json %> );
+      window.location = '<%= "/#e/#{@exchanges.first.id}" %>'
     } );
   <% end %>
 <% end %>
