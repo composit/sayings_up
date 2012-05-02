@@ -31,8 +31,8 @@ describe 'user participates in an exchange', %q{
     context 'viewing an exchange I am not a part of' do
       it 'does not display the "respond" dialog' do
         #TODO visiting the exchange page directly freezes capybara-webkit
-        click_link @other_exchange.id.to_s
-        #visit "/#e/#{@other_exchange.id}"
+        #click_link @other_exchange.id.to_s
+        visit "/#e/#{@other_exchange.id}"
         page.should have_no_content respond_text
       end
     end

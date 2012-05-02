@@ -22,7 +22,6 @@ class Sayings.Views.NewUser extends Backbone.View
     return false
 
   saved: ( model, response ) ->
-    @$( '.messages' ).prepend "<div class='notice'>Welcome, " + model.get( 'username' ) + "</div>"
     sessionView = new Sayings.Views.UserSession model: new Sayings.Models.UserSession( model )
     $( '#account' ).html sessionView.render().el
     @$el.remove()

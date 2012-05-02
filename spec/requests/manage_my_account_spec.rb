@@ -6,6 +6,10 @@ describe 'manage my account', %q{
   I want to create and manage my account
 }, :js, :slow do
 
+  before :each do
+    exchange = FactoryGirl.create :exchange
+  end
+
   it 'creates an account' do
     visit '/'
     click_link 'Sign up'
@@ -18,21 +22,21 @@ describe 'manage my account', %q{
 
   it 'logs in' do
     sign_in
-    page.should have_content 'Welcome back, testuser'
+    page.should have_content 'Welcome, testuser'
   end
 
   it 'logs out' do
     sign_in
-    page.should have_content 'Welcome back, testuser'
+    page.should have_content 'Welcome, testuser'
     click_link 'Sign out'
     page.should have_content 'You are signed out'
   end
 
   it 'remembers that a user is logged in after a refresh' do
     sign_in
-    page.should have_content 'Welcome back, testuser'
+    page.should have_content 'Welcome, testuser'
     visit '/'
-    page.should have_content 'Welcome back, testuser'
+    page.should have_content 'Welcome, testuser'
   end
 end
 
