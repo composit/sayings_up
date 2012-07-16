@@ -26,7 +26,7 @@ describe 'user session view', ->
 
 
       it 'displays the welcome message', ->
-        expect( @$el ).toContain 'div:contains("Welcome back, testuser")'
+        expect( @$el ).toContain 'div:contains("Welcome, testuser")'
 
       it 'does not display the sign in link', ->
         expect( @$el ).not.toContain 'a:contains("Sign in")'
@@ -65,7 +65,7 @@ describe 'user session view', ->
         expect( @callback ).toHaveBeenCalledOnce()
 
       it 'renders the welcome message', ->
-        expect( @$el ).toContain ".notice:contains('Welcome back, testuser')"
+        expect( @$el ).toContain ".notice:contains('Welcome, testuser')"
 
       it 'removes the sign in form', ->
         expect( @$el ).not.toContain "form#sign-in-form"
@@ -102,7 +102,7 @@ describe 'user session view', ->
       $el.find( '#username' ).val 'testuser'
       $el.find( "form" ).submit()
       @server.respond()
-      expect( $el ).toContain ".notice:contains('Welcome back, testuser')"
+      expect( $el ).toContain ".notice:contains('Welcome, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
 
   describe 'signing out', ->
