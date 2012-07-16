@@ -4,7 +4,7 @@ class Exchange
 
   attr_accessible
 
-  embeds_many :entries, cascade_callbacks: true
+  embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
   belongs_to :parent_entry, class_name: 'Entry'
   belongs_to :parent_comment, class_name: 'Comment'

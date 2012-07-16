@@ -6,11 +6,11 @@ describe "user views an exchange", %q{
   I want to see all the entries, etc. involved in the exchange
 }, :js, :slow do
 
-  let( :exchange ) { FactoryGirl.create( :exchange ) }
+  let( :exchange ) { create( :exchange ) }
 
   before :each do
-    exchange.entries << FactoryGirl.build( :entry, :content => "Good stuff" )
-    exchange.entries << FactoryGirl.build( :entry, :content => "Other stuff" )
+    exchange.entries << build( :entry, :content => "Good stuff" )
+    exchange.entries << build( :entry, :content => "Other stuff" )
     visit( "/#e/#{exchange.id}" )
   end
 

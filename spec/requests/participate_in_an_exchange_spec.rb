@@ -6,13 +6,13 @@ describe 'user participates in an exchange', %q{
   I want to be able to add entries to an exchange
 }, :js, :slow do
 
-  let( :exchange ) { FactoryGirl.create( :exchange ) }
-  let( :user ) { FactoryGirl.create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
+  let( :exchange ) { create( :exchange ) }
+  let( :user ) { create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' ) }
   let( :respond_text ) { 'respond' }
 
   before :each do
-    exchange.entries << FactoryGirl.build( :entry, :content => 'Good stuff', :user => user )
-    exchange.entries << FactoryGirl.build( :entry, :content => 'Other stuff' )
+    exchange.entries << build( :entry, :content => 'Good stuff', :user => user )
+    exchange.entries << build( :entry, :content => 'Other stuff' )
   end
 
   context 'not logged in' do
@@ -24,7 +24,7 @@ describe 'user participates in an exchange', %q{
 
   context 'logged in' do
     before :each do
-      @other_exchange = FactoryGirl.create( :exchange )
+      @other_exchange = create( :exchange )
       sign_in
     end
 
@@ -81,7 +81,7 @@ describe 'user participates in an exchange', %q{
 
     context 'responding to a comment on one of my entries' do
       it 'creates a new exchange', :focus do
-        exchange.entries.first.comments << FactoryGirl.create( :comment, content: 'Good comment' )
+        exchange.entries.first.comments << create( :comment, content: 'Good comment' )
         sign_in
         click_link exchange.id.to_s
         click_link 'comments'

@@ -7,7 +7,7 @@ class Entry
 
   attr_accessible :content
 
-  embedded_in :exchange
+  embedded_in :exchange, inverse_of: :entries
   embeds_many :comments, cascade_callbacks: true
   belongs_to :user
 

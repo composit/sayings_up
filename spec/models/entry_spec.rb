@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Entry do
   it 'creates a new instance given valid attributes' do
-    FactoryGirl.build( :entry ).should be_valid
+    build( :entry ).should be_valid
   end
 
   it 'only includes the id, comments and content attributes in the json' do
@@ -10,8 +10,8 @@ describe Entry do
   end
 
   it 'contains comments' do
-    entry = FactoryGirl.build :entry
-    entry.comments << FactoryGirl.build_list( :comment, 11 )
+    entry = build :entry
+    entry.comments << build_list( :comment, 11 )
     entry.save!
     entry.reload.comments.length.should == 11
   end
@@ -23,15 +23,15 @@ describe Entry do
   end
 
   it 'persists the user to the database' do
-    user = FactoryGirl.create :user
-    entry = FactoryGirl.build :entry
+    user = create :user
+    entry = build :entry
     entry.user = user
     entry.save!
     entry.reload.user.should == user
   end
 
   it 'returns the exchange id' do
-    exchange = FactoryGirl.create :exchange
+    exchange = create :exchange
     entry = Entry.new
     exchange.entries << entry
     entry.exchange_id.should == exchange.id
@@ -39,15 +39,15 @@ describe Entry do
 
   it 'requires the existence of a user' do
     pending
-    entry = FactoryGirl.build( :entry, :user_id => nil )
+    entry = build( :entry, :user_id => nil )
     entry.should_not be_valid
     entry.errors[:user_id].length.should eql( 1 )
     entry.errors[:user_id].should include( 'can\'t be blank' )
   end
 
-  it 'does not comments if it is the initial entry in an exchange associated with a comment' do
+  it 'does not allow comments if it is the initial entry in an exchange associated with a comment' do
     pending
-    exchange = FactoryGirl( :exchange )
+    exchange = build :exchange
     first_entry = exchange.entries.build( :user_id => User.create.id, :created_at => '2001-01-01' )
     second_entry = exchange.entries.build( :user_id => User.create.id, :created_at => '2002-02-02' )
     first_entry.comments.build

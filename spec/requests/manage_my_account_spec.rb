@@ -7,7 +7,7 @@ describe 'manage my account', %q{
 }, :js, :slow do
 
   before :each do
-    exchange = FactoryGirl.create :exchange
+    exchange = create :exchange
   end
 
   it 'creates an account' do
@@ -41,7 +41,7 @@ describe 'manage my account', %q{
 end
 
 def sign_in
-  FactoryGirl.create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
+  create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
   visit '/'
   click_link 'Sign in'
   fill_in 'Username', with: 'testuser'

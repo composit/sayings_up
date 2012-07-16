@@ -49,8 +49,16 @@ Spork.prefork do
 
     Capybara.javascript_driver = :webkit
 
-    config.before :each do
-      Mongoid.master.collections.select { |c| c.name !~ /system/ }.each( &:drop )
+    config.include FactoryGirl::Syntax::Methods
+
+    require 'database_cleaner'
+    config.before( :suite ) do
+      DatabaseCleaner.strategy = :truncation
+      DatabaseCleaner.orm = "mongoid"
+    end
+
+    config.before( :each ) do
+      DatabaseCleaner.clean
     end
   end
 end
