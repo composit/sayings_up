@@ -72,12 +72,12 @@ staging:
       database: sayings_up_staging
       hosts:
         - localhost:27017
-    options:
-      consistency: :strong
+      options:
+        consistency: :strong
 production:
   sessions:
     default:
       uri: <%= ENV['MONGOHQ_URL'] %>
-    options:
-      skip_version_check: true
-      safe: true
+      options:
+        skip_version_check: true
+        safe: true
