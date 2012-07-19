@@ -30,8 +30,6 @@ describe 'user participates in an exchange', %q{
 
     context 'viewing an exchange I am not a part of' do
       it 'does not display the "respond" dialog' do
-        #TODO visiting the exchange page directly freezes capybara-webkit
-        #click_link @other_exchange.id.to_s
         visit "/#e/#{@other_exchange.id}"
         page.should have_no_content respond_text
       end
@@ -39,9 +37,7 @@ describe 'user participates in an exchange', %q{
 
     context 'viewing an exchange I am involved in' do
       before :each do
-        #TODO visiting the exchange page directly freezes capybara-webkit
-        click_link exchange.id.to_s
-        #visit "/#e/#{exchange.id}"
+        visit "/#e/#{exchange.id}"
       end
 
       it 'displays the "respond" dialog' do
@@ -63,7 +59,7 @@ describe 'user participates in an exchange', %q{
     context 'commenting on an exchange' do
       it 'allows me to comment on an exchange' do
         sign_in
-        click_link exchange.id.to_s
+        visit "/#e/#{exchange.id}"
         click_link 'comments'
         click_link 'add comment'
         fill_in 'Comment', with: 'test comment'
@@ -72,18 +68,17 @@ describe 'user participates in an exchange', %q{
       end
 
       it 'does not display the comment link if I am not signed in' do
-        visit '/'
-        click_link exchange.id.to_s
+        visit "/#e/#{exchange.id}"
         click_link 'comments'
         page.should have_no_content 'Add comment'
       end
     end
 
     context 'responding to a comment on one of my entries' do
-      it 'creates a new exchange', :focus do
+      it 'creates a new exchange' do
         exchange.entries.first.comments << create( :comment, content: 'Good comment' )
         sign_in
-        click_link exchange.id.to_s
+        visit "/#e/#{exchange.id}"
         click_link 'comments'
         within( '.comment' ) do
           click_link 'respond'

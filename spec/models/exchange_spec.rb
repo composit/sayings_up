@@ -62,16 +62,16 @@ describe Exchange do
       subject.parent_entry_id = parent_entry.id
       subject.parent_comment_id = parent_comment.id
     end
-    
+
     specify { subject.parent_exchange.should == parent_exchange }
     specify { subject.parent_entry.should == parent_entry }
     specify { subject.parent_comment.should == parent_comment }
   end
 
   context 'initial values' do
-    let( :parent_exchange ) { create :exchange, entries: [parent_entry] }
-    let( :parent_entry ) { create :entry, comments: [parent_comment] }
-    let( :parent_comment ) { create :comment, content: 'comment content', user_id: commenter.id }
+    let( :parent_exchange ) { create :exchange_with_entry_and_comment }
+    let( :parent_entry ) { parent_exchange.entries.first }
+    let( :parent_comment ) { parent_entry.comments.first }
     let( :commenter ) { mock_model User }
     let( :user ) { mock_model User }
     let( :initial_values ) { { parent_exchange_id: parent_exchange.id, parent_entry_id: parent_entry.id, parent_comment_id: parent_comment.id, content: 'good exchange', user_id: user.id } }
@@ -79,6 +79,9 @@ describe Exchange do
     #TODO move all this logic into a factory
     describe 'when the comment, entry and exchange ids match up' do
       before :each do
+        parent_comment.content = 'comment content'
+        parent_comment.user_id = commenter.id
+        parent_comment.save!
         subject.initial_values = initial_values
       end
 
@@ -107,7 +110,7 @@ describe Exchange do
           second_entry.content.should == 'good exchange'
         end
 
-        it 'assigns the user', :focus do
+        it 'assigns the user' do
           second_entry.user_id.should == user.id
         end
       end

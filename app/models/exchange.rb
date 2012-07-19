@@ -41,7 +41,7 @@ class Exchange
   def initial_values=( values )
     self.parent_exchange = Exchange.find values[:parent_exchange_id]
     self.parent_entry = parent_exchange.entries.find values[:parent_entry_id]
-    self.parent_comment = parent_entry.comments.find values[:parent_comment_id]
+    self.parent_comment = Exchange.find( values[:parent_exchange_id] ).entries.find( values[:parent_entry_id] ).comments.find values[:parent_comment_id]
     entry_one = Entry.new( content: parent_comment.content )
     entry_one.user_id = parent_comment.user_id
     entry_two = Entry.new( content: values[:content] )
@@ -54,7 +54,7 @@ class Exchange
   end
 
   def parent_comment
-    parent_entry.comments.find parent_comment_id
+    Exchange.find( parent_exchange_id ).entries.find( parent_entry_id ).comments.find parent_comment_id
   end
 
   private
