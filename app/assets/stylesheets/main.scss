@@ -116,6 +116,7 @@ a:hover, a:active {
       position: relative;
 
       .exchange-header {
+        @include linear-gradient( left, #bbb 30%, #444 70%);
         background-color: #111;
         color: #888;
         @include clearfix;
@@ -129,14 +130,14 @@ a:hover, a:active {
         .first-username {
           width: 33%;
           float: left;
-          text-shadow: tint( #888, 30% ) 0 1px 0;
+          color: #444;
         }
 
         .second-username {
           width: 33%;
           float: right;
           text-align: right;
-          text-shadow: tint( #888, 30% ) 0 1px 0;
+          color: #bbb;
         }
 
         .back-link {
@@ -148,12 +149,18 @@ a:hover, a:active {
 
       .entries {
         .first-user {
-          @include radial-gradient( #333, #222 );
+          @include radial-gradient( #aaa, #bbb );
+          p {
+            color: #222;
+          }
         }
 
         .second-user {
           text-align: right;
-          @include radial-gradient( #111, #222 );
+          @include radial-gradient( #444, #555 );
+          p {
+            color: #ddd;
+          }
         }
 
         .entry {
@@ -169,7 +176,6 @@ a:hover, a:active {
             font-size: 15px;
             font-weight: 400;
             line-height: 1.5em;
-            color: #fff;
           }
 
           .entry-footer {
