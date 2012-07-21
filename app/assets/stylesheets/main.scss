@@ -91,7 +91,7 @@ a:hover, a:active {
     color: #222;
     z-index: -1;
     text-shadow: tint( #222, 20% ) 0 1px 0;
-    }
+  }
 
   #nav {
     background: #111;
@@ -116,7 +116,7 @@ a:hover, a:active {
       position: relative;
 
       .exchange-header {
-        @include linear-gradient( left, #aaa 40%, #555 60%);
+        @include linear-gradient( left, #999 40%, #444 60% );
         background-color: #111;
         color: #888;
         @include clearfix;
@@ -187,8 +187,11 @@ a:hover, a:active {
           }
         }
 
-        .current .content {
-          border: 1px solid #000;
+        .current {
+          @include radial-gradient( #eee 60%, #fff );
+          .content {
+            color: #333;
+          }
         }
       }
     }
@@ -225,8 +228,11 @@ a:hover, a:active {
         }
       }
 
-      .current .content {
-        border: 1px solid #333;
+      .current {
+        @include radial-gradient( #eee 60%, #fff );
+        .content {
+          color: #333;
+        }
       }
     }
   }
@@ -238,11 +244,11 @@ a:hover, a:active {
 
     ul li {
       margin: 10px 0;
-      }
+    }
 
-      a {
-        font-size: 1.2em;
-      }
+    a {
+      font-size: 1.2em;
+    }
   }
 
   #footer {
@@ -254,6 +260,11 @@ a:hover, a:active {
 }
 
 button.respond-link {
-  @include button( shiny, #444 );
+  @include button( shiny, #ccc );
   margin: 10px;
+  @include transition( all 2.0s ease-in-out );
+}
+
+button.respond-link:hover {
+  @include transform( translateX( 500px ) )
 }
