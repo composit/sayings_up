@@ -15,8 +15,8 @@ describe 'new entry view', ->
       expect( @view.model.url ).toEqual '/exchanges'
 
   describe 'rendering', ->
-    it 'contains a "respond" link', ->
-      expect( $( @view.render().el ) ).toContain 'a:contains("respond")'
+    it 'contains a "respond" button', ->
+      expect( $( @view.render().el ) ).toContain 'button:contains("respond")'
 
   describe 'new', ->
     beforeEach ->

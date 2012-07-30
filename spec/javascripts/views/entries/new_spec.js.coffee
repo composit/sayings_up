@@ -16,7 +16,7 @@ describe 'new entry view', ->
 
   describe 'rendering', ->
     it 'contains a "respond" link', ->
-      expect( $( @view.render().el ) ).toContain 'a:contains("respond")'
+      expect( $( @view.render().el ) ).toContain 'button:contains("respond")'
 
   describe 'new', ->
     it 'has a form for creating a new entry', ->

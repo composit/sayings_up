@@ -45,7 +45,7 @@ describe 'user participates in an exchange', %q{
       end
 
       it 'displays my response when I submit one' do
-        click_link respond_text
+        click_button respond_text
         fill_in 'Response', with: 'test response'
         click_button 'Respond'
         page.should have_content 'test response'
@@ -81,7 +81,7 @@ describe 'user participates in an exchange', %q{
         visit "/#e/#{exchange.id}"
         click_link 'comments'
         within( '.comment' ) do
-          click_link 'respond'
+          click_button 'respond'
           fill_in 'content', with: 'test response'
           click_button 'Respond'
         end
