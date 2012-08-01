@@ -150,6 +150,7 @@ a:hover, a:active {
       .entries {
         .first-user {
           @include radial-gradient( #aaa 60%, #bbb );
+          border: 1px solid #ddd;
           p {
             color: #222;
           }
@@ -157,6 +158,7 @@ a:hover, a:active {
 
         .second-user {
           text-align: right;
+          border: 1px solid #666;
           @include radial-gradient( #444 60%, #555 );
           p {
             color: #ddd;
@@ -188,10 +190,11 @@ a:hover, a:active {
         }
 
         .current {
-          @include radial-gradient( #eee 60%, #fff );
-          .content {
-            color: #333;
-          }
+          //@include radial-gradient( #eee 60%, #fff );
+          //.content {
+          //  color: #333;
+          //}
+          @include box-shadow( 0 0 4px 4px hsla( 0, 0%, 80%, 0.7 ) );
         }
       }
     }
@@ -229,10 +232,11 @@ a:hover, a:active {
       }
 
       .current {
-        @include radial-gradient( #eee 60%, #fff );
-        .content {
-          color: #333;
-        }
+        //@include radial-gradient( #eee 60%, #fff );
+        //.content {
+        //  color: #333;
+        //}
+        @include box-shadow( 0 0 4px 4px hsla( 0, 0%, 80%, 0.7 ) );
       }
     }
   }
@@ -262,9 +266,9 @@ a:hover, a:active {
 button.respond-link {
   @include button( shiny, #ccc );
   margin: 10px;
-  @include transition( all 2.0s ease-in-out );
+  //@include transition( all 2.0s ease-in-out );
 }
 
-button.respond-link:hover {
-  @include transform( translateX( 500px ) )
-}
+//button.respond-link:hover {
+//  @include transform( translateX( 500px ) );
+//}

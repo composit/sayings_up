@@ -24,8 +24,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
     commentsView = new Sayings.Views.CommentsIndex collection: @model.comments
     $previousComments = $( '#comments-column' ).find( '.comments' ).last()
     $( '#comments-column' ).append commentsView.render().el
-    distance = $previousComments.outerHeight()
-    $previousComments.animate { 'margin-top': '-' + distance + 'px' }, 1000, 'easeInOutQuart', -> $previousComments.remove()
+    $previousComments.remove()
     return false
 
   markCurrent: ( entry ) ->
