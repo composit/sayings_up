@@ -43,7 +43,7 @@ group :test do
   gem 'database_cleaner', '~>0.8'
   gem 'factory_girl_rails', '~>4.0'
   gem 'guard-jasmine-headless-webkit', '~>0.3'
-  gem 'guard-rspec', '~>1.2'
+  gem 'guard-rspec', '~>2.1'
   gem 'guard-spork', '~>1.1'
   gem 'launchy', '~>2.1'
   gem 'rspec-rails', '~>2.11'
