@@ -15,7 +15,7 @@ class Sayings.Views.NewEntry extends Backbone.View
     return this
 
   new: ->
-    $( @el ).html JST['entries/new']
+    $( @el ).html JST['backbone/templates/entries/new']
     return false
 
   save: ->

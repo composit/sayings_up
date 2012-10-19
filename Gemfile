@@ -46,6 +46,7 @@ group :test do
   gem 'guard-rspec', '~>2.1'
   gem 'guard-spork', '~>1.1'
   gem 'launchy', '~>2.1'
+  gem 'rb-inotify', '~>0.8.8'
   gem 'rspec-rails', '~>2.11'
   gem 'spork', '~>0.9'
   gem 'turn', '~>0.9', :require => false

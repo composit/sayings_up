@@ -15,7 +15,7 @@ class Sayings.Views.NewComment extends Backbone.View
     return this
 
   new: ->
-    $( @el ).html JST['comments/new']
+    $( @el ).html JST['backbone/templates/comments/new']
     return false
 
   save: ->

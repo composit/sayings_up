@@ -5,7 +5,7 @@ class Sayings.Views.ShowComment extends Backbone.View
     _.bindAll( this, 'render', 'addResponder', 'addChildLink' )
 
   render: ->
-    $( @el ).html JST['comments/show'] @model
+    $( @el ).html JST['backbone/templates/comments/show'] @model
     @$( '.content' ).html @model.get 'content'
     @$( '.username' ).html @model.get 'user_username'
     if @model.get 'child_exchange_data'

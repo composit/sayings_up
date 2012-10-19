@@ -14,7 +14,7 @@ class Sayings.Views.NewExchange extends Backbone.View
     return this
 
   new: ->
-    $( @el ).html JST['exchanges/new']
+    $( @el ).html JST['backbone/templates/exchanges/new']
     return false
 
   save: ->
@@ -30,7 +30,7 @@ class Sayings.Views.NewExchange extends Backbone.View
   saved: ->
     @model.parseEntries()
     @options.parent_comment.set( 'child_exchange_data', { id: @model.get( '_id' ), entry_count: @model.entries.length } )
-  #template: JST["exchanges/new"]
+  #template: JST["backbone/templates/exchanges/new"]
   
   #events:
   #  "submit #new-exchange": "save"

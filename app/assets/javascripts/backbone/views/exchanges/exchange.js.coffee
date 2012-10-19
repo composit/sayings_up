@@ -11,5 +11,5 @@ class Sayings.Views.Exchange extends Backbone.View
   #  return false
     
   render: ->
-    $( this.el ).html( JST['exchanges/exchange']( { model: @model } ) )
+    $( this.el ).html( JST['backbone/templates/exchanges/exchange']( { model: @model } ) )
     return this

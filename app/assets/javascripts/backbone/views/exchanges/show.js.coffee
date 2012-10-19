@@ -7,7 +7,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
     @model.on 'change', @render
 
   render: ->
-    $( @el ).html JST['exchanges/show']
+    $( @el ).html JST['backbone/templates/exchanges/show']
     @addUsernames()
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'

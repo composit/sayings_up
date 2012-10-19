@@ -9,7 +9,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
     'click .show-comments': 'showComments'
 
   render: ->
-    $( @el ).html JST['entries/show'] @model
+    $( @el ).html JST['backbone/templates/entries/show'] @model
     @$( '.content' ).html @model.get 'content'
     @$( '.username' ).html @model.get 'user_username'
     @$( '.show-comments' ).html @model.comments.length + ' comments'

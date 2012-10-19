@@ -17,7 +17,7 @@ class Sayings.Views.UserSession extends Backbone.View
     return this
 
   new: ( e )->
-    $( @el ).html JST['user_sessions/new']
+    $( @el ).html JST['backbone/templates/user_sessions/new']
     return false
 
   save: ( e ) ->

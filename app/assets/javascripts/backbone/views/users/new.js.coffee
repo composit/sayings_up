@@ -8,7 +8,7 @@ class Sayings.Views.NewUser extends Backbone.View
     _.bindAll( this, 'render', 'save', 'saved', 'errored' )
 
   render: ->
-    $( @el ).html JST['users/new']
+    $( @el ).html JST['backbone/templates/users/new']
     return this
 
   save: ( e ) ->

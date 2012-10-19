@@ -1,8 +1,15 @@
+#= require_self
+#= require_tree ./templates
+#= require_tree ./models
+#= require_tree ./views
+#= require_tree ./routers
+
 window.Sayings =
   Models: {}
   Collections: {}
   Routers: {}
   Views: {}
+
   init: ( exchanges, current_user, silent = false ) ->
     @exchanges = new Sayings.Collections.Exchanges( exchanges )
     @currentUser = new Sayings.Models.UserSession( current_user )
