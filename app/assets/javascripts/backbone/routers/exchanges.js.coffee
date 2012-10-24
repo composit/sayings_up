@@ -10,7 +10,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   index: ->
     view = new Sayings.Views.ExchangesIndex collection: @collection
-    $( '#entries-column' ).html view.render().el
+    $( '#exchanges' ).html view.render().el
 
   show: ( id, entryId, commentId ) ->
     if exchange = @collection.get id
@@ -27,7 +27,5 @@ class Sayings.Routers.Exchanges extends Backbone.Router
   renderExchange: ( exchange, entryId, commentId ) ->
     Sayings.exchange = exchange
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
-    $previousExchange = $( '#entries-column .exchange' ).last()
     @$el = $( @view.render().el )
-    $( '#entries-column' ).append @$el
-    $previousExchange.remove()
+    $( '#exchanges' ).append @$el

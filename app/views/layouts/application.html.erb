@@ -3,6 +3,8 @@
 <head>
   <title>Sayings</title>
   <%= stylesheet_link_tag "application" %>
+  <script type="text/javascript" src="//use.typekit.net/uab3uxn.js"></script>
+  <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -13,27 +15,12 @@
     </div>
     <div id="main">
       <div id="header">
-        Decomposite
 	      <div id="notice"><%= notice %></div>
       	<div id="alert"><%= alert %></div>
       </div>
       <div id='user'></div>
 
       <%= yield %>
-    </div>
-    <div id="sidebar">
-      <ul>
-        <li><%= link_to "link 1" %></li>
-        <li><%= link_to "link 2" %></li>
-        <li><%= link_to "link 3" %></li>
-        <li><%= link_to "link 4" %></li>
-        <li><%= link_to "link 5" %></li>
-        <li><%= link_to "link 6" %></li>
-        <li><%= link_to "link 7" %></li>
-        <li><%= link_to "link 8" %></li>
-      </ul>
-    </div>
-    <div id="footer">
     </div>
   </div>
   <%= javascript_include_tag "application" %>

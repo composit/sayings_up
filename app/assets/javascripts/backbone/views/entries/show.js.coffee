@@ -22,8 +22,9 @@ class Sayings.Views.ShowEntry extends Backbone.View
   showComments: ->
     @model.collection.each @markCurrent
     commentsView = new Sayings.Views.CommentsIndex collection: @model.comments
-    $( '#comments-column' ).find( '.comments' ).last().remove()
-    $( '#comments-column' ).append commentsView.render().el
+    commentsEl = commentsView.render().el
+    @$el.parents( '.exchange' ).find( '.comments-column' ).html commentsEl
+    $( commentsEl ).css 'top', @$el.position().top
     return false
 
   markCurrent: ( entry ) ->
