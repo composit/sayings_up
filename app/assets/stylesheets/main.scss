@@ -96,18 +96,20 @@ a:hover, a:active {
     font-family: "adobe-text-pro";
     font-size: 1.6em;
     line-height: 1.6em;
+    width: 1210px;
+    overflow: hidden;
+    border: 1px solid red;
   }
 
   .exchange {
-    min-width: 600px;
     border-right: 1px solid #ddd;
     @include clearfix;
+    float: left;
   }
 
   .entries-column {
-    width: 75%;
+    width: 400px;
     float: left;
-    @include span-columns( 9 );
 
     .exchange-header {
       @include outer-container;
@@ -153,14 +155,17 @@ a:hover, a:active {
 
   .comments-column {
     @include clearfix;
-    width: 20%;
-    float: right;
-    position: relative;
+    width: 200px;
+    float: left;
 
     .comments {
       position: absolute;
 
       .comment {
+        .content {
+          width: 200px;
+        }
+
         .comment-footer {
           @include clearfix;
         }
