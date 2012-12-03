@@ -152,6 +152,7 @@ a:hover, a:active {
   }
 
   .comments-column {
+    @include clearfix;
     width: 20%;
     float: right;
     position: relative;
