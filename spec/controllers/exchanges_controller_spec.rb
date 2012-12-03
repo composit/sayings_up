@@ -12,7 +12,7 @@ describe ExchangesController do
     let( :parent_entry ) { mock_model Entry, exchange: parent_exchange }
     let( :parent_comment ) { mock_model Comment, entry: parent_entry }
     let( :ability ) { Object.new }
-    let( :params ) { { initial_values: { parent_comment_id: parent_comment.id, parent_entry_id: parent_entry.id, parent_exchange_id: parent_exchange.id, content: 'new exchange' }, format: :json } }
+    let( :params ) { { exchange: { initial_values: { parent_comment_id: parent_comment.id, parent_entry_id: parent_entry.id, parent_exchange_id: parent_exchange.id, content: 'new exchange' } }, format: :json } }
 
     before :each do
       @controller.stub( :current_user ) { current_user }
