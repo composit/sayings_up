@@ -26,7 +26,7 @@ gem 'cancan', '~>1.6'
 gem 'capistrano', '~>2.12'
 gem 'ejs', '~>1.0'
 gem 'jquery-rails', '~>2.0'
-gem 'neat', '~>0.4.2'
+gem 'neat', '~>1.0.2'
 gem 'rails-backbone', '~>0.7'
 gem 'rvm-capistrano', '~>1.2'
 
