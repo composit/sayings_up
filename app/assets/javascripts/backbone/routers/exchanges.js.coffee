@@ -13,7 +13,6 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     $( '#exchanges' ).html view.render().el
 
   show: ( id, entryId, commentId ) ->
-    console.log 'here'
     if exchange = @collection.get id
       @renderExchange exchange, entryId, commentId
     else

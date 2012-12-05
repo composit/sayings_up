@@ -14,7 +14,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
     @addUsernames()
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
-    @addParentLink() if @model.get 'parent_exchange_id'
+    @addParentLink()
     return this
 
   addUsernames: ->
@@ -39,7 +39,12 @@ class Sayings.Views.ShowExchange extends Backbone.View
     @$( '.entries' ).append newEntryView.render().el
 
   addParentLink: ->
-    @$( '.back-link' ).html '<a href="#e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' ) + '">back</a>'
+    if @model.get 'parent_exchange_id'
+      $( '#back-link' ).html '<a href="#e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' ) + '">back</a>'
+      $( '#back-link a' ).on 'click', 'showPreviousExchange'
+      $( '#back-link' ).show()
+    else
+      $( '#back-link' ).hide()
 
   expandComments: ( entryView ) ->
     entryView.model.comments.each @setCurrentComment
