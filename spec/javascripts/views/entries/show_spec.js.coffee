@@ -54,6 +54,10 @@ describe 'entry show view', ->
       @view.showComments()
       expect( otherEntry.get 'current' ).toBeFalsy()
 
+    it 'removes the previous exchange, if there is one', ->
+      @view.showComments()
+      #TODO use a view manager
+
   it 're-renders if the model\'s current state changes', ->
     renderSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'render'
     entry = new Sayings.Models.Entry

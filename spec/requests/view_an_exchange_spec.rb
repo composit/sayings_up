@@ -20,6 +20,8 @@ describe "user views an exchange", %q{
   end
 
   it "displays the comments when I click 'comments' for a specific entry"
+
+  it "removes the previous exchange when I click 'comments' for a specific entry"
 end
 
 =begin

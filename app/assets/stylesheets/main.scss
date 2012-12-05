@@ -98,7 +98,6 @@ a:hover, a:active {
     line-height: 1.6em;
     width: 1210px;
     overflow: hidden;
-    border: 1px solid red;
   }
 
   .exchange {
@@ -157,6 +156,7 @@ a:hover, a:active {
     @include clearfix;
     width: 200px;
     float: left;
+    position: relative;
 
     .comments {
       position: absolute;

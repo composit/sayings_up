@@ -25,6 +25,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
     commentsEl = commentsView.render().el
     @$el.parents( '.exchange' ).find( '.comments-column' ).html commentsEl
     $( commentsEl ).css 'top', @$el.position().top
+    @removePreviousExchange()
     return false
 
   markCurrent: ( entry ) ->
@@ -32,3 +33,13 @@ class Sayings.Views.ShowEntry extends Backbone.View
       entry.set 'current', true
     else
       entry.set 'current', false
+
+  removePreviousExchange: ->
+    $previousExchange = @$el.parents( '.exchange' ).prev()
+    width = $previousExchange.width()
+    $previousExchange.animate(
+      { 'margin-left': '-=' + width },
+      1000,
+      () ->
+        $previousExchange.hide()
+    )
