@@ -13,6 +13,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     $( '#exchanges' ).html view.render().el
 
   show: ( id, entryId, commentId ) ->
+    console.log 'here'
     if exchange = @collection.get id
       @renderExchange exchange, entryId, commentId
     else
@@ -28,4 +29,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     Sayings.exchange = exchange
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
     @$el = $( @view.render().el )
-    $( '#exchanges' ).append @$el
+    if commentId
+      $( '#exchanges' ).prepend @$el
+    else
+      $( '#exchanges' ).append @$el

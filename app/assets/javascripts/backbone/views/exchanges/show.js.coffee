@@ -1,6 +1,9 @@
 class Sayings.Views.ShowExchange extends Backbone.View
   className: 'exchange'
 
+  events:
+    'click .back-link a': 'showPreviousExchange'
+
   initialize: ->
     _.bindAll( this, 'render', 'addUsernames', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
     @model.entries.on 'add', @render
@@ -47,3 +50,17 @@ class Sayings.Views.ShowExchange extends Backbone.View
       comment.set 'current', true
     else
       comment.set 'current', false
+
+  showPreviousExchange: ->
+    previousUrl = 'e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' )
+    if @$el.prev().length > 0
+      $previousExchange = @$el.prev()
+      console.log $previousExchange
+      width = $previousExchange.width()
+      $previousExchange.show()
+      $previousExchange.animate(
+        { 'margin-left': '+=' + width },
+        1000
+      )
+      Sayings.router.navigate previousUrl
+      return false

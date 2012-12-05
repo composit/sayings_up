@@ -14,7 +14,7 @@ window.Sayings =
     @exchanges = new Sayings.Collections.Exchanges( exchanges )
     @currentUser = new Sayings.Models.UserSession( current_user )
 
-    new Sayings.Routers.Exchanges( { collection: @exchanges } )
+    Sayings.router = new Sayings.Routers.Exchanges( { collection: @exchanges } )
     new Sayings.Routers.Users( { collection: new Sayings.Collections.Users() } )
     user_session = new Sayings.Routers.UserSessions( { model: @currentUser } )
     user_session.new()
