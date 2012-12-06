@@ -8,7 +8,7 @@ class Comment
 
   embedded_in :entry
   belongs_to :user
-  has_one :child_exchange, class_name: 'Exchange', inverse_of: :parent_comment
+  #has_one :child_exchange, class_name: 'Exchange'#, inverse_of: :parent_comment
 
   def as_json( options = {} )
     super( options.merge( only: [:_id, :content], methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username] ) )
@@ -28,6 +28,10 @@ class Comment
 
   def child_exchange_data
     { id: child_exchange.id, entry_count: child_exchange.entries.count } if child_exchange
+  end
+
+  def child_exchange
+    Exchange.where( parent_comment_id: id ).first
   end
 
   def user_username

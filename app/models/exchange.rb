@@ -6,8 +6,8 @@ class Exchange
 
   embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
-  belongs_to :parent_entry, class_name: 'Entry'
-  belongs_to :parent_comment, class_name: 'Comment'
+  #belongs_to :parent_entry, class_name: 'Entry'
+  #belongs_to :parent_comment, class_name: 'Comment'
 
   def as_json( options = {} )
     super(
