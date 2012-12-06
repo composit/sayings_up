@@ -16,10 +16,10 @@ describe 'Sayings', ->
       exchangeJSON = [{ '_id': '12345' }, { '_id': '54321' }]
       Sayings.init exchangeJSON, true
 
-      expect( Sayings.exchanges ).not.toEqual undefined
-      expect( Sayings.exchanges.length ).toEqual 2
-      expect( Sayings.exchanges.models[0].get( '_id' ) ).toEqual '12345'
-      expect( Sayings.exchanges.models[1].get( '_id' ) ).toEqual '54321'
+      expect( Sayings.router.collection ).not.toEqual undefined
+      expect( Sayings.router.collection.length ).toEqual 2
+      expect( Sayings.router.collection.models[0].get( '_id' ) ).toEqual '12345'
+      expect( Sayings.router.collection.models[1].get( '_id' ) ).toEqual '54321'
 
     it 'accepts current user JSON and instantiates a model from it', ->
       userJSON = { '_id': '123' }
@@ -40,6 +40,7 @@ describe 'Sayings', ->
       sinon.spy Sayings.Routers, "Exchanges"
       Sayings.init [], {}, true
       expect( Sayings.Routers.Exchanges ).toHaveBeenCalled()
+      expect( Sayings.router ).not.toEqual undefined
       Sayings.Routers.Exchanges.restore()
 
     it 'instantiates a Users router', ->
