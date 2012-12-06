@@ -10,6 +10,9 @@ describe 'Entry', ->
     it 'creates a collection for nested comments', ->
       expect( @entry.comments instanceof Sayings.Collections.Comments ).toBeTruthy()
       expect( @entry.comments.size() ).toEqual( 2 )
+
+    it 'sets the url on the comments collection', ->
+      expect( @entry.comments.url ).toEqual '/exchanges/789/entries/999/comments'
     
     it 'populates the collection with Entry models', ->
       expect( @entry.comments.first() instanceof Sayings.Models.Comment ).toBeTruthy()
