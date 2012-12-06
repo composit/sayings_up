@@ -10,7 +10,7 @@ describe ApplicationController do
     expect( subject.send :current_user ).to eq user
   end
 
-  it 'stores stores the current user rather than continuing to find via the database', :focus do
+  it 'stores stores the current user rather than continuing to find via the database' do
     bad_user = stub
     User.stub( :find ).with( 234 ) { bad_user }
     session[:user_id] = 123

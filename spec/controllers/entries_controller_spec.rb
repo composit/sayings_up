@@ -31,7 +31,7 @@ describe EntriesController do
     end
 
     it 'saves the entry' do
-      exchange.should_receive :save
+      exchange.should_receive :save!
     end
   end
 end
