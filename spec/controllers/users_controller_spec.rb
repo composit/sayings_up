@@ -51,6 +51,14 @@ describe UsersController do
   end
   
   context 'GET/1' do
-    it 'tests'
+    it 'assigns the user' do
+      user = stub
+      ability = Object.new.extend CanCan::Ability
+      ability.can :read, user
+      @controller.stub( :current_ability ) { ability }
+      User.stub( :find ).with( '123' ) { user }
+      get :show, id: 123
+      expect( assigns[:user] ).to eq user
+    end
   end
 end

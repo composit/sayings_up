@@ -8,9 +8,7 @@ describe ExchangesController do
   context 'GET/1' do
     it 'assigns the exchange' do
       exchange = stub
-      current_user = mock_model User
-      ability = Object.new
-      ability.extend CanCan::Ability
+      ability = Object.new.extend CanCan::Ability
       ability.can :read, exchange
       @controller.stub( :current_ability ) { ability }
       Exchange.stub( :find ).with( '123' ) { exchange }
