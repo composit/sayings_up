@@ -55,10 +55,6 @@ describe 'exchange routes', ->
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
       expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: undefined, commentId: undefined
 
-    it 'sets the global exchange', ->
-      @router.show '999'
-      expect( Sayings.exchange ).toEqual @exchange
-
     it 'renders the show view with entry and comment ids', ->
       @router.show '999', '456', '789'
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
@@ -86,3 +82,6 @@ describe 'exchange routes', ->
 
       it 'parses the exchange\'s entries', ->
         expect( @parseSpy ).toHaveBeenCalledOnce()
+
+      xit 'prepends the exchange if the back button had been pressed', ->
+        #TODO

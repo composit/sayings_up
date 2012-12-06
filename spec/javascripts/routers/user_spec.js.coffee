@@ -12,11 +12,9 @@ describe 'user routes', ->
   describe 'new', ->
     beforeEach ->
       @newUserViewStub = sinon.stub( Sayings.Views, 'NewUser' ).returns( new Backbone.View() )
-      #@newUserStub = sinon.stub( Sayings.Models, 'User' ).returns( new Backbone.Model() )
 
     afterEach ->
       Sayings.Views.NewUser.restore()
-      #Sayings.Models.User.restore()
 
     it 'fires the new route', ->
       @router.on 'route:new', @routeSpy

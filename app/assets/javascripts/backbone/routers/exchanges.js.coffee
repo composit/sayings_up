@@ -25,7 +25,6 @@ class Sayings.Routers.Exchanges extends Backbone.Router
       )
 
   renderExchange: ( exchange, entryId, commentId ) ->
-    Sayings.exchange = exchange
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
     @$el = $( @view.render().el )
     if commentId

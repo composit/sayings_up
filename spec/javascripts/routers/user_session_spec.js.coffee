@@ -1,7 +1,7 @@
 describe 'user session routes', ->
   beforeEach ->
-    @user_session = new Sayings.Models.UserSession()
-    @router = new Sayings.Routers.UserSessions model: @user_session
+    @userSession = new Sayings.Models.UserSession()
+    @router = new Sayings.Routers.UserSessions model: @userSession
     @routeSpy = sinon.spy()
     try
       Backbone.history.start { silent: true }
