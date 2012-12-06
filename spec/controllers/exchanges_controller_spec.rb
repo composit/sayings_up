@@ -2,7 +2,21 @@ require 'spec_helper'
 
 describe ExchangesController do
   context 'GET' do
-    it 'tests'
+    it 'does something undetermined'
+  end
+
+  context 'GET/1' do
+    it 'assigns the exchange' do
+      exchange = stub
+      current_user = mock_model User
+      ability = Object.new
+      ability.extend CanCan::Ability
+      ability.can :read, exchange
+      @controller.stub( :current_ability ) { ability }
+      Exchange.stub( :find ).with( '123' ) { exchange }
+      get :show, id: 123
+      expect( assigns[:exchange] ).to eq exchange
+    end
   end
   
   context 'POST' do
@@ -22,19 +36,22 @@ describe ExchangesController do
       Exchange.should_receive( :new ) { exchange }
     end
 
-    after :each do
-      post :create, params
+    it 'does not save if the user does not have the appropriate rights' do
+      bad_ability = Object.new
+      bad_ability.extend CanCan::Ability
+      @controller.stub( :current_ability ) { bad_ability }
+      ability.cannot :create, Exchange
+      expect { post :create, params }.to raise_error CanCan::AccessDenied
     end
-
-    it 'does not assign the parent comment id if the entry and exchange ids do not match'
-    it 'does not save if the user does not own the parent entry'
 
     it 'assigns the current user' do
       exchange.should_receive( :initial_values= ).with hash_including user_id: current_user.id
+      post :create, params
     end
 
     it 'saves the exchange' do
-      exchange.should_receive :save
+      exchange.should_receive :save!
+      post :create, params
     end
   end
 end
