@@ -2,24 +2,24 @@ require 'spec_helper'
 
 describe Entry do
   it 'creates a new instance given valid attributes' do
-    build( :entry ).should be_valid
+    expect( build :entry ).to be_valid
   end
 
-  it 'only includes the id, comments and content attributes in the json' do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"comments\":\[\]}$/
+  it 'only includes specific data in the json' do
+    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"comments\":\[\]}$/
   end
 
   it 'contains comments' do
     entry = build :entry
     entry.comments << build_list( :comment, 11 )
     entry.save!
-    entry.reload.comments.length.should == 11
+    expect( entry.reload.comments.length ).to eq 11
   end
 
   it 'belongs to a user' do
     user = User.new
     subject.user = user
-    subject.user.should == user
+    expect( subject.user ).to eq user
   end
 
   it 'persists the user to the database' do
@@ -27,35 +27,20 @@ describe Entry do
     entry = build :entry
     entry.user = user
     entry.save!
-    entry.reload.user.should == user
+    expect( entry.reload.user ).to eq user
   end
 
   it 'returns the exchange id' do
     exchange = create :exchange
     entry = Entry.new
     exchange.entries << entry
-    entry.exchange_id.should == exchange.id
+    expect( entry.exchange_id ).to eq exchange.id
   end
 
   it 'requires the existence of a user' do
-    pending
-    entry = build( :entry, :user_id => nil )
-    entry.should_not be_valid
-    entry.errors[:user_id].length.should eql( 1 )
-    entry.errors[:user_id].should include( 'can\'t be blank' )
-  end
-
-  it 'does not allow comments if it is the initial entry in an exchange associated with a comment' do
-    pending
-    exchange = build :exchange
-    first_entry = exchange.entries.build( :user_id => User.create.id, :created_at => '2001-01-01' )
-    second_entry = exchange.entries.build( :user_id => User.create.id, :created_at => '2002-02-02' )
-    first_entry.comments.build
-    second_entry.comments.build
-    first_entry.save
-    first_entry.errors.length.should eql( 1 )
-    first_entry.errors[:base].should include( 'Comments are not allowed for this record' )
-    second_entry.save
-    second_entry.errors.length.should eql( 0 )
+    entry = build :entry, user: nil
+    expect( entry ).not_to be_valid
+    expect( entry.errors[:user].length ).to eq 1
+    expect( entry.errors[:user] ).to include( 'can\'t be blank' )
   end
 end

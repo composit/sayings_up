@@ -14,6 +14,7 @@ FactoryGirl.define do
 
   factory :entry do
     exchange
+    user
 
     factory :entry_with_comment do
       after( :build ) do |entry|

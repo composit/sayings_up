@@ -72,7 +72,7 @@ describe Exchange do
     let( :parent_exchange ) { create :exchange_with_entry_and_comment }
     let( :parent_entry ) { parent_exchange.entries.first }
     let( :parent_comment ) { parent_entry.comments.first }
-    let( :commenter ) { mock_model User }
+    let( :commenter ) { build :user }
     let( :user ) { mock_model User }
     let( :initial_values ) { { parent_exchange_id: parent_exchange.id, parent_entry_id: parent_entry.id, parent_comment_id: parent_comment.id, content: 'good exchange', user_id: user.id } }
 
@@ -80,7 +80,7 @@ describe Exchange do
     describe 'when the comment, entry and exchange ids match up' do
       before :each do
         parent_comment.content = 'comment content'
-        parent_comment.user_id = commenter.id
+        parent_comment.user = commenter
         parent_comment.save!
         subject.initial_values = initial_values
       end
