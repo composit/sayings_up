@@ -2,18 +2,18 @@ require 'spec_helper'
 
 describe Exchange do
   it "creates a new instance given valid attributes" do
-    build( :exchange ).should be_valid
+    expect( build :exchange ).to be_valid
   end
 
-  it "only includes the id, entries and user_id attributes in the json" do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"parent_comment_id\":null,\"parent_entry_id\":null,\"parent_exchange_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entries\":\[\]}$/
+  it "only includes specific data in the json" do
+    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"parent_comment_id\":null,\"parent_entry_id\":null,\"parent_exchange_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entries\":\[\]}$/
     #TODO test instances with entries/comments
   end
 
   it 'contains entries' do
     subject.entries << build_list( :entry, 11 )
     subject.save!
-    subject.reload.entries.length.should == 11
+    expect( subject.reload.entries.length ).to eq 11
   end
 
   context 'ordered_user_ids' do
@@ -23,32 +23,32 @@ describe Exchange do
     end
 
     it 'populates its ordered_user_ids based on the entries' do
-      subject.ordered_user_ids.should == [345,123]
+      expect( subject.ordered_user_ids ).to eq [345,123]
     end
     
     it 'returns unique ordered_user_ids' do
       subject.entries << build( :entry, user: create( :user, id: 123 ), created_at: 1.day.since )
-      subject.ordered_user_ids.should == [345,123]
+      expect( subject.ordered_user_ids ).to eq [345,123]
     end
 
     it 'does not break if entries do not yet have a created_at value' do
       subject.entries.build
-      subject.ordered_user_ids.should == [345,123]
+      expect( subject.ordered_user_ids ).to eq [345,123]
     end
 
     it 'only allows two users' do
       subject.entries << build( :entry, user: create( :user, id: 678 ), created_at: 1.day.ago )
-      subject.ordered_user_ids.should == [345,123]
+      expect( subject.ordered_user_ids ).to eq [345,123]
     end
 
     it 'does not include entries that has not yet been saved' do
       subject.entries.destroy_all
       subject.entries.build( user: create( :user ) )
-      subject.ordered_user_ids.should == []
+      expect( subject.ordered_user_ids ).to eq []
     end
 
     it 'returns ordered usernames' do
-      subject.ordered_usernames.should == ['two', 'one']
+      expect( subject.ordered_usernames ).to eq ['two', 'one']
     end
   end
 
@@ -63,9 +63,9 @@ describe Exchange do
       subject.parent_comment_id = parent_comment.id
     end
 
-    specify { subject.parent_exchange.should == parent_exchange }
-    specify { subject.parent_entry.should == parent_entry }
-    specify { subject.parent_comment.should == parent_comment }
+    specify { expect( subject.parent_exchange ).to eq parent_exchange }
+    specify { expect( subject.parent_entry ).to eq parent_entry }
+    specify { expect( subject.parent_comment ).to eq parent_comment }
   end
 
   context 'initial values' do
@@ -86,20 +86,20 @@ describe Exchange do
       end
 
       context 'setting parents' do
-        specify { subject.parent_exchange_id.should == parent_exchange.id }
-        specify { subject.parent_entry_id.should == parent_entry.id }
-        specify { subject.parent_comment_id.should == parent_comment.id }
+        specify { expect( subject.parent_exchange_id ).to eq parent_exchange.id }
+        specify { expect( subject.parent_entry_id ).to eq parent_entry.id }
+        specify { expect( subject.parent_comment_id ).to eq parent_comment.id }
       end
       
       context 'initial entry' do
         let( :first_entry ) { subject.entries[0] }
 
         it 'has content matching the parent comment\'s content' do
-          first_entry.content.should == 'comment content'
+          expect( first_entry.content ).to eq 'comment content'
         end
 
         it 'has a user id matching the parent comment\'s user id' do
-          first_entry.user_id.should == commenter.id
+          expect( first_entry.user_id ).to eq commenter.id
         end
       end
 
@@ -107,11 +107,11 @@ describe Exchange do
         let( :second_entry ) { subject.entries[1] }
 
         it 'is assigned the passed in content' do
-          second_entry.content.should == 'good exchange'
+          expect( second_entry.content ).to eq 'good exchange'
         end
 
         it 'assigns the user' do
-          second_entry.user_id.should == user.id
+          expect( second_entry.user_id ).to eq user.id
         end
       end
     end
@@ -124,7 +124,7 @@ describe Exchange do
       end
 
       it 'raises an error' do
-        lambda { subject.initial_values = initial_values }.should raise_error Mongoid::Errors::DocumentNotFound
+        expect { subject.initial_values = initial_values }.to raise_error Mongoid::Errors::DocumentNotFound
       end
     end
   end
@@ -133,76 +133,6 @@ describe Exchange do
     exchange = build :exchange
     exchange.entries = [build( :entry ), build( :entry )]
     exchange.save!
-    exchange.entries.each { |entry| entry.created_at.should_not be_nil }
-  end
-
-  it "adds users" do
-    pending
-    user_1 = create( :user )
-    user_2 = create( :user )
-    exchange = create( :exchange )
-    exchange.users << user_1
-    exchange.users << user_2
-    exchange.save
-    Exchange.find( exchange.id ).users.should eql( [user_1, user_2] )
-  end
-
-  it "removes users" do
-    pending
-    user_1 = create( :user )
-    user_2 = create( :user )
-    exchange = create( :exchange )
-    exchange.users << user_1
-    exchange.users << user_2
-    exchange.save
-    exchange = Exchange.where( :_id => exchange.id ).first
-    exchange.users.delete( user_1 )
-    exchange.save
-    Exchange.find( exchange.id ).users.should eql( [user_2] )
-  end
-
-  it "creates entries via nested attributes" do
-    pending
-    user = create( :user )
-    exchange = create( :exchange )
-    exchange.users << user
-    exchange.save
-    exchange.update_attributes( :entries_attributes => [{ :content => "this is a test", :user_id => user.id }] )
-    exchange.entries.length.should eql( 1 )
-    exchange.entries.first.content.should eql( "this is a test" )
-    exchange.entries.first.user_id.should eql( user.id )
-  end
-
-  it "sets the most recent entry date" do
-    pending
-    exchange = create( :exchange )
-    entry = create( :entry, :created_at => "2005-05-05", :exchange => exchange )
-    exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2005-05-05" )
-  end
-
-  it "does not override the most recent entry with older dates" do
-    pending
-    exchange = create( :exchange )
-    create( :entry, :created_at => "2005-05-05", :exchange => exchange )
-    create( :entry, :created_at => "2001-01-01", :exchange => exchange )
-    exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2005-05-05" )
-  end
-
-  it "overrides the most recent entry with newer dates" do
-    pending
-    exchange = create( :exchange )
-    create( :entry, :created_at => "2001-01-01", :exchange => exchange )
-    create( :entry, :created_at => "2009-09-09", :exchange => exchange )
-    exchange.most_recent_entry_date.strftime( "%Y-%m-%d" ).should eql( "2009-09-09" )
-  end
-
-  it "determines ordered entries" do
-    pending
-    exchange = create( :exchange )
-    create( :entry, :created_at => "2001-01-01", :exchange => exchange )
-    create( :entry, :created_at => "2009-09-09", :exchange => exchange )
-    create( :entry, :created_at => "2005-05-05", :exchange => exchange )
-    create( :entry, :created_at => "2007-07-07", :exchange => exchange )
-    exchange.ordered_entries.collect { |entry| entry.created_at.strftime( "%Y-%m-%y" ) }.should eql( ["2001-01-01", "2005-05-05", "2007-07-07", "2009-09-09"] )
+    exchange.entries.each { |entry| expect( entry.created_at ).not_to be_nil }
   end
 end
