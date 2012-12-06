@@ -2,72 +2,46 @@ require 'spec_helper'
 
 describe Comment do
   it 'is valid' do
-    build( :comment ).should be_valid
+    expect( build :comment ).to be_valid
   end
 
-  it 'only includes the id and content in the json' do
-    subject.to_json.should =~ /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}$/
+  it 'only includes specific data in the json' do
+    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}$/
   end
 
   context 'exchange and entry values' do
     let( :user ) { create :user }
     let!( :exchange ) { create :exchange, entries: [entry] }
-    let!( :entry ) { create :entry, comments: [subject], user: user }
+    let!( :entry ) { create :entry, comments: [comment], user: user }
+    let( :comment ) { build :comment }
 
-    specify { subject.entry_user_id.should == user.id }
-    specify { subject.exchange_id.should == exchange.id }
-    specify { subject.entry_id.should == entry.id }
+    specify { expect( comment.entry_user_id ).to eq user.id }
+    specify { expect( comment.exchange_id ).to eq exchange.id }
+    specify { expect( comment.entry_id ).to eq entry.id }
 
-    it 'returns info about a child exchange' do
-      child_exchange = create( :exchange, parent_comment_id: subject.id )
-      child_exchange.entries = create_list :entry, 11
-      subject.child_exchange_data.should == { id: child_exchange.id, entry_count: 11 } 
+    context 'child exchange' do
+      let!( :child_exchange ) { create( :exchange, parent_comment_id: comment.id ) }
+      
+      it 'finds the child exchange' do
+        expect( comment.child_exchange ).to eq child_exchange
+      end
+
+      it 'returns info about a child exchange' do
+        child_exchange.entries = create_list :entry, 11
+        expect( comment.child_exchange_data ).to eq( { id: child_exchange.id, entry_count: 11 } )
+      end
     end
   end
 
   it 'returns the user\'s username' do
     subject.user = build :user, username: 'test user'
-    subject.user_username.should == 'test user'
+    expect( subject.user_username ).to eq 'test user'
   end
 
   it "requires the existence of a user" do
-    pending
-    comment = build :entry, user_id: nil
-    comment.should_not be_valid
-    comment.errors[:user_id].length.should == 1
-    comment.errors[:user_id].should include "can't be blank"
-  end
-
-  it "creates a new exchange with two entries and users" do
-    pending
-    user_1 = create( :user, :username => "User first" )
-    user_2 = create( :user, :username => "User second" )
-    top_exchange = create( :exchange )
-    top_entry = build( :entry, :content => "entry content", :user_id => user_1.id, :exchange => top_exchange )
-    top_comment = create( :comment, :content => "comment content", :user_id => user_2.id, :entry => top_entry )
-    exchange = top_comment.new_exchange
-    exchange.users.should eql( [ user_1, user_2 ] )
-    exchange.entries.collect { |entry| entry.content }.should eql( [ "entry content", "comment content" ] )
-    exchange.parent_exchange.should eql( top_exchange )
-    exchange.parent_entry_id.should eql( top_entry.id )
-    exchange.parent_comment_id.should eql( top_comment.id )
-  end
-
-  it "creates a new exchange with entry timestamps that match the original entries" do
-    pending
-    entry = build( :entry )
-    comment = create( :comment, :entry => entry )
-    exchange = comment.new_exchange
-    exchange.entries.all[0].created_at.should eql( entry.created_at )
-    exchange.entries.all[1].created_at.should eql( comment.created_at )
-  end
-
-  it "recognizes child exchanges" do
-    pending
-    entry = build( :entry )
-    comment = create( :comment, :entry => entry )
-    exchange = comment.new_exchange
-    exchange.save!
-    comment.child_exchange.should eql( exchange )
+    comment = build :comment, user: nil
+    expect( comment ).not_to be_valid
+    expect( comment.errors[:user].length ).to eq 1
+    expect( comment.errors[:user] ).to include "can't be blank"
   end
 end
