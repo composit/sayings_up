@@ -50,11 +50,11 @@ class Exchange
   end
 
   def parent_entry
-    parent_exchange.entries.find parent_entry_id
+    parent_exchange.entries.find parent_entry_id if parent_entry_id
   end
 
   def parent_comment
-    Exchange.find( parent_exchange_id ).entries.find( parent_entry_id ).comments.find parent_comment_id
+    Exchange.find( parent_exchange_id ).entries.find( parent_entry_id ).comments.find parent_comment_id if parent_exchange_id && parent_entry_id && parent_comment_id
   end
 
   private

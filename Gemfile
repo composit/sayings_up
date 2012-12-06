@@ -46,6 +46,7 @@ group :test do
   gem 'guard-jasmine-headless-webkit', '~>0.3'
   gem 'guard-rspec', '~>2.1'
   gem 'guard-spork', '~>1.1'
+  gem 'jasmine-headless-webkit', git: 'git://github.com/composit/jasmine-headless-webkit.git'
   gem 'launchy', '~>2.1'
   gem 'rb-inotify', '~>0.8.8'
   gem 'rspec-rails', '~>2.11'
