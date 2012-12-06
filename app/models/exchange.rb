@@ -2,12 +2,13 @@ class Exchange
   include Mongoid::Document
   include Mongoid::Timestamps
 
+  field :parent_entry_id
+  field :parent_comment_id
+
   attr_accessible
 
   embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
-  #belongs_to :parent_entry, class_name: 'Entry'
-  #belongs_to :parent_comment, class_name: 'Comment'
 
   def as_json( options = {} )
     super(
@@ -40,8 +41,8 @@ class Exchange
 
   def initial_values=( values )
     self.parent_exchange = Exchange.find values[:parent_exchange_id]
-    self.parent_entry = parent_exchange.entries.find values[:parent_entry_id]
-    self.parent_comment = Exchange.find( values[:parent_exchange_id] ).entries.find( values[:parent_entry_id] ).comments.find values[:parent_comment_id]
+    self.parent_entry_id = values[:parent_entry_id] if parent_exchange.entries.find values[:parent_entry_id]
+    self.parent_comment_id = values[:parent_comment_id] if parent_entry.comments.find values[:parent_comment_id]
     entry_one = Entry.new( content: parent_comment.content )
     entry_one.user_id = parent_comment.user_id
     entry_two = Entry.new( content: values[:content] )

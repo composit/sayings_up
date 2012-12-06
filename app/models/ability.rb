@@ -17,17 +17,5 @@ class Ability
     end
     can :read, Entry
     can :create, Comment
-=begin
-    can :read, Entry
-    can :create, Entry do |entry|
-      EXCHANGE_STARTERS.empty? ? !user.new_record? : EXCHANGE_STARTERS.include?( user.username )
-    end
-    can :create, Comment
-    can :read, Exchange
-    can :edit, Exchange do |exchange|
-      exchange.users.include?( user )
-    end
-    can :read, User
-=end
   end
 end

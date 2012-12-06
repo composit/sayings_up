@@ -19,9 +19,8 @@ describe Comment do
     specify { subject.entry_id.should == entry.id }
 
     it 'returns info about a child exchange' do
-      child_exchange = create( :exchange )
+      child_exchange = create( :exchange, parent_comment_id: subject.id )
       child_exchange.entries = create_list :entry, 11
-      subject.child_exchange = child_exchange
       subject.child_exchange_data.should == { id: child_exchange.id, entry_count: 11 } 
     end
   end

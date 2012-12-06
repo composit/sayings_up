@@ -8,7 +8,6 @@ class Comment
 
   embedded_in :entry
   belongs_to :user
-  #has_one :child_exchange, class_name: 'Exchange'#, inverse_of: :parent_comment
 
   def as_json( options = {} )
     super( options.merge( only: [:_id, :content], methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username] ) )
