@@ -2,6 +2,8 @@ class Sayings.Routers.Exchanges extends Backbone.Router
   initialize: ( options ) ->
     _.bindAll( this, 'index', 'show', 'renderExchange' )
     @collection = options.collection
+    @exchangeManager = new Sayings.Views.ExchangeManager
+    $( '#exchanges' ).html @exchangeManager.render().el
 
   routes:
     '': 'index'
@@ -26,8 +28,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   renderExchange: ( exchange, entryId, commentId ) ->
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
-    @$el = $( @view.render().el )
     if commentId
-      $( '#exchanges' ).prepend @$el
+      @exchangeManager.addFromLeft @view
     else
-      $( '#exchanges' ).append @$el
+      @exchangeManager.addFromRight @view

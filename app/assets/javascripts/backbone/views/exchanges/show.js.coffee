@@ -1,8 +1,8 @@
-class Sayings.Views.ShowExchange extends Backbone.View
+class Sayings.Views.ShowExchange extends Support.CompositeView
   className: 'exchange'
 
-  events:
-    'click .back-link a': 'showPreviousExchange'
+  #events:
+  #  'click .back-link a': 'showPreviousExchange'
 
   initialize: ->
     _.bindAll( this, 'render', 'addUsernames', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
@@ -14,7 +14,7 @@ class Sayings.Views.ShowExchange extends Backbone.View
     @addUsernames()
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
-    @addParentLink()
+    #@addParentLink()
     return this
 
   addUsernames: ->
@@ -38,13 +38,13 @@ class Sayings.Views.ShowExchange extends Backbone.View
     newEntryView = new Sayings.Views.NewEntry collection: @model.entries
     @$( '.entries' ).append newEntryView.render().el
 
-  addParentLink: ->
-    if @model.get 'parent_exchange_id'
-      $( '#back-link' ).html '<a href="#e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' ) + '">back</a>'
-      $( '#back-link a' ).on 'click', 'showPreviousExchange'
-      $( '#back-link' ).show()
-    else
-      $( '#back-link' ).hide()
+#  addParentLink: ->
+#    if @model.get 'parent_exchange_id'
+#      $( '#back-link' ).html '<a href="#e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' ) + '">back</a>'
+#      $( '#back-link a' ).on 'click', @showPreviousExchange()
+#      $( '#back-link' ).show()
+#    else
+#      $( '#back-link' ).hide()
 
   expandComments: ( entryView ) ->
     entryView.model.comments.each @setCurrentComment
@@ -56,16 +56,22 @@ class Sayings.Views.ShowExchange extends Backbone.View
     else
       comment.set 'current', false
 
-  showPreviousExchange: ->
-    previousUrl = 'e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' )
-    if @$el.prev().length > 0
-      $previousExchange = @$el.prev()
-      console.log $previousExchange
-      width = $previousExchange.width()
-      $previousExchange.show()
-      $previousExchange.animate(
-        { 'margin-left': '+=' + width },
-        1000
-      )
-      Sayings.router.navigate previousUrl
-      return false
+#  showPreviousExchange: ->
+#    console.log 'in the show method'
+#    console.log @model
+#    previousUrl = 'e/' + @model.get( 'parent_exchange_id' ) + '/' + @model.get( 'parent_entry_id' ) + '/' + @model.get( 'parent_comment_id' )
+#    if @$el.prev().length > 0
+#      $previousExchange = @$el.prev()
+#      console.log $previousExchange
+#      width = $previousExchange.width()
+#      $previousExchange.show()
+#      $previousExchange.animate(
+#        { 'margin-left': '+=' + width },
+#        1000
+#      )
+#      Sayings.router.navigate previousUrl
+#      return false
+
+  orderedLeave: ->
+    @parent.orderedChildren.splice( @parent.orderedChildren.indexOf( this ), 1 )
+    @leave()

@@ -259,7 +259,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  backbone-support (~> 0.2)
+  backbone-support (~> 0.3)
   bcrypt-ruby (~> 3.0)
   bourbon (~> 2.1)
   bson_ext (~> 1.6)

@@ -35,11 +35,14 @@ class Sayings.Views.ShowEntry extends Backbone.View
       entry.set 'current', false
 
   removePreviousExchange: ->
-    $previousExchange = @$el.parents( '.exchange' ).prev()
-    width = $previousExchange.width()
-    $previousExchange.animate(
-      { 'margin-left': '-=' + width },
-      1000,
-      () ->
-        $previousExchange.hide()
-    )
+    #$previousExchange = @$el.parents( '.exchange' ).prev()
+    #width = $previousExchange.width()
+    #$previousExchange.animate(
+    #  { 'margin-left': '-=' + width },
+    #  1000,
+    #  () ->
+    #    Sayings.router.exchangeManager.children.first().leave()
+    #    #$previousExchange.hide()
+    #)
+    if Sayings.router.exchangeManager.orderedChildren.size() > 1
+      Sayings.router.exchangeManager.orderedChildren.first().orderedLeave()

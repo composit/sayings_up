@@ -19,7 +19,7 @@ group :assets do
   gem 'uglifier', '~>1.2'
 end
 
-gem 'backbone-support', '~>0.2'
+gem 'backbone-support', '~>0.3'
 gem 'bcrypt-ruby', '~>3.0'
 gem 'bourbon', '~>2.1'
 gem 'cancan', '~>1.6'

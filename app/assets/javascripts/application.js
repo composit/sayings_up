@@ -6,7 +6,7 @@
 //= require backbone
 //= require backbone_rails_sync
 //= require backbone_datalink
-//= require backbone/sayings
 //= require backbone-support
+//= require backbone/sayings
 //= require_tree .
 // require backbone.authtokenadapter

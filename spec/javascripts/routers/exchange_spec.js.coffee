@@ -10,6 +10,17 @@ describe 'exchange routes', ->
     catch e
     @router.navigate 'elsewhere'
 
+  describe 'initialize', ->
+    it 'creates a collection of exchanges', ->
+      router = new Sayings.Routers.Exchanges collection: @exchanges
+      expect( router.collection ).toEqual @exchanges
+
+    it 'creates a composite view', ->
+      @exchangeManagerViewStub = sinon.stub( Sayings.Views, 'ExchangeManager' ).returns new Backbone.View()
+      new Sayings.Routers.Exchanges collection: @exchanges
+      expect( @exchangeManagerViewStub ).toHaveBeenCalledOnce()
+      Sayings.Views.ExchangeManager.restore()
+
   describe 'index', ->
     beforeEach ->
       @router.on 'route:index', @routeSpy
@@ -31,7 +42,7 @@ describe 'exchange routes', ->
 
   describe 'show', ->
     beforeEach ->
-      @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns new Backbone.View()
+      @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns new Support.CompositeView()
       @exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns @exchange
 
     afterEach ->
@@ -49,6 +60,36 @@ describe 'exchange routes', ->
       @router.navigate 'e/123/456/789', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '123', '456', '789'
+
+    describe 'appending', ->
+      it 'appends the exchange view to the exchange manager', ->
+        @appendChildSpy = sinon.spy @router.exchangeManager, 'appendChild'
+        @router.show '999'
+        expect( @appendChildSpy ).toHaveBeenCalledOnce()
+        @router.exchangeManager.appendChild.restore()
+
+      it 'removes the first exchange if there are more than two exchanges shown', ->
+        exchangeTwo = new Sayings.Models.Exchange '_id': '987', 'content': 'Test', 'entries': [{ '_id': '888' }]
+        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeTwo
+        exchangeThree = new Sayings.Models.Exchange '_id': '876', 'content': 'Test', 'entries': [{ '_id': '888' }]
+        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeThree
+        @router.show '999'
+        expect( @router.exchangeManager.children.size() ).toEqual 2
+
+    describe 'prepending', ->
+      it 'prepends the exchange view child if the back button was pressed', ->
+        @prependChildSpy = sinon.spy @router.exchangeManager, 'prependChild'
+        @router.show '999', '456', '789'
+        expect( @prependChildSpy ).toHaveBeenCalledOnce()
+        @router.exchangeManager.prependChild.restore()
+
+      it 'removes the last exchange if there are more than two exchanges shown', ->
+        exchangeTwo = new Sayings.Models.Exchange '_id': '987', 'content': 'Test', 'entries': [{ '_id': '888' }]
+        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeTwo
+        exchangeThree = new Sayings.Models.Exchange '_id': '876', 'content': 'Test', 'entries': [{ '_id': '888' }]
+        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeThree
+        @router.show '999', '456', '789'
+        expect( @router.exchangeManager.children.size() ).toEqual 2
 
     it 'renders the show view', ->
       @router.show '999'
@@ -82,6 +123,3 @@ describe 'exchange routes', ->
 
       it 'parses the exchange\'s entries', ->
         expect( @parseSpy ).toHaveBeenCalledOnce()
-
-      xit 'prepends the exchange if the back button had been pressed', ->
-        #TODO
