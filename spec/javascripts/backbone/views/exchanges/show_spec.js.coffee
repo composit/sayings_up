@@ -1,5 +1,6 @@
 describe 'exchange show view', ->
   beforeEach ->
+    Sayings.router = new Sayings.Routers.Exchanges collection: []
     @comment = new Sayings.Models.Comment _id: 9
     @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comments: []
     @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comments: [@comment]

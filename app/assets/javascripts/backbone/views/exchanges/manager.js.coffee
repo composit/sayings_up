@@ -19,7 +19,6 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     return false
 
   addFromLeft: ( exchangeView ) ->
-    console.log @orderedChildren
     @prependChildTo exchangeView, $( '#exchange-children' )
     @orderedChildren.unshift exchangeView
     if @orderedChildren.size() > 2

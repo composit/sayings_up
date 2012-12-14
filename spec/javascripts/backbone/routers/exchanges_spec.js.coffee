@@ -63,33 +63,17 @@ describe 'exchange routes', ->
 
     describe 'appending', ->
       it 'appends the exchange view to the exchange manager', ->
-        @appendChildSpy = sinon.spy @router.exchangeManager, 'appendChild'
+        @addChildSpy = sinon.spy @router.exchangeManager, 'addFromRight'
         @router.show '999'
-        expect( @appendChildSpy ).toHaveBeenCalledOnce()
-        @router.exchangeManager.appendChild.restore()
-
-      it 'removes the first exchange if there are more than two exchanges shown', ->
-        exchangeTwo = new Sayings.Models.Exchange '_id': '987', 'content': 'Test', 'entries': [{ '_id': '888' }]
-        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeTwo
-        exchangeThree = new Sayings.Models.Exchange '_id': '876', 'content': 'Test', 'entries': [{ '_id': '888' }]
-        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeThree
-        @router.show '999'
-        expect( @router.exchangeManager.children.size() ).toEqual 2
+        expect( @addChildSpy ).toHaveBeenCalledOnce()
+        @router.exchangeManager.addFromRight.restore()
 
     describe 'prepending', ->
       it 'prepends the exchange view child if the back button was pressed', ->
-        @prependChildSpy = sinon.spy @router.exchangeManager, 'prependChild'
+        @prependChildSpy = sinon.spy @router.exchangeManager, 'addFromLeft'
         @router.show '999', '456', '789'
         expect( @prependChildSpy ).toHaveBeenCalledOnce()
-        @router.exchangeManager.prependChild.restore()
-
-      it 'removes the last exchange if there are more than two exchanges shown', ->
-        exchangeTwo = new Sayings.Models.Exchange '_id': '987', 'content': 'Test', 'entries': [{ '_id': '888' }]
-        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeTwo
-        exchangeThree = new Sayings.Models.Exchange '_id': '876', 'content': 'Test', 'entries': [{ '_id': '888' }]
-        @router.exchangeManager.appendChild new Sayings.Views.ShowExchange exchangeThree
-        @router.show '999', '456', '789'
-        expect( @router.exchangeManager.children.size() ).toEqual 2
+        @router.exchangeManager.addFromLeft.restore()
 
     it 'renders the show view', ->
       @router.show '999'

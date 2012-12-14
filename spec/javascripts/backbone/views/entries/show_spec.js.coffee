@@ -1,5 +1,6 @@
 describe 'entry show view', ->
   beforeEach ->
+    Sayings.router = new Sayings.Routers.Exchanges collection: []
     @entry = new Sayings.Models.Entry _id: 123, content: 'Good entry', comments: [{ '_id': '123' },{},{}], user_username: 'test user'
     @view = new Sayings.Views.ShowEntry model: @entry
     @entries = new Backbone.Collection
