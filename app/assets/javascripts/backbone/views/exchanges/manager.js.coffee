@@ -19,13 +19,13 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     return false
 
   addFromLeft: ( exchangeView ) ->
-    @prependChildTo exchangeView, $( '#exchange-children' )
+    @prependChildTo exchangeView, @$( '#exchange-children' )
     @orderedChildren.unshift exchangeView
     if @orderedChildren.size() > 2
       @orderedChildren.last().orderedLeave()
 
   addFromRight: ( exchangeView ) ->
-    @appendChildTo exchangeView, $( '#exchange-children' )
+    @appendChildTo exchangeView, @$( '#exchange-children' )
     @orderedChildren.push exchangeView
     if @orderedChildren.size() > 2
       @orderedChildren.first().orderedLeave()
