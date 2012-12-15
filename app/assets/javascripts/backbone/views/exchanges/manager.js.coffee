@@ -19,13 +19,32 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     return false
 
   addFromLeft: ( exchangeView ) ->
-    @prependChildTo exchangeView, @$( '#exchange-children' )
     @orderedChildren.unshift exchangeView
-    if @orderedChildren.size() > 2
-      @orderedChildren.last().orderedLeave()
+    @slideFromLeft exchangeView
 
   addFromRight: ( exchangeView ) ->
-    @appendChildTo exchangeView, @$( '#exchange-children' )
     @orderedChildren.push exchangeView
-    if @orderedChildren.size() > 2
-      @orderedChildren.first().orderedLeave()
+    @appearOnRight exchangeView
+
+  slideFromLeft: ( exchangeView ) ->
+    @prependChildTo exchangeView, @$( '#exchange-children' )
+    firstViewElement = $( exchangeView.el )
+    firstViewElement.css 'margin-left', "-#{firstViewElement.css 'width'}"
+    firstViewElement.css 'display', 'block'
+    firstViewElement.animate { 'margin-left': '0px' }, 500, () =>
+      @removeFromRight()
+
+  appearOnRight: ( exchangeView ) ->
+    @appendChildTo exchangeView, @$( '#exchange-children' )
+    $( exchangeView.el ).css 'display', 'block'
+    @removeFromLeft 2
+
+  removeFromLeft: ( threshold ) ->
+    if @orderedChildren.size() > threshold
+      firstViewElement = $( @orderedChildren.first().el )
+      firstViewElement.animate { 'margin-left': "-#{firstViewElement.css 'width'}" }, 500, () =>
+        @orderedChildren.first().orderedLeave()
+        @removeFromLeft threshold
+
+  removeFromRight: ->
+    @orderedChildren.last().orderedLeave() while @orderedChildren.size() > 2

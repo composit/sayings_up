@@ -100,6 +100,7 @@ a:hover, a:active {
   }
 
   .exchange {
+    display: none;
     border-right: 1px solid #ddd;
     @include clearfix;
     float: left;

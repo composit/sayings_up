@@ -62,6 +62,9 @@ describe 'exchange manager view', ->
         expect( @view.orderedChildren.first() ).toEqual @exchangeView
 
       it 'removes the last view from the ordered children array if there are more than two', ->
+        jQuery.fx.off = true
+        @view.render()
+
         exchangeTwo = new Sayings.Models.Exchange
         exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
         exchangeThree = new Sayings.Models.Exchange
@@ -82,13 +85,19 @@ describe 'exchange manager view', ->
         @view.addFromRight @exchangeView
         expect( @view.orderedChildren.last() ).toEqual @exchangeView
 
-      it 'removes the last view from the ordered children array if there are more than two', ->
-        exchangeTwo = new Sayings.Models.Exchange
-        exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
-        exchangeThree = new Sayings.Models.Exchange
-        exchangeViewThree = new Sayings.Views.ShowExchange model: exchangeThree
+      it 'removes views from the beginning of the ordered children array if there are more than two', ->
+        jQuery.fx.off = true
+        @view.render()
+
+        exchangeViewTwo = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
+        exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
+        exchangeViewFour = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
+        leaveSpyTwo = sinon.spy exchangeViewTwo, 'orderedLeave'
+        leaveSpyThree = sinon.spy exchangeViewThree, 'orderedLeave'
         @view.addFromRight exchangeViewTwo
         @view.addFromRight exchangeViewThree
-        leaveSpy = sinon.spy exchangeViewTwo, 'orderedLeave'
+        @view.addFromRight exchangeViewFour
         @view.addFromRight @exchangeView
-        expect( leaveSpy ).toHaveBeenCalled()
+        expect( @view.orderedChildren.size() ).toEqual 2
+        expect( leaveSpyTwo ).toHaveBeenCalled()
+        expect( leaveSpyThree ).toHaveBeenCalled()
