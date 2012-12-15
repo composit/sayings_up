@@ -1,6 +1,9 @@
 class Sayings.Views.ShowComment extends Backbone.View
   className: 'comment'
 
+  events:
+    'click .display-child-exchange': 'displayChildExchange'
+
   initialize: ->
     _.bindAll( this, 'render', 'addResponder', 'addChildLink' )
 
@@ -21,5 +24,14 @@ class Sayings.Views.ShowComment extends Backbone.View
     @$( '.comment-footer' ).append newExchangeView.render().el
 
   addChildLink: ->
-    childExchange = @model.get 'child_exchange_data'
-    @$( '.comment-footer' ).append '<a href="/#e/' + childExchange.id + '">' + childExchange.entry_count + ' entries</a>'
+    @$( '.comment-footer' ).append '<a class="display-child-exchange" href="#">' + @childExchange().entry_count + ' entries</a>'
+
+  displayChildExchange: ->
+    Sayings.router.exchangeManager.removeFromRight 1
+    childExchange = @childExchange()
+    Sayings.router.navigate '#e/' + childExchange.id
+    Sayings.router.show childExchange.id
+    return false
+
+  childExchange: ->
+    @model.get 'child_exchange_data'

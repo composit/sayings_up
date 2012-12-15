@@ -14,8 +14,9 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
   goBack: ->
     if @orderedChildren.first()
       earliestExchange = @orderedChildren.first().model
-      Sayings.router.navigate '#e/' + earliestExchange.get( 'parent_exchange_id' ) + '/' + earliestExchange.get( 'parent_entry_id' ) + '/' + earliestExchange.get( 'parent_comment_id' )
-      Sayings.router.show earliestExchange.get( 'parent_exchange_id' ), earliestExchange.get( 'parent_entry_id' ), earliestExchange.get( 'parent_comment_id' )
+      if earliestExchange.get 'parent_comment_id'
+        Sayings.router.navigate '#e/' + earliestExchange.get( 'parent_exchange_id' ) + '/' + earliestExchange.get( 'parent_entry_id' ) + '/' + earliestExchange.get( 'parent_comment_id' )
+        Sayings.router.show earliestExchange.get( 'parent_exchange_id' ), earliestExchange.get( 'parent_entry_id' ), earliestExchange.get( 'parent_comment_id' )
     return false
 
   addFromLeft: ( exchangeView ) ->
@@ -32,7 +33,7 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     firstViewElement.css 'margin-left', "-#{firstViewElement.css 'width'}"
     firstViewElement.css 'display', 'block'
     firstViewElement.animate { 'margin-left': '0px' }, 500, () =>
-      @removeFromRight()
+      @removeFromRight 2
 
   appearOnRight: ( exchangeView ) ->
     @appendChildTo exchangeView, @$( '#exchange-children' )
@@ -46,5 +47,5 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
         @orderedChildren.first().orderedLeave()
         @removeFromLeft threshold
 
-  removeFromRight: ->
-    @orderedChildren.last().orderedLeave() while @orderedChildren.size() > 2
+  removeFromRight: ( threshold ) ->
+    @orderedChildren.last().orderedLeave() while @orderedChildren.size() > threshold
