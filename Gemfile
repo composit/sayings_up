@@ -21,7 +21,7 @@ end
 
 gem 'backbone-support', '~>0.3'
 gem 'bcrypt-ruby', '~>3.0'
-gem 'bourbon', '~>2.1'
+gem 'bourbon', '~>3.0.1'
 gem 'cancan', '~>1.6'
 gem 'capistrano', '~>2.12'
 gem 'ejs', '~>1.0'

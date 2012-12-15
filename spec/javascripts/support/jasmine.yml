@@ -87,4 +87,4 @@ spec_dir: spec/javascripts
 asset_pipeline_paths: 
   - app/assets
 #  - spec/javascripts 
-runner_output: "runner.html"
+#runner_output: "runner.html"
