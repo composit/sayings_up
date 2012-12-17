@@ -128,17 +128,24 @@ a:hover, a:active {
     padding: 10px;
 
     .entries {
-      .first-user {
+      .entry.first-user {
         padding-right: 40px;
         text-align: justify;
+        width: 100%
       }
 
-      .second-user {
+      .entry.second-user {
         padding-left: 40px;
         text-align: justify;
+
+        .entry-footer {
+          float: right;
+        }
       }
 
       .entry {
+        @include clearfix;
+        float: right;
 
         p {
         }
