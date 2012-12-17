@@ -135,26 +135,26 @@ a:hover, a:active {
       .entry.first-user {
         padding-right: 40px;
         text-align: justify;
-        width: 100%
       }
 
       .entry.second-user {
         padding-left: 40px;
         text-align: justify;
 
-        .entry-footer {
+        .content {
           float: right;
+        }
+
+        .entry-footer {
+          float:right;
+          text-align: right;
         }
       }
 
       .entry {
         @include clearfix;
-        float: right;
         margin-bottom: 20px;
         padding: 0 10px;
-
-        p {
-        }
 
         .entry-footer {
           font-family: $georgia;
@@ -163,6 +163,7 @@ a:hover, a:active {
           @include clearfix;
           padding: 10px;
           border-bottom: $border;
+          width: 100%;
         }
       }
     }
