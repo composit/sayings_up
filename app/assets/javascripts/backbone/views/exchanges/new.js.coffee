@@ -10,7 +10,7 @@ class Sayings.Views.NewExchange extends Backbone.View
     'submit form#new-exchange-form': 'save'
 
   render: ->
-    $( @el ).html '<button class="respond-link" href="#">respond</a>'
+    $( @el ).html '<a class="respond-link" href="#">respond</a>'
     return this
 
   new: ->

@@ -36,6 +36,8 @@ describe 'exchange show view', ->
       @view.render()
       expect( @showSpy ).toHaveBeenCalledOnce()
 
+    xit 'marks the first entry as "current"', ->
+
     it 'adds a "current" designation to a comment if indicated', ->
       @view.render()
       expect( @comment.get 'current' ).toBeTruthy()

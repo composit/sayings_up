@@ -6,7 +6,7 @@ describe Entry do
   end
 
   it 'only includes specific data in the json' do
-    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"comments\":\[\]}$/
+    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"username":null,\"comments\":\[\]}$/
   end
 
   it 'contains comments' do
@@ -42,5 +42,15 @@ describe Entry do
     expect( entry ).not_to be_valid
     expect( entry.errors[:user].length ).to eq 1
     expect( entry.errors[:user] ).to include( 'can\'t be blank' )
+  end
+
+  it 'returns the user\'s username' do
+    entry = build :entry, user: build( :user, username: 'testuser' )
+    expect( entry.username ).to eq 'testuser'
+  end
+
+  it 'does not return the user\'s username if there is no user' do
+    entry = build :entry, user: nil
+    expect( entry.username ).to be_nil
   end
 end

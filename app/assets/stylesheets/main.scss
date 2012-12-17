@@ -1,6 +1,7 @@
 $links: #dd9906;
 $visual-grid: true;
 $background: #fdf6e3;
+$border: 1px dotted #bbb;
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
   margin: 0;
@@ -106,7 +107,7 @@ a:hover, a:active {
     position: absolute;
     right: 0;
     top: 0;
-    width: 203px;
+    width: 245px;
     height: 100%;
     background-color: $background;
   }
@@ -115,17 +116,20 @@ a:hover, a:active {
     display: none;
     @include clearfix;
     float: left;
+    border-right: $border;
   }
 
   .current {
     background-color: tint( $background, 70% );
     border-radius: 5px;
+    border-top: 3px solid shade( $background, 8% );
+    border-bottom: 3px solid shade( $background, 8% );
+    margin-top: -6px;
   }
 
   .entries-column {
-    width: 400px;
+    width: 380px;
     float: left;
-    padding: 10px;
 
     .entries {
       .entry.first-user {
@@ -146,13 +150,19 @@ a:hover, a:active {
       .entry {
         @include clearfix;
         float: right;
+        margin-bottom: 20px;
+        padding: 0 10px;
 
         p {
         }
 
         .entry-footer {
+          font-family: $georgia;
+          font-style: italic;
+          font-weight: bold;
           @include clearfix;
-          color: $links;
+          padding: 10px;
+          border-bottom: $border;
         }
       }
     }
@@ -163,17 +173,25 @@ a:hover, a:active {
     width: 200px;
     float: left;
     position: relative;
+    font-size: 0.8em;
 
     .comments {
       position: absolute;
 
       .comment {
+        margin-bottom: 5px;
+        padding: 0 10px;
+
         .content {
-          width: 200px;
-          font-size: 0.8em;
+          width: 180px;
         }
 
         .comment-footer {
+          @include clearfix;
+          text-align: right;
+          font-family: $georgia;
+          font-style: italic;
+          font-weight: bold;
           @include clearfix;
         }
       }
@@ -181,7 +199,9 @@ a:hover, a:active {
   }
 }
 
-button.respond-link {
-  @include button( shiny, #ccc );
+a.respond-link {
   margin: 10px;
+  font-family: $georgia;
+  font-style: italic;
+  font-weight: bold;
 }

@@ -24,7 +24,7 @@ class Exchange
               }
             },
             only: [:_id, :content, :user_id],
-            methods: :exchange_id
+            methods: [:exchange_id, :username]
           }
         }
       )

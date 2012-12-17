@@ -5,7 +5,7 @@ class Sayings.Views.ShowComment extends Backbone.View
     'click .display-child-exchange': 'displayChildExchange'
 
   initialize: ->
-    _.bindAll( this, 'render', 'addResponder', 'addChildLink' )
+    _.bindAll( this, 'render', 'addResponder', 'addChildLink', 'markCurrent' )
 
   render: ->
     $( @el ).html JST['backbone/templates/comments/show'] @model
@@ -24,14 +24,22 @@ class Sayings.Views.ShowComment extends Backbone.View
     @$( '.comment-footer' ).append newExchangeView.render().el
 
   addChildLink: ->
-    @$( '.comment-footer' ).append '<a class="display-child-exchange" href="#">' + @childExchange().entry_count + ' entries</a>'
+    @$( '.comment-footer' ).append '<a class="display-child-exchange" href="#">discussion(' + @childExchange().entry_count + ')</a>'
 
   displayChildExchange: ->
+    @model.collection.each @markCurrent
     Sayings.router.exchangeManager.removeFromRight 1
     childExchange = @childExchange()
     Sayings.router.navigate '#e/' + childExchange.id
     Sayings.router.show childExchange.id
+    $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' )
     return false
 
   childExchange: ->
     @model.get 'child_exchange_data'
+
+  markCurrent: ( comment ) ->
+    if comment.id == @model.id
+      comment.set 'current', true
+    else
+      comment.set 'current', false

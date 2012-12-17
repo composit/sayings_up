@@ -27,7 +27,7 @@ describe 'comment show view', ->
 
     it 'displays a link containing the number of entries in a child exchange if one exists', ->
       @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
-      expect( $( @view.render().el ) ).toContain 'a:contains("11 entries")'
+      expect( $( @view.render().el ) ).toContain 'a:contains("discussion(11)")'
 
     describe 'respondability', ->
       beforeEach ->
