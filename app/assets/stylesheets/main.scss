@@ -1,5 +1,6 @@
 $links: #dd9906;
 $visual-grid: true;
+$background: #fdf6e3;
 
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, font, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td {
   margin: 0;
@@ -13,7 +14,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
 
 body {
   line-height: 1;
-  background-color: #fff;
+  background-color: $background;
 }
 
 ol, ul {
@@ -94,46 +95,47 @@ a:hover, a:active {
 
   #exchanges {
     font-family: "adobe-text-pro";
-    font-size: 1.6em;
-    line-height: 1.6em;
-    width: 1210px;
+    font-size: 1em;
+    line-height: 1.2em;
+    width: 1204px;
+    @include clearfix;
+    position: relative;
+  }
+
+  #exchanges-sidebar {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 203px;
+    height: 100%;
+    background-color: $background;
   }
 
   .exchange {
     display: none;
-    border-right: 1px solid #ddd;
     @include clearfix;
     float: left;
+  }
+
+  .current {
+    background-color: tint( $background, 70% );
+    border-radius: 5px;
   }
 
   .entries-column {
     width: 400px;
     float: left;
-
-    .exchange-header {
-      @include outer-container;
-
-      .first-username {
-        @include span-columns( 4 );
-      }
-
-      .second-username {
-        @include span-columns( 4 );
-        text-align: right;
-      }
-
-      .back-link {
-        @include span-columns( 4 );
-        text-align: center;
-      }
-    }
+    padding: 10px;
 
     .entries {
       .first-user {
+        padding-right: 40px;
+        text-align: justify;
       }
 
       .second-user {
-        text-align: right;
+        padding-left: 40px;
+        text-align: justify;
       }
 
       .entry {
@@ -145,9 +147,6 @@ a:hover, a:active {
           @include clearfix;
           color: $links;
         }
-      }
-
-      .current {
       }
     }
   }
@@ -164,14 +163,12 @@ a:hover, a:active {
       .comment {
         .content {
           width: 200px;
+          font-size: 0.8em;
         }
 
         .comment-footer {
           @include clearfix;
         }
-      }
-
-      .current {
       }
     }
   }

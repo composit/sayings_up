@@ -25,10 +25,6 @@ describe 'exchange show view', ->
       @showSpy.restore()
       @entryViewStub.restore()
 
-    it 'shows the usernames', ->
-      expect( $( @view.render().el ) ).toContain '.first-username:contains("user one")'
-      expect( $( @view.render().el ) ).toContain '.second-username:contains("user two")'
-
     it 'creates an Entry view for each entry', ->
       @view.render()
       expect( @entryViewStub ).toHaveBeenCalledThrice()

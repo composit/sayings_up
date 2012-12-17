@@ -2,21 +2,16 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
   className: 'exchange'
 
   initialize: ->
-    _.bindAll( this, 'render', 'addUsernames', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
+    _.bindAll( this, 'render', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
     @model.entries.on 'add', @render
     @model.entries.on 'showedComments', @moveToLeft
     @model.on 'change', @render
 
   render: ->
     $( @el ).html JST['backbone/templates/exchanges/show']
-    @addUsernames()
     @addEntries()
     @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
     return this
-
-  addUsernames: ->
-    @$( '.first-username' ).html( @model.get( 'ordered_usernames' )[0] ) unless typeof @model.get( 'ordered_usernames' )[0] == 'undefined'
-    @$( '.second-username' ).html( @model.get( 'ordered_usernames' )[1] ) unless typeof @model.get( 'ordered_usernames' )[1] == 'undefined'
 
   addEntries: ->
     @model.entries.each @addEntry
