@@ -135,7 +135,7 @@ GEM
       treetop (~> 1.4.8)
     method_source (0.8.1)
     mime-types (1.19)
-    mongoid (3.0.14)
+    mongoid (3.0.15)
       activemodel (~> 3.1)
       moped (~> 1.1)
       origin (~> 1.0)
