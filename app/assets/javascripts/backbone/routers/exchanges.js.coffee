@@ -14,17 +14,11 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     view = new Sayings.Views.ExchangesIndex collection: @collection
     $( '#exchanges' ).html view.render().el
 
-  show: ( id, entryId, commentId ) ->
-    if exchange = @collection.get id
+  show: ( exchangeId, entryId, commentId ) ->
+    if exchange = @collection.get exchangeId
       @renderExchange exchange, entryId, commentId
     else
-      exchange = new Sayings.Models.Exchange _id: id
-      @collection.add exchange
-      exchange.fetch(
-        success: =>
-          exchange.parseEntries()
-          @renderExchange exchange, entryId, commentId
-      )
+      @fetchAndRenderExchange exchangeId, entryId, commentId
 
   renderExchange: ( exchange, entryId, commentId ) ->
     @view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
@@ -32,3 +26,12 @@ class Sayings.Routers.Exchanges extends Backbone.Router
       @exchangeManager.addFromLeft @view
     else
       @exchangeManager.addFromRight @view
+
+  fetchAndRenderExchange: ( exchangeId, entryId, commentId ) ->
+    exchange = new Sayings.Models.Exchange _id: exchangeId
+    @collection.add exchange
+    exchange.fetch(
+      success: =>
+        exchange.parseEntries()
+        @renderExchange exchange, entryId, commentId
+    )

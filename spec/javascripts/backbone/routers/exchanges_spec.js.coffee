@@ -21,17 +21,20 @@ describe 'exchange routes', ->
       expect( @exchangeManagerViewStub ).toHaveBeenCalledOnce()
       Sayings.Views.ExchangeManager.restore()
 
+    it 'renders the composite view to the exchanges div', ->
+      setFixtures $( sandbox id: 'exchanges' )
+      router = new Sayings.Routers.Exchanges collection: @exchanges
+      expect( $( '#exchanges' ) ).toContain 'div.exchange-container'
+
   describe 'index', ->
     beforeEach ->
-      @router.on 'route:index', @routeSpy
       @exchangeIndexStub = sinon.stub( Sayings.Views, 'ExchangesIndex' ).returns new Backbone.View()
-      @userSessionViewStub = sinon.stub( Sayings.Views, 'UserSession' ).returns new Backbone.View()
 
     afterEach ->
       Sayings.Views.ExchangesIndex.restore()
-      Sayings.Views.UserSession.restore()
 
-    it 'fires the index route', ->
+    it 'gets fired by an empty nav hash', ->
+      @router.on 'route:index', @routeSpy
       @router.navigate '', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
 
@@ -39,6 +42,11 @@ describe 'exchange routes', ->
       @router.index()
       expect( @exchangeIndexStub ).toHaveBeenCalledOnce()
       expect( @exchangeIndexStub ).toHaveBeenCalledWith collection: @router.collection
+
+    it 'appends the index view to the page', ->
+      setFixtures $( sandbox id: 'exchanges' )
+      @router.index()
+      expect( $( '#exchanges' ) ).toContain 'div'
 
   describe 'show', ->
     beforeEach ->
@@ -49,13 +57,13 @@ describe 'exchange routes', ->
       Sayings.Views.ShowExchange.restore()
       @router.collection.get.restore()
 
-    it 'fires the show route', ->
+    it 'gets fired when the nav hash includes e/id', ->
       @router.on 'route:show', @routeSpy
       @router.navigate 'e/999', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
       expect( @routeSpy ).toHaveBeenCalledWith '999'
 
-    it 'fires the show route with entry and comment ids', ->
+    it 'gets fired when the nav hash includes e/id/entryId/commentId', ->
       @router.on 'route:show', @routeSpy
       @router.navigate 'e/123/456/789', { trigger: true }
       expect( @routeSpy ).toHaveBeenCalledOnce()
@@ -75,12 +83,12 @@ describe 'exchange routes', ->
         expect( @prependChildSpy ).toHaveBeenCalledOnce()
         @router.exchangeManager.addFromLeft.restore()
 
-    it 'renders the show view', ->
+    it 'builds the show view', ->
       @router.show '999'
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
       expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: undefined, commentId: undefined
 
-    it 'renders the show view with entry and comment ids', ->
+    it 'builds the show view with entry and comment ids', ->
       @router.show '999', '456', '789'
       expect( @exchangeViewStub ).toHaveBeenCalledOnce()
       expect( @exchangeViewStub ).toHaveBeenCalledWith model: @exchange, entryId: '456', commentId: '789'
