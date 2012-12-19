@@ -5,12 +5,16 @@ class UserSession
   end
 
   def authenticate!
-    if user = User.find_by( username: @username )
+    if user = User.where( username: @username ).first
       @user = user.authenticate @password
     end
   end
 
   def user_id
     @user.id if @user
+  end
+
+  def errors
+    { 'username or password' => ['is incorrect'] } unless @user
   end
 end

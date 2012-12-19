@@ -4,7 +4,7 @@ describe UserSession do
 
   context 'with a user' do
     before do
-      User.stub( :find_by ).with( username: 'testuser' ) { user }
+      User.stub( :where ).with( username: 'testuser' ) { [user] }
     end
 
     context 'with a valid password' do
@@ -19,6 +19,10 @@ describe UserSession do
 
       it 'returns true to authenticate' do
         expect( user_session.authenticate! ).to be_true
+      end
+
+      it 'has an empty hash of errors' do
+        expect( user_session.errors ).to be_empty
       end
     end
 
@@ -35,12 +39,16 @@ describe UserSession do
       it 'returns false to authenicate' do
         expect( user_session.authenticate! ).to be_false
       end
+
+      it 'has an error' do
+        expect( user_session.errors ).to eq( { 'username or password' => ['is incorrect'] } )
+      end
     end
   end
 
   context 'without a user' do
     before do
-      User.stub( :find_by ).with( username: 'testuser' ) { nil }
+      User.stub( :where ).with( username: 'testuser' ) { [] }
     end
 
     it 'does not set the user id' do
@@ -50,6 +58,10 @@ describe UserSession do
 
     it 'returns false to authenticate' do
       expect( user_session.authenticate! ).to be_false
+    end
+
+    it 'has an error' do
+      expect( user_session.errors ).to eq( { 'username or password' => ['is incorrect'] } )
     end
   end
 end
