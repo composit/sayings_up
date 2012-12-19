@@ -22,13 +22,14 @@ class Sayings.Views.NewUser extends Backbone.View
     return false
 
   saved: ( model, response ) ->
-    sessionView = new Sayings.Views.UserSession model: new Sayings.Models.UserSession( model )
+    sessionView = new Sayings.Views.UserSession model: new Sayings.Models.UserSession model
     $( '#account' ).html sessionView.render().el
+    sessionView.saved model
     @$el.remove()
 
-  errored: ( model, response ) ->
+  errored: ( xhr ) ->
     errorString = "<div class='validation-errors'>"
-    _.each JSON.parse( response.responseText ).errors, ( error, field ) ->
+    _.each JSON.parse( xhr.responseText ).errors, ( error, field ) ->
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"
     @$( '.messages' ).prepend errorString
