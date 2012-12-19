@@ -27,6 +27,8 @@ gem 'capistrano', '~>2.12'
 gem 'ejs', '~>1.0'
 gem 'jquery-rails', '~>2.0'
 gem 'neat', '~>1.0.2'
+gem 'oj'
+gem 'rabl'
 gem 'rails-backbone', '~>0.7'
 gem 'rvm-capistrano', '~>1.2'
 
