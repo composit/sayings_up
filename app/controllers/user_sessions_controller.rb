@@ -3,13 +3,10 @@ class UserSessionsController < ApplicationController
   respond_to :json
 
   def create
-    @user = User.where( username: params[:user_session][:username] ).first
-    if @user && @user.authenticate( params[:user_session][:password] )
-      session[:user_id] = @user.id
-      respond_with @user
-    else
-      respond_with User.new, status: :unprocessable_entity
-    end
+    @user_session = UserSession.new params[:user_session]
+    status = @user_session.authenticate! ? :created : :unprocessable_entity
+    session[:user_id] = @user_session.user_id
+    render status: status
   end
 
   def destroy

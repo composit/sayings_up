@@ -1,48 +1,40 @@
 require 'spec_helper'
 
 describe UserSessionsController do
+  render_views
+
   context 'POST' do
-    let( :user ) { stub_model User, id: 123 }
+    let( :user_session ) { stub }
 
-    context 'if a user is found by the username' do
+    before do
+      UserSession.stub( :new ).with( { 'username' => 'testuser', 'password' => 'testpass' } ) { user_session }
+    end
+
+    describe 'if the params authenticate' do
       before :each do
-        User.stub( :where ).with( username: "testuser" ) { [user] }
+        user_session.stub( :authenticate! ) { true }
+        user_session.stub( :user_id ) { 123 }
+        post :create, { user_session: { username: "testuser", password: "testpass" }, format: :json }
       end
 
-      describe 'if the params authenticate' do
-        before :each do
-          user.stub( :authenticate ).with( "testpass" ) { user }
-          post :create, { user_session: { username: "testuser", password: "testpass" }, format: :json }
-        end
-
-        it 'sets the session user' do
-          session[:user_id].should == 123
-        end
-
-        it 'returns a status of "OK"' do
-          response.status.should == 201
-        end
+      it 'sets the session user' do
+        session[:user_id].should == 123
       end
 
-      describe 'if the params do not authenticate' do
-        before :each do
-          user.stub( :authenticate ).with( "testpass" ) { false }
-          post :create, { user_session: { username: "testuser", password: "testpass" }, format: :json }
-        end
+      it 'returns a status of "OK"' do
+        response.status.should == 201
+      end
 
-        it 'does not set the session user' do
-          session[:user_id].should be_nil
-        end
-
-        it 'returns an unprocessable entity status' do
-          response.status.should == 422
-        end
+      it 'returns the user id' do
+        expect( response.body ).to eq "{\"user_id\":123}"
       end
     end
 
-    describe 'when no user is found with the given username' do
+    describe 'if the params do not authenticate' do
       before :each do
-        User.stub( :where ).with( username: "testuser" ) { [] }
+        user_session.stub( :authenticate! ).with { false }
+        user_session.stub( :user_id ) { nil }
+        user_session.stub( :errors ) { "error message" }
         post :create, { user_session: { username: "testuser", password: "testpass" }, format: :json }
       end
 
@@ -52,6 +44,10 @@ describe UserSessionsController do
 
       it 'returns an unprocessable entity status' do
         response.status.should == 422
+      end
+
+      it 'returns error messages' do
+        expect( response.body ).to eq "{\"user_id\":null,\"errors\":\"error message\"}"
       end
     end
   end

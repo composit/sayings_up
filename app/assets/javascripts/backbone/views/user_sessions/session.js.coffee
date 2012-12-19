@@ -35,9 +35,10 @@ class Sayings.Views.UserSession extends Backbone.View
     @$el.append '<a href="#signout" id="sign-out-link">Sign out</a>'
     Sayings.exchange.trigger 'change' if Sayings.exchange
 
-  errored: ( model, response ) ->
+  errored: ( xhr ) ->
     errorString = "<div class='validation-errors'>"
-    _.each JSON.parse( response.responseText ).errors, ( error, field ) ->
+    console.log xhr.responseText
+    _.each JSON.parse( xhr.responseText ).errors, ( error, field ) ->
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"
     @$( '.messages' ).prepend errorString

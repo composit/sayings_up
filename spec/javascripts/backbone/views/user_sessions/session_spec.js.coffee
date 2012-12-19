@@ -24,7 +24,6 @@ describe 'user session view', ->
         @signed_in_view = new Sayings.Views.UserSession( { model: @signed_in_user_session } )
         @$el = $( @signed_in_view.render().el )
 
-
       it 'displays the welcome message', ->
         expect( @$el ).toContain 'div:contains("Welcome, testuser")'
 
