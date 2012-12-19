@@ -16,7 +16,7 @@ describe 'new entry view', ->
 
   describe 'rendering', ->
     it 'contains a "respond" button', ->
-      expect( $( @view.render().el ) ).toContain 'button:contains("respond")'
+      expect( $( @view.render().el ) ).toContain 'a:contains("respond")'
 
   describe 'new', ->
     beforeEach ->
