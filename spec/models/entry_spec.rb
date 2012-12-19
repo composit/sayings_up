@@ -5,10 +5,6 @@ describe Entry do
     expect( build :entry ).to be_valid
   end
 
-  it 'only includes specific data in the json' do
-    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":null,\"exchange_id\":null,\"username":null,\"comments\":\[\]}$/
-  end
-
   it 'contains comments' do
     entry = build :entry
     entry.comments << build_list( :comment, 11 )

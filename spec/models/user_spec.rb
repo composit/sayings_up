@@ -5,7 +5,7 @@ describe User do
 
   it "only includes the id and username attributes in the json" do
     user = build :user
-    expect( user.to_json ).to match /^{\"_id\":\"\w+\",\"username\":\"\w+\"}$/
+    expect( Rabl::Renderer.json user, 'users/show' ).to match /^{\"_id\":\"\w+\",\"username\":\"\w+\"}$/
   end
 
   context "when validating" do

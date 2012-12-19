@@ -11,10 +11,6 @@ class Comment
 
   validates :user, presence: true
 
-  def as_json( options = {} )
-    super( options.merge( only: [:_id, :content], methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username] ) )
-  end
-
   def exchange_id
     entry && entry.exchange && entry.exchange.id
   end

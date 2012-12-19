@@ -5,10 +5,6 @@ describe Comment do
     expect( build :comment ).to be_valid
   end
 
-  it 'only includes specific data in the json' do
-    expect( subject.to_json ).to match /^{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}$/
-  end
-
   context 'exchange and entry values' do
     let( :user ) { create :user }
     let!( :exchange ) { create :exchange, entries: [entry] }

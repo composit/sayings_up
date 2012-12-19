@@ -7,8 +7,10 @@ describe Exchange do
 
   it "only includes specific data in the json" do
     exchange = build :exchange_with_entry_and_comment
-    #expect( Rabl::Renderer.json exchange, 'exchanges/show' ).to match /^{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\"\w+\"\],\"entry_data\":\[.+\]}$/
-    expect( Rabl::Renderer.json exchange, 'exchanges/show' ).to match /^{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[{\"_id\":\"\w+\",\"content\":null,\"user_id\":\"\w+\",\"exchange_id\":\"\w+\",\"username\":\"person1\",\"comments\":\[{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":\"\w+\",\"entry_id\":\"\w+\",\"entry_user_id\":\"\w+\",\"child_exchange_data\":null,\"user_username\":\"person2\"}\]}\]}/
+    exchanges = [exchange]
+    json_expected = /{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[{\"_id\":\"\w+\",\"content\":null,\"user_id\":\"\w+\",\"exchange_id\":\"\w+\",\"username\":\"\w+\",\"comments\":\[{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":\"\w+\",\"entry_id\":\"\w+\",\"entry_user_id\":\"\w+\",\"child_exchange_data\":null,\"user_username\":\"\w+\"}\]}\]}/
+    expect( Rabl::Renderer.json exchange, 'exchanges/show' ).to match /^#{json_expected}$/
+    expect( Rabl::Renderer.json exchanges, 'exchanges/index' ).to match /^\[#{json_expected}\]$/
   end
 
   it 'contains entries' do

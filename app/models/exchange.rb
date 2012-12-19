@@ -10,27 +10,6 @@ class Exchange
   embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
 
-  def as_json( options = {} )
-    super(
-      options.merge(
-        only: [:_id, :content, :parent_exchange_id, :parent_entry_id, :parent_comment_id],
-        methods: [:ordered_user_ids, :ordered_usernames],
-        include: {
-          entries: {
-            include: {
-              comments: {
-                only: [:_id, :content],
-                methods: [:exchange_id, :entry_id, :entry_user_id, :child_exchange_data, :user_username]
-              }
-            },
-            only: [:_id, :content, :user_id],
-            methods: [:exchange_id, :username]
-          }
-        }
-      )
-    )
-  end
-  
   def ordered_user_ids
     ordered_users.collect &:id
   end

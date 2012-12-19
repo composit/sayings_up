@@ -4,8 +4,8 @@
 <%= content_for :javascript do -%>
   <%= javascript_tag do %>
     $( document ).ready( function() {
-      Sayings.init( <%== @exchanges.to_json %>, <%== current_user.to_json %> );
-      //window.location = '<%= "/#e/#{@exchanges.first.id}" %>'
+      Sayings.init( <%== Rabl::Renderer.json @exchanges, 'exchanges/index' %>, <%== Rabl::Renderer.json current_user, 'users/show' %> );
+      window.location = '<%= "/#e/#{@exchanges.first.id}" %>'
     } );
   <% end %>
 <% end %>
