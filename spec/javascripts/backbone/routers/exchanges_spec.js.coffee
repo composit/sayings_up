@@ -115,3 +115,6 @@ describe 'exchange routes', ->
 
       it 'parses the exchange\'s entries', ->
         expect( @parseSpy ).toHaveBeenCalledOnce()
+
+      it 'adds the exchange to the router\'s collection', ->
+        expect( @router.collection ).toContain @exchange
