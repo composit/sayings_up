@@ -18,11 +18,11 @@ describe UserSessionsController do
       end
 
       it 'sets the session user' do
-        session[:user_id].should == 123
+        expect( session[:user_id] ).to eq 123
       end
 
       it 'returns a status of "OK"' do
-        response.status.should == 201
+        expect( response.status ).to eq 201
       end
 
       it 'returns the user id' do
@@ -39,11 +39,11 @@ describe UserSessionsController do
       end
 
       it 'does not set the session user' do
-        session[:user_id].should be_nil
+        expect( session[:user_id] ).to be_nil
       end
 
       it 'returns an unprocessable entity status' do
-        response.status.should == 422
+        expect( response.status ).to eq 422
       end
 
       it 'returns error messages' do
@@ -59,11 +59,11 @@ describe UserSessionsController do
     end
     
     it 'clears the user id from the session' do
-      session[:user_id].should be_nil
+      expect( session[:user_id] ).to be_nil
     end
 
     it 'responds with a status of "OK"' do
-      response.status.should == 204
+      expect( response.status ).to eq 204
     end
   end
 end

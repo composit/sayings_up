@@ -26,11 +26,11 @@ describe UsersController do
       end
 
       it "signs the user in to their new account" do
-        session[:user_id].should == new_user.id
+        expect( session[:user_id] ).to eq new_user.id
       end
 
       it "returns a status of 'OK'" do
-        response.status.should == 201
+        expect( response.status ).to eq 201
       end
     end
 
@@ -41,11 +41,11 @@ describe UsersController do
       end
 
       it "does not log the user in" do
-        session[:user_id].should be_nil
+        expect( session[:user_id] ).to be_nil
       end
 
       it "returns an unprocessable entity status" do
-        response.status.should == 422
+        expect( response.status ).to eq 422
       end
     end
   end

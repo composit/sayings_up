@@ -5,7 +5,7 @@
   <%= javascript_tag do %>
     $( document ).ready( function() {
       Sayings.init( <%== Rabl::Renderer.json @exchanges, 'exchanges/index' %>, <%== Rabl::Renderer.json current_user, 'users/show' %> );
-      window.location = '<%= "/#e/#{@exchanges.first.id}" %>'
+      //window.location = '<%#= "/#e/#{@exchanges.first.id}" %>'
     } );
   <% end %>
 <% end %>
