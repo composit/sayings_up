@@ -42,7 +42,7 @@ gem 'rvm-capistrano', '~> 1.2'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
-  gem 'capybara', '~> 2.0.1'
+  gem 'capybara-webkit', git: 'git://github.com/thoughtbot/capybara-webkit.git' #~> 2.0.1'
   gem 'database_cleaner', '~> 0.8'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'guard-jasmine-headless-webkit', '~> 0.3'

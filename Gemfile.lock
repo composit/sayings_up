@@ -10,6 +10,14 @@ GIT
       sprockets
       sprockets-vendor_gems
 
+GIT
+  remote: git://github.com/thoughtbot/capybara-webkit.git
+  revision: bca84f9a577963d99c99e735690905c5afb744b3
+  specs:
+    capybara-webkit (0.13.0)
+      capybara (>= 2.0.1)
+      json
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -266,7 +274,7 @@ DEPENDENCIES
   bson_ext (~> 1.6)
   cancan (~> 1.6)
   capistrano (~> 2.12)
-  capybara (~> 2.0.1)
+  capybara-webkit!
   coffee-rails (~> 3.2)
   database_cleaner (~> 0.8)
   ejs (~> 1.0)
