@@ -1,3 +1,5 @@
+require 'spec_helper'
+
 describe UserSession do
   let( :user_session ) { UserSession.new username: 'testuser', password: 'testpass' }
   let( :user ) { mock_model User, id: 234 }
@@ -22,7 +24,8 @@ describe UserSession do
       end
 
       it 'has an empty hash of errors' do
-        expect( user_session.errors ).to be_empty
+        user_session.authenticate!
+        expect( user_session.errors ).to be_nil
       end
     end
 

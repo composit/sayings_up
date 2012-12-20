@@ -15,6 +15,6 @@ class UserSession
   end
 
   def errors
-    { 'username or password' => ['is incorrect'] } unless @user
+    { 'username or password' => ['is incorrect'] } if @user.nil?
   end
 end
