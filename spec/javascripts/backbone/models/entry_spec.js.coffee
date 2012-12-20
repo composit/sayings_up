@@ -1,7 +1,7 @@
 describe 'Entry', ->
   describe 'when instantiated', ->
     beforeEach ->
-      @entry = new Sayings.Models.Entry { '_id': '999', 'content': 'Good entry', 'exchange_id': '789', 'comments': [{ '_id': '123' }, { '_id': '456' }] }
+      @entry = new Sayings.Models.Entry { '_id': '999', 'content': 'Good entry', 'exchange_id': '789', 'comment_data': [{ '_id': '123' }, { '_id': '456' }] }
 
     it 'exhibits attributes', ->
       @entry.set { content: 'Some content' }

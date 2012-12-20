@@ -14,6 +14,10 @@ describe 'exchange manager view', ->
         exchange = new Sayings.Models.Exchange parent_exchange_id: 123, parent_entry_id: 456, parent_comment_id: 789
         exchangeView = new Sayings.Views.ShowExchange model: exchange
         @view.orderedChildren.unshift exchangeView
+        @showStub = sinon.stub Sayings.router, 'show'
+
+      afterEach ->
+        Sayings.router.show.restore()
 
       it 'changes the browser url to the parent exchange/entry/comment ids', ->
         navigateSpy = sinon.spy Sayings.router, 'navigate'
@@ -22,10 +26,8 @@ describe 'exchange manager view', ->
         Sayings.router.navigate.restore()
 
       it 'fires the router show method', ->
-        showSpy = sinon.spy Sayings.router, 'show'
         $( @view.render().el ).find( '#back-link' ).click()
-        expect( showSpy ).toHaveBeenCalledWith 123, 456, 789
-        Sayings.router.show.restore()
+        expect( @showStub ).toHaveBeenCalledWith 123, 456, 789
         
     describe 'if there is not an exchange view in the manager', ->
       it 'does not change the browser url', ->

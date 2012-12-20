@@ -6,10 +6,12 @@ class Sayings.Models.Exchange extends Backbone.Model
     content: null
     ordered_user_ids: []
     ordered_usernames: []
+    entry_data: []
 
   initialize: ->
-    @parseEntries()
+    @on 'sync', @parseEntryData
+    @parseEntryData()
 
-  parseEntries: =>
-    @entries = new Sayings.Collections.Entries @get 'entries'
+  parseEntryData: =>
+    @entries = new Sayings.Collections.Entries @get 'entry_data'
     @entries.url = '/exchanges/' + @id + '/entries'

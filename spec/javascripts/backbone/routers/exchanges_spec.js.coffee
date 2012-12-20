@@ -98,7 +98,6 @@ describe 'exchange routes', ->
         @exchange = new Sayings.Models.Exchange _id: '123'
         @exchangeStub = sinon.stub( Sayings.Models, 'Exchange' ).returns @exchange
         @callback = sinon.spy @exchange, 'fetch'
-        @parseSpy = sinon.spy @exchange, 'parseEntries'
         @server = sinon.fakeServer.create()
         @server.respondWith 'GET', '/exchanges/123', [200, { 'Content-Type': 'application/json' }, '{"_id":"123","entries":[]}']
         @router.show '123'
@@ -107,14 +106,10 @@ describe 'exchange routes', ->
       afterEach ->
         @exchangeStub.restore()
         @callback.restore()
-        @parseSpy.restore()
         @server.restore()
 
       it 'fetches the exchange', ->
         expect( @callback ).toHaveBeenCalledOnce()
-
-      it 'parses the exchange\'s entries', ->
-        expect( @parseSpy ).toHaveBeenCalledOnce()
 
       it 'adds the exchange to the router\'s collection', ->
         expect( @router.collection ).toContain @exchange

@@ -4,10 +4,11 @@ class Sayings.Models.Entry extends Backbone.Model
 
   defaults:
     content: null
+    comment_data: []
 
   initialize: ->
     @parseComments()
 
   parseComments: =>
-    @comments = new Sayings.Collections.Comments @get 'comments'
+    @comments = new Sayings.Collections.Comments @get 'comment_data'
     @comments.url = '/exchanges/' + @get( 'exchange_id' ) + '/entries/' + @id + '/comments'

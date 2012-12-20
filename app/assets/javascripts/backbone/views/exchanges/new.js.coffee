@@ -28,7 +28,7 @@ class Sayings.Views.NewExchange extends Backbone.View
     return false
 
   saved: ->
-    @model.parseEntries()
+    @model.trigger 'sync'
     @options.parent_comment.set( 'child_exchange_data', { id: @model.get( '_id' ), entry_count: @model.entries.length } )
   #template: JST["backbone/templates/exchanges/new"]
   

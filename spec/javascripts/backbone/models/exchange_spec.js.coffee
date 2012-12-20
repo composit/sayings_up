@@ -1,7 +1,7 @@
 describe 'Exchange', ->
   describe 'when instantiated', ->
     beforeEach ->
-      @exchange = new Sayings.Models.Exchange { '_id': '789', 'entries': [{ '_id': '123' }, { '_id': '456' }] }
+      @exchange = new Sayings.Models.Exchange { '_id': '789', 'entry_data': [{ '_id': '123' }, { '_id': '456' }] }
 
     it 'exhibits attributes', ->
       @exchange.set { content: 'Test Exchange' }
@@ -39,3 +39,11 @@ describe 'Exchange', ->
 
     xit 'should not save when content is empty'
       #TODO
+    
+  it 'parses the entry data after a sync', ->
+    exchange = new Sayings.Models.Exchange _id: 123
+    exchange.set 'entry_data', [{ content: 'test content' }]
+    expect( exchange.entries.length ).toEqual 0
+    exchange.trigger 'sync'
+    expect( exchange.entries.length ).toEqual 1
+    expect( exchange.entries.last().get 'content' ).toEqual 'test content'

@@ -2,10 +2,10 @@ describe 'exchange show view', ->
   beforeEach ->
     Sayings.router = new Sayings.Routers.Exchanges collection: []
     @comment = new Sayings.Models.Comment _id: 9
-    @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comments: []
-    @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comments: [@comment]
-    @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comments: []
-    @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entries: [@entry1, @entry2, @entry3]
+    @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comment_data: []
+    @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comment_data: [@comment]
+    @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comment_data: []
+    @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entry_data: [@entry1, @entry2, @entry3]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
   describe 'instantiation', ->
@@ -60,20 +60,6 @@ describe 'exchange show view', ->
         @view.render()
         expect( @newEntryViewStub ).not.toHaveBeenCalled()
     
-#    describe 'parent link', ->
-#      it 'shows the parent link', ->
-#        @exchange.set 'parent_exchange_id', '123'
-#        expect( $( @view.render().el ) ).toContain 'a:contains("back")'
-#
-#      it 'does not show the parent link if there is no parent', ->
-#        expect( $( @view.render().el ) ).not.toContain 'a:contains("back")'
-#
-#      it 're-shows a hidden div if one exists', ->
-#        #TODO
-#
-#      it 'prepends the exchange if it is not hidden', ->
-#        #TODO
-
   describe 're-rendering', ->
     beforeEach ->
       @renderSpy = sinon.spy Sayings.Views.ShowExchange.prototype, 'render'

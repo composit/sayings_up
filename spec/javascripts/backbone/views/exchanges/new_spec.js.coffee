@@ -38,9 +38,10 @@ describe 'new entry view', ->
       beforeEach ->
         @callback = sinon.spy @model, 'save'
         @setSpy = sinon.spy @parent_comment, 'set'
-        @parseSpy = sinon.spy @model, 'parseEntries'
+        @syncSpy = sinon.spy()
+        @model.on 'sync', @syncSpy
         $el = $( @view.render().el )
-        @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"_id":"234","entries":[{},{}]}']
+        @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"_id":"234","entry_data":[{},{}]}']
         $el.find( '.respond-link' ).click()
         $el.find( '#content' ).val 'Good exchange'
         $el.find( 'form' ).submit()
@@ -48,14 +49,12 @@ describe 'new entry view', ->
 
       afterEach ->
         @parent_comment.set.restore()
-        @model.parseEntries.restore()
 
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
 
-      it 'parses the entries to get the new ones in there', ->
-        #TODO it seems like this should be an event that the model listens for
-        expect( @parseSpy ).toHaveBeenCalledOnce()
+      it 'triggers the sync event on the model', ->
+        expect( @syncSpy ).toHaveBeenCalledOnce()
 
       it 'sets the child exchange data on the parent comment', ->
         expect( @setSpy ).toHaveBeenCalledOnce()
