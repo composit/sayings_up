@@ -1,11 +1,6 @@
 require 'spec_helper'
 
-describe 'manage my account', %q{
-  In order to keep track of my identity through conversations
-  As a user
-  I want to create and manage my account
-}, :js, :slow do
-
+describe 'user manages her account' do
   before :each do
     exchange = create :exchange
   end
