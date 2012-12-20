@@ -37,7 +37,6 @@ class Sayings.Views.UserSession extends Backbone.View
 
   errored: ( xhr ) ->
     errorString = "<div class='validation-errors'>"
-    console.log xhr.responseText
     _.each JSON.parse( xhr.responseText ).errors, ( error, field ) ->
       errorString += "<div class='error'>" + field + " " + error + "</div>"
     errorString += "</div>"

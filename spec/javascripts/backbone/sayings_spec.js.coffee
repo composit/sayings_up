@@ -14,7 +14,7 @@ describe 'Sayings', ->
   describe 'init()', ->
     it 'accepts exchange JSON and instantiates a collection from it', ->
       exchangeJSON = [{ '_id': '12345' }, { '_id': '54321' }]
-      Sayings.init exchangeJSON, true
+      Sayings.init exchangeJSON, {}, true
 
       expect( Sayings.router.collection ).not.toEqual undefined
       expect( Sayings.router.collection.length ).toEqual 2
