@@ -21,6 +21,8 @@ Spork.prefork do
   # in spec/support/ and its subdirectories.
   Dir[Rails.root.join("spec/support/**/*.rb")].each {|f| require f}
 
+  include Features::ExchangeHelpers
+
   RSpec.configure do |config|
     # ## Mock Framework
     #
