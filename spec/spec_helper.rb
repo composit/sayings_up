@@ -23,6 +23,7 @@ Spork.prefork do
 
   include Features::ExchangeHelpers
   include Features::SessionHelpers
+  include SessionHelpers
 
   RSpec.configure do |config|
     # ## Mock Framework

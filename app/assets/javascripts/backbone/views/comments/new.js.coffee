@@ -25,5 +25,7 @@ class Sayings.Views.NewComment extends Backbone.View
     )
     return false
 
-  saved: ->
+  saved: ( model ) ->
+    console.log @model
+    console.log model
     @collection.add @model

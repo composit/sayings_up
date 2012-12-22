@@ -8,6 +8,6 @@ class CommentsController < ApplicationController
   def create
     @comment.user = current_user
     @exchange.save
-    respond_with @exchange, @entry, @comment
+    #respond_with @exchange, @entry, @comment
   end
 end

@@ -41,5 +41,9 @@ describe CommentsController do
     it 'saves the comment' do
       exchange.should_receive :save
     end
+
+    it 'responds with the comment' do
+      expect( response.body ).to match /bla/
+    end
   end
 end

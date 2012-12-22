@@ -78,30 +78,29 @@ describe Exchange do
     let( :commenter ) { build :user }
     let( :user ) { mock_model User }
     let( :initial_values ) { { parent_exchange_id: parent_exchange.id.to_s, parent_entry_id: parent_entry.id.to_s, parent_comment_id: parent_comment.id.to_s, content: 'good exchange', user_id: user.id } }
+    let( :exchange ) { Exchange.new_with_initial_values initial_values }
 
-    #TODO move all this logic into a factory
     describe 'when the comment, entry and exchange ids match up' do
       before :each do
         parent_comment.content = 'comment content'
         parent_comment.user = commenter
         parent_comment.save!
-        subject.initial_values = initial_values
       end
 
       context 'setting parents' do
-        specify { expect( subject.parent_exchange_id ).to eq parent_exchange.id }
-        specify { expect( subject.parent_entry_id ).to eq parent_entry.id }
-        specify { expect( subject.parent_comment_id ).to eq parent_comment.id }
+        specify { expect( exchange.parent_exchange ).to eq parent_exchange }
+        specify { expect( exchange.parent_entry ).to eq parent_entry }
+        specify { expect( exchange.parent_comment ).to eq parent_comment }
       end
 
       context 'converting passed strings to BSON' do
-        specify { expect( subject.parent_exchange_id.class ).to eq Moped::BSON::ObjectId }
-        specify { expect( subject.parent_entry_id.class ).to eq Moped::BSON::ObjectId }
-        specify { expect( subject.parent_comment_id.class ).to eq Moped::BSON::ObjectId }
+        specify { expect( exchange.parent_exchange_id.class ).to eq Moped::BSON::ObjectId }
+        specify { expect( exchange.parent_entry_id.class ).to eq Moped::BSON::ObjectId }
+        specify { expect( exchange.parent_comment_id.class ).to eq Moped::BSON::ObjectId }
       end
       
       context 'initial entry' do
-        let( :first_entry ) { subject.entries[0] }
+        let( :first_entry ) { exchange.entries.first }
 
         it 'has content matching the parent comment\'s content' do
           expect( first_entry.content ).to eq 'comment content'
@@ -113,7 +112,7 @@ describe Exchange do
       end
 
       context 'initial response' do
-        let( :second_entry ) { subject.entries[1] }
+        let( :second_entry ) { exchange.entries[1] }
 
         it 'is assigned the passed in content' do
           expect( second_entry.content ).to eq 'good exchange'
@@ -122,18 +121,6 @@ describe Exchange do
         it 'assigns the user' do
           expect( second_entry.user_id ).to eq user.id
         end
-      end
-    end
-
-    describe 'when the comment, entry and exchange ids do not match up' do
-      let( :other_comment ) { create :comment }
-
-      before :each do
-        initial_values[:parent_comment_id] = other_comment.id
-      end
-
-      it 'raises an error' do
-        expect { subject.initial_values = initial_values }.to raise_error Mongoid::Errors::DocumentNotFound
       end
     end
   end
