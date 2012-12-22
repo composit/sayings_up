@@ -1,11 +1,12 @@
 <div id='back-link'></div>
-<div id="exchanges"></div>
+<div id="exchanges">
+  <%= render @exchanges %>
+</div>
 
 <%= content_for :javascript do -%>
   <%= javascript_tag do %>
     $( document ).ready( function() {
       Sayings.init( <%== Rabl::Renderer.json @exchanges, 'exchanges/index' %>, <%== Rabl::Renderer.json current_user, 'users/show' %> );
-      //window.location = '<%#= "/#e/#{@exchanges.first.id}" %>'
     } );
   <% end %>
 <% end %>

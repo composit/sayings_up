@@ -16,6 +16,13 @@ feature 'user views an exchange', :js do
     child_exchange.save!
   end
 
+  scenario 'user sees a list of exchanges' do
+    visit '/'
+    expect( find( '#exchanges' ).text ).to match /Parent stuff/
+    expect( find( '#exchanges' ).text ).to match /Good stuff/
+    expect( find( '#exchanges' ).text ).to match /Child stuff/
+  end
+
   scenario 'user sees a list of entries in order' do
     visit "/#e/#{exchange.id}"
     pattern = Regexp.new( "Good stuff(.*)Other stuff", Regexp::MULTILINE )
