@@ -8,7 +8,7 @@ describe ExchangesController do
   context 'GET/1' do
     it 'assigns the exchange' do
       exchange = stub
-      sign_in_with_ability( @controller, :read, exchange )
+      sign_in_with_abilities( @controller, [[:read, exchange]] )
       Exchange.stub( :find ).with( '123' ) { exchange }
       get :show, id: 123, format: :json
       expect( assigns[:exchange] ).to eq exchange
@@ -18,7 +18,7 @@ describe ExchangesController do
   context 'POST' do
     let( :exchange ) { mock_model( Exchange ).as_null_object }
     let( :params ) { { exchange: { initial_values: { content: 'new exchange' } }, format: :json } }
-    let!( :current_user ) { signed_in_user_with_ability @controller, :create, Exchange }
+    let!( :current_user ) { signed_in_user_with_abilities @controller, [[:create, Exchange]] }
 
     before :each do
       Exchange.stub( :new_with_initial_values ) { exchange }

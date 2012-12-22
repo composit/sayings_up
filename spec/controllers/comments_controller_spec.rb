@@ -2,22 +2,14 @@ require 'spec_helper'
 
 describe CommentsController do
   context 'POST' do
-    let( :current_user ) { stub }
-    let( :comment ) { mock_model( Comment ).as_null_object }
-    let( :comments ) { stub( new: comment ) }
-    let( :entry ) { mock_model Entry, comments: comments }
+    let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, Exchange],[:read, Entry],[:create, Comment]] }
+    let( :comment ) { Comment.new }
+    let( :entry ) { mock_model Entry, comments: stub( new: comment ) }
     let( :entries ) { stub }
     let( :exchange ) { mock_model( Exchange, entries: entries ).as_null_object }
-    let( :ability ) { Object.new }
     let( :params ) { { exchange_id: 123, entry_id: 456, comment: {}, format: :json } }
 
     before :each do
-      @controller.stub( :current_user ) { current_user }
-      ability.extend CanCan::Ability
-      @controller.stub( :current_ability ) { ability }
-      ability.can :read, Exchange
-      ability.can :read, Entry
-      ability.can :create, Comment
       Exchange.stub( :find ).with( '123' ) { exchange }
       entries.stub( :find ).with( '456' ) { entry }
     end
@@ -35,15 +27,20 @@ describe CommentsController do
     end
 
     it 'assigns the current user' do
-      comment.should_receive( :user= ).with current_user
+      comment.should_receive( :user_id= ).with current_user.id
     end
 
     it 'saves the comment' do
-      exchange.should_receive :save
+      exchange.should_receive :save!
     end
 
-    it 'responds with the comment' do
-      expect( response.body ).to match /bla/
+    describe 'with views' do
+      render_views
+
+      it 'responds with the comment' do
+        post :create, params
+        expect( response.body ).to match /{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}/
+      end
     end
   end
 end

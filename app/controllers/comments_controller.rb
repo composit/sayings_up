@@ -6,8 +6,7 @@ class CommentsController < ApplicationController
   respond_to :json
 
   def create
-    @comment.user = current_user
-    @exchange.save
-    #respond_with @exchange, @entry, @comment
+    @comment.user_id = current_user.id
+    @exchange.save!
   end
 end

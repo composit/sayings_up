@@ -37,7 +37,7 @@ describe 'comments index view', ->
         Sayings.Views.NewComment.restore()
 
       it 'displays a comment link if the user is logged in', ->
-        Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
+        Sayings.currentUser = new Sayings.Models.UserSession 'username': 'testuser'
         @view.render()
         expect( @newCommentViewStub ).toHaveBeenCalledOnce()
       
