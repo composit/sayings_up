@@ -6,7 +6,7 @@ describe 'comments index view', ->
     @comments = new Sayings.Collections.Comments [@comment1, @comment2, @comment3]
     @view = new Sayings.Views.CommentsIndex collection: @comments, commentId: 2
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -15,18 +15,23 @@ describe 'comments index view', ->
 
   describe 'rendering', ->
     beforeEach ->
-      @commentView = new Backbone.View()
-      @commentViewStub = sinon.stub( Sayings.Views, 'ShowComment' ).returns @commentView
+      @commentViewSpy = sinon.spy Sayings.Views, 'ShowComment'
 
     afterEach ->
       Sayings.Views.ShowComment.restore()
 
     it 'creates a Comment view for each comment', ->
       @view.render()
-      expect( @commentViewStub ).toHaveBeenCalledThrice()
-      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment1
-      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment2
-      expect( @commentViewStub ).toHaveBeenCalledWith model: @comment3
+      expect( @commentViewSpy ).toHaveBeenCalledThrice()
+      expect( @commentViewSpy ).toHaveBeenCalledWith model: @comment1
+      expect( @commentViewSpy ).toHaveBeenCalledWith model: @comment2
+      expect( @commentViewSpy ).toHaveBeenCalledWith model: @comment3
+
+    it 'renders the Comment view for each comment', ->
+      @$el = $( @view.render().el )
+      expect( @$el.find( '.content' ).first() ).toHaveText 'One'
+      expect( @$el.find( '.content' )[1] ).toHaveText 'Two'
+      expect( @$el.find( '.content' ).last() ).toHaveText 'Three'
 
     describe 'respondability', ->
       beforeEach ->

@@ -1,43 +1,5 @@
-describe 'exchange routes', ->
-  beforeEach ->
-    @exchange = new Sayings.Models.Exchange '_id': '999', 'content': 'Test', 'entries': [{ '_id': '888' }]
-    @exchanges = new Sayings.Collections.Exchanges collection: [@exchange]
-    @router = new Sayings.Routers.Exchanges collection: @exchanges
-    @routeSpy = sinon.spy()
-    try
-      Backbone.history.start silent: true
-      Backbone.history.started = true
-    catch e
-    @router.navigate 'elsewhere'
-
-  describe 'initialize', ->
-    it 'creates a collection of exchanges', ->
-      router = new Sayings.Routers.Exchanges collection: @exchanges
-      expect( router.collection ).toEqual @exchanges
-
-  describe 'index', ->
-    beforeEach ->
-      #@exchangeIndexStub = sinon.stub( Sayings.Views, 'ExchangesIndex' ).returns new Backbone.View()
-
-    afterEach ->
-      #Sayings.Views.ExchangesIndex.restore()
-
-    it 'gets fired by an empty nav hash', ->
-      @router.on 'route:index', @routeSpy
-      @router.navigate '', { trigger: true }
-      expect( @routeSpy ).toHaveBeenCalledOnce()
-
-    it 'renders the index view', ->
-      #@router.index()
-      #expect( @exchangeIndexStub ).toHaveBeenCalledOnce()
-      #expect( @exchangeIndexStub ).toHaveBeenCalledWith collection: @router.collection
-
-    it 'appends the index view to the page', ->
-      #setFixtures $( sandbox id: 'exchanges' )
-      #@router.index()
-      #expect( $( '#exchanges' ) ).toContain 'div'
-
-  describe 'show', ->
+getsTheViewAndTheExchangeAllSetUp = () ->
+  describe 'get it', ->
     beforeEach ->
       @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns new Support.CompositeView()
       @exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns @exchange
@@ -45,18 +7,6 @@ describe 'exchange routes', ->
     afterEach ->
       Sayings.Views.ShowExchange.restore()
       @router.collection.get.restore()
-
-    it 'gets fired when the nav hash includes e/id', ->
-      @router.on 'route:show', @routeSpy
-      @router.navigate 'e/999', { trigger: true }
-      expect( @routeSpy ).toHaveBeenCalledOnce()
-      expect( @routeSpy ).toHaveBeenCalledWith '999'
-
-    it 'gets fired when the nav hash includes e/id/entryId/commentId', ->
-      @router.on 'route:show', @routeSpy
-      @router.navigate 'e/123/456/789', { trigger: true }
-      expect( @routeSpy ).toHaveBeenCalledOnce()
-      expect( @routeSpy ).toHaveBeenCalledWith '123', '456', '789'
 
     it 'creates a composite view', ->
       @exchangeManagerViewSpy = sinon.spy Sayings.Views, 'ExchangeManager'
@@ -68,20 +18,6 @@ describe 'exchange routes', ->
       setFixtures $( sandbox id: 'exchanges' )
       @router.show '999'
       expect( $( '#exchanges' ) ).toContain 'div.exchange-container'
-
-    describe 'appending', ->
-      it 'appends the exchange view to the exchange manager', ->
-        @addChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addFromRight'
-        @router.show '999'
-        expect( @addChildSpy ).toHaveBeenCalledOnce()
-        @addChildSpy.restore()
-
-    describe 'prepending', ->
-      it 'prepends the exchange view child if the back button was pressed', ->
-        @prependChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addFromLeft'
-        @router.show '999', '456', '789'
-        expect( @prependChildSpy ).toHaveBeenCalledOnce()
-        @router.exchangeManager.addFromLeft.restore()
 
     it 'builds the show view', ->
       @router.show '999'
@@ -113,3 +49,56 @@ describe 'exchange routes', ->
 
       it 'adds the exchange to the router\'s collection', ->
         expect( @router.collection ).toContain @exchange
+
+describe 'exchange routes', ->
+  beforeEach ->
+    @exchange = new Sayings.Models.Exchange '_id': '999', 'content': 'Test', 'entry_data': [{ '_id': '888' }]
+    @exchanges = new Sayings.Collections.Exchanges [@exchange]
+    @router = new Sayings.Routers.Exchanges collection: @exchanges
+    @routeSpy = sinon.spy()
+    try
+      Backbone.history.start silent: true
+      Backbone.history.started = true
+    catch e
+    @router.navigate 'elsewhere'
+
+  describe 'initialize', ->
+    it 'creates a collection of exchanges', ->
+      router = new Sayings.Routers.Exchanges collection: @exchanges
+      expect( router.collection ).toEqual @exchanges
+
+  describe 'index', ->
+    it 'gets fired by an empty nav hash', ->
+      @router.on 'route:index', @routeSpy
+      @router.navigate '', { trigger: true }
+      expect( @routeSpy ).toHaveBeenCalledOnce()
+
+  describe 'appending', ->
+    it 'gets fired when the nav hash includes e/id', ->
+      @router.on 'route:show', @routeSpy
+      @router.navigate 'e/999', { trigger: true }
+      expect( @routeSpy ).toHaveBeenCalledOnce()
+      expect( @routeSpy ).toHaveBeenCalledWith '999'
+
+    it 'appends the exchange view to the exchange manager', ->
+      @addChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addFromRight'
+      @router.show '999'
+      expect( @addChildSpy ).toHaveBeenCalledOnce()
+      @addChildSpy.restore()
+
+    getsTheViewAndTheExchangeAllSetUp()
+
+  describe 'prepending', ->
+    it 'gets fired when the nav hash includes e/id/entryId/commentId', ->
+      @router.on 'route:show', @routeSpy
+      @router.navigate 'e/999/456/789', { trigger: true }
+      expect( @routeSpy ).toHaveBeenCalledOnce()
+      expect( @routeSpy ).toHaveBeenCalledWith '999', '456', '789'
+
+    it 'prepends the exchange view child if the back button was pressed', ->
+      @prependChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addFromLeft'
+      @router.show '999', '456', '789'
+      expect( @prependChildSpy ).toHaveBeenCalledOnce()
+      @router.exchangeManager.addFromLeft.restore()
+
+    getsTheViewAndTheExchangeAllSetUp()

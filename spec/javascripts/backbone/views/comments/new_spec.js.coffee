@@ -4,7 +4,7 @@ describe 'new comment view', ->
     @collection.url = '/exchanges/123/entries/456/comments'
     @view = new Sayings.Views.NewComment { collection: @collection }
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -20,9 +20,9 @@ describe 'new comment view', ->
 
   describe 'new', ->
     it 'has a form for creating a new entry', ->
-      $el = $( @view.render().el )
-      $el.find( '#new-comment-link' ).click()
-      expect( $el ).toContain 'form#new-comment-form'
+      @$el = $( @view.render().el )
+      @$el.find( '#new-comment-link' ).click()
+      expect( @$el ).toContain 'form#new-comment-form'
 
   describe 'save', ->
     beforeEach ->
@@ -47,3 +47,4 @@ describe 'new comment view', ->
 
       it 'adds the model to the collection', ->
         expect( @addSpy ).toHaveBeenCalledOnce()
+        expect( @collection.models ).toContain @view.model

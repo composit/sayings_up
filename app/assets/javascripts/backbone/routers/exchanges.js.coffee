@@ -5,12 +5,10 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   routes:
     '': 'index'
-    'e/:id/:entryId/:commentId': 'show'
-    'e/:id': 'show'
+    'e/:exchangeId/:entryId/:commentId': 'show'
+    'e/:exchangeId': 'show'
 
   index: ->
-    #view = new Sayings.Views.ExchangesIndex collection: @collection
-    #$( '#exchanges' ).html view.render().el
 
   show: ( exchangeId, entryId, commentId ) ->
     @renderManager() unless @exchangeManager?

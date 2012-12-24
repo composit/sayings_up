@@ -32,7 +32,7 @@ class Sayings.Views.ShowComment extends Backbone.View
     childExchange = @childExchange()
     Sayings.router.navigate '#e/' + childExchange.id
     Sayings.router.show childExchange.id
-    $( 'html, body' ).animate( { scrollTop: 0 }, 'slow' )
+    $( 'html, body' ).animate { scrollTop: 0 }, 'slow'
     return false
 
   childExchange: ->

@@ -3,7 +3,7 @@ describe 'comment show view', ->
     @comment = new Sayings.Models.Comment _id: '789', content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456', user_username: 'test user'
     @view = new Sayings.Views.ShowComment model: @comment
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -25,9 +25,31 @@ describe 'comment show view', ->
       it 'does not add a current class if current is not set to true', ->
         expect( $( @view.render().el ) ).not.toHaveClass 'current'
 
-    it 'displays a link containing the number of entries in a child exchange if one exists', ->
-      @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
-      expect( $( @view.render().el ) ).toContain 'a:contains("discussion(11)")'
+    describe 'child exchange', ->
+      beforeEach ->
+        Sayings.router = new Sayings.Routers.Exchanges collection: []
+        showStub = sinon.stub( Sayings.router, 'show' ).returns true
+        Sayings.router.exchangeManager = new Sayings.Views.ExchangeManager
+        @otherComment = new Sayings.Models.Comment current: true
+        @comment.collection = new Sayings.Collections.Comments [@comment, @otherComment]
+        @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
+
+      it 'displays a link containing the number of entries in a child exchange if one exists', ->
+        expect( $( @view.render().el ) ).toContain 'a:contains("discussion(11)")'
+
+      describe 'when the child link has been clicked', ->
+        beforeEach ->
+          $( @view.render().el ).find( '.display-child-exchange' ).click()
+
+        it 'sets current on the current comment', ->
+          expect( @comment.get 'current' ).toBeTruthy()
+
+        it 'removes current on any other comment', ->
+          expect( @otherComment.get 'current' ).toBeFalsy()
+
+        xit 'removes any exchanges that were displayed to the right'
+        xit 'sets the url to the id of the child exchange'
+        xit 'sends the child exchange id to the show method on the router'
 
     describe 'respondability', ->
       beforeEach ->
@@ -58,7 +80,6 @@ describe 'comment show view', ->
           @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
           @view.render()
           expect( @newExchangeViewStub ).not.toHaveBeenCalled()
-
 
       it 'does not display a respond link if the user does not have rights', ->
         Sayings.currentUser = new Sayings.Models.UserSession '_id': 1
