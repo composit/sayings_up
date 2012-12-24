@@ -1,31 +1,33 @@
 class Sayings.Routers.Exchanges extends Backbone.Router
   initialize: ( options ) ->
-    _.bindAll this, 'index', 'show', 'renderExchange'
+    _.bindAll this, 'index', 'showChild', 'showParent', 'buildExchangeView'
     @collection = options.collection
 
   routes:
     '': 'index'
-    'e/:exchangeId/:entryId/:commentId': 'show'
-    'e/:exchangeId': 'show'
+    'e/:exchangeId/:entryId/:commentId': 'showParent'
+    'e/:exchangeId/:parentExchangeId': 'showChild'
+    'e/:exchangeId': 'showChild'
 
   index: ->
 
-  show: ( exchangeId, entryId, commentId ) ->
+  showChild: ( exchangeId, parentExchangeId ) ->
+    view = @buildExchangeView exchangeId
+    @exchangeManager.addFromRight view
+
+  showParent: ( exchangeId, entryId, commentId ) ->
+    view = @buildExchangeView exchangeId, entryId, commentId
+    @exchangeManager.addFromLeft view
+
+  buildExchangeView: ( exchangeId, entryId, commentId ) ->
     @renderManager() unless @exchangeManager?
     exchange = @collection.get( exchangeId ) ? @fetchAndLoadExchange exchangeId
-    view = new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
-    @renderExchange view, commentId?
+    return new Sayings.Views.ShowExchange model: exchange, entryId: entryId, commentId: commentId
 
   fetchAndLoadExchange: ( exchangeId ) ->
     exchange = new Sayings.Models.Exchange _id: exchangeId
     @collection.add exchange
     exchange.fetch()
-
-  renderExchange: ( view, renderFromLeft ) ->
-    if renderFromLeft
-      @exchangeManager.addFromLeft view
-    else
-      @exchangeManager.addFromRight view
 
   renderManager: ->
     @exchangeManager = new Sayings.Views.ExchangeManager
