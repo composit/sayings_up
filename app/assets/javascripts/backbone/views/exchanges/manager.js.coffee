@@ -16,26 +16,31 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
       earliestExchange = @orderedChildren.first().model
       if earliestExchange.get 'parent_comment_id'
         Sayings.router.navigate '#e/' + earliestExchange.get( 'parent_exchange_id' ) + '/' + earliestExchange.get( 'parent_entry_id' ) + '/' + earliestExchange.get( 'parent_comment_id' )
-        Sayings.router.show earliestExchange.get( 'parent_exchange_id' ), earliestExchange.get( 'parent_entry_id' ), earliestExchange.get( 'parent_comment_id' )
+        Sayings.router.showParent earliestExchange.get( 'parent_exchange_id' ), earliestExchange.get( 'parent_entry_id' ), earliestExchange.get( 'parent_comment_id' )
     return false
 
   addFromLeft: ( exchangeView ) ->
     @orderedChildren.unshift exchangeView
-    @slideFromLeft exchangeView
-
-  addFromRight: ( exchangeView ) ->
-    @orderedChildren.push exchangeView
-    @appearOnRight exchangeView
-
-  slideFromLeft: ( exchangeView ) ->
     @prependChildTo exchangeView, @$( '#exchange-children' )
     firstViewElement = $( exchangeView.el )
     firstViewElement.css 'margin-left', "-#{firstViewElement.css 'width'}"
     firstViewElement.css 'display', 'block'
+    numberToRemove = @orderedChildren.size() - 2
     firstViewElement.animate { 'margin-left': '0px' }, 500, () =>
-      @removeFromRight 2
+      @removeFromRight( numberToRemove ) if numberToRemove > 0
+
+  addToTheRightOf: ( exchangeView, parentExchange ) ->
+    @removeRightOfExchange parentExchange
+    @appearOnRight exchangeView
+
+  removeRightOfExchange: ( exchange ) ->
+    exchanges = @orderedChildren.pluck( 'model' )
+    parentIndex = exchanges.indexOf exchange
+    unless parentIndex == -1
+      @removeFromRight( exchanges.length - parentIndex - 1 )
 
   appearOnRight: ( exchangeView ) ->
+    @orderedChildren.push exchangeView
     @appendChildTo exchangeView, @$( '#exchange-children' )
     $( exchangeView.el ).css 'display', 'block'
     @removeFromLeft 2
@@ -47,5 +52,6 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
         @orderedChildren.first().orderedLeave()
         @removeFromLeft threshold
 
-  removeFromRight: ( threshold ) ->
-    @orderedChildren.last().orderedLeave() while @orderedChildren.size() > threshold
+  removeFromRight: ( numberToRemove ) ->
+    for num in [1..numberToRemove]
+      @orderedChildren.last().orderedLeave()

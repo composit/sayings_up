@@ -58,7 +58,8 @@ describe 'exchange routes', ->
   describe 'show', ->
     beforeEach ->
       @exchangeViewStub = sinon.stub( Sayings.Views, 'ShowExchange' ).returns new Support.CompositeView()
-      @exchangeStub = sinon.stub( @router.collection, 'get' ).withArgs( '999' ).returns @exchange
+      @exchangeStub = sinon.stub @router.collection, 'get'
+      @exchangeStub.withArgs( '999' ).returns @exchange
 
     afterEach ->
       Sayings.Views.ShowExchange.restore()
@@ -67,6 +68,8 @@ describe 'exchange routes', ->
     describe 'rendering a child', ->
       beforeEach ->
         @urlHash = 'e/999/123'
+        @parentExchage = sinon.stub()
+        @exchangeStub.withArgs( '123' ).returns @parentExchange
 
       it 'gets fired when the nav hash includes e/exchangeId/parentExchangeId', ->
         @router.on 'route:showChild', @routeSpy
@@ -82,9 +85,10 @@ describe 'exchange routes', ->
         expect( @routeSpy ).toHaveBeenCalledWith '999'
 
       it 'appends the exchange view to the exchange manager', ->
-        @addChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addFromRight'
+        @addChildSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'addToTheRightOf'
         @router.navigate @urlHash, { trigger: true }
         expect( @addChildSpy ).toHaveBeenCalledOnce()
+        expect( @addChildSpy ).toHaveBeenCalledWith @exchangeViewStub(), @parentExchange
         @addChildSpy.restore()
 
       it 'builds the show view', ->

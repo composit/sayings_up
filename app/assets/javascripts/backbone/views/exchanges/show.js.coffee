@@ -48,6 +48,6 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
   moveToLeft: =>
     if @parent
       if @parent && @parent.orderedChildren.first().model == @model
-        @parent.removeFromRight 1
+        @parent.removeRightOf @model
       else
         @parent.removeFromLeft 1

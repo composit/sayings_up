@@ -14,10 +14,10 @@ describe 'exchange manager view', ->
         exchange = new Sayings.Models.Exchange parent_exchange_id: 123, parent_entry_id: 456, parent_comment_id: 789
         exchangeView = new Sayings.Views.ShowExchange model: exchange
         @view.orderedChildren.unshift exchangeView
-        @showStub = sinon.stub Sayings.router, 'show'
+        @showParentStub = sinon.stub Sayings.router, 'showParent'
 
       afterEach ->
-        Sayings.router.show.restore()
+        Sayings.router.showParent.restore()
 
       it 'changes the browser url to the parent exchange/entry/comment ids', ->
         navigateSpy = sinon.spy Sayings.router, 'navigate'
@@ -25,9 +25,9 @@ describe 'exchange manager view', ->
         expect( navigateSpy ).toHaveBeenCalledWith '#e/123/456/789'
         Sayings.router.navigate.restore()
 
-      it 'fires the router show method', ->
+      it 'fires the router showParent method', ->
         $( @view.render().el ).find( '#back-link' ).click()
-        expect( @showStub ).toHaveBeenCalledWith 123, 456, 789
+        expect( @showParentStub ).toHaveBeenCalledWith 123, 456, 789
         
     describe 'if there is not an exchange view in the manager', ->
       it 'does not change the browser url', ->
@@ -36,24 +36,31 @@ describe 'exchange manager view', ->
         expect( navigateSpy ).not.toHaveBeenCalled()
         Sayings.router.navigate.restore()
 
-      it 'does not fire the router show method', ->
-        showSpy = sinon.spy Sayings.router, 'show'
+      it 'does not fire the router showParent method', ->
+        showParentSpy = sinon.spy Sayings.router, 'showParent'
         $( @view.render().el ).find( '#back-link' ).click()
-        expect( showSpy ).not.toHaveBeenCalled()
-        Sayings.router.show.restore()
+        expect( showParentSpy ).not.toHaveBeenCalled()
+        Sayings.router.showParent.restore()
 
-  describe 'adding exchange views', ->
+  describe 'adding and removing exchange views', ->
     beforeEach ->
+      jQuery.fx.off = true
       # make an entry so as to differentiate the view from others
       entry = new Sayings.Models.Entry content: 'test'
       exchange = new Sayings.Models.Exchange
       exchange.set 'entries', [entry]
       @exchangeView = new Sayings.Views.ShowExchange model: exchange
       otherExchange = new Sayings.Models.Exchange
-      otherExchangeView = new Sayings.Views.ShowExchange model: otherExchange
-      @view.addFromLeft otherExchangeView
+      @otherExchangeView = new Sayings.Views.ShowExchange model: otherExchange
+      @view.addFromLeft @otherExchangeView
 
-    describe 'from the left', ->
+    it 'removes exchanges to the right of an exchange', ->
+      exchangeTwo = new Sayings.Models.Exchange
+      @view.addFromLeft @exchangeView
+      @view.removeRightOfExchange @exchangeView.model
+      expect( @view.orderedChildren ).toEqual _( [@exchangeView] )
+
+    describe 'adding from the left', ->
       it 'prepends the view to the exchange-children div', ->
         $el = $( @view.render().el )
         @view.addFromLeft @exchangeView
@@ -64,42 +71,51 @@ describe 'exchange manager view', ->
         expect( @view.orderedChildren.first() ).toEqual @exchangeView
 
       it 'removes the last view from the ordered children array if there are more than two', ->
-        jQuery.fx.off = true
         @view.render()
 
-        exchangeTwo = new Sayings.Models.Exchange
-        exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
-        exchangeThree = new Sayings.Models.Exchange
-        exchangeViewThree = new Sayings.Views.ShowExchange model: exchangeThree
+        exchangeViewTwo = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
+        exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         @view.addFromLeft exchangeViewTwo
         @view.addFromLeft exchangeViewThree
         leaveSpy = sinon.spy exchangeViewTwo, 'orderedLeave'
         @view.addFromLeft @exchangeView
         expect( leaveSpy ).toHaveBeenCalled()
 
-    describe 'from the right', ->
+    describe 'adding to the right', ->
       it 'appends the view to the exchange-children div', ->
         $el = $( @view.render().el )
-        @view.addFromRight @exchangeView
+        @view.addToTheRightOf @exchangeView
         expect( $el.find( '.exchange' ).last().html() ).toEqual $( @exchangeView.render().el ).html()
 
-      it 'adds the view to the beginning of the ordered children array', ->
-        @view.addFromRight @exchangeView
+      it 'adds the view to the end of the ordered children array', ->
+        @view.addToTheRightOf @exchangeView
         expect( @view.orderedChildren.last() ).toEqual @exchangeView
 
-      it 'removes views from the beginning of the ordered children array if there are more than two', ->
-        jQuery.fx.off = true
+      it 'adds the view in the right position', ->
         @view.render()
 
+        exchangeTwo = new Sayings.Models.Exchange
+        exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
+        exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
+        leaveSpyThree = sinon.spy exchangeViewThree, 'orderedLeave'
+        @view.addToTheRightOf exchangeViewTwo
+        @view.addToTheRightOf exchangeViewThree
+        @view.addToTheRightOf @exchangeView, exchangeTwo
+        expect( @view.orderedChildren.size() ).toEqual 2
+        expect( leaveSpyThree ).toHaveBeenCalled()
+        expect( @view.orderedChildren ).toEqual _( [exchangeViewTwo, @exchangeView] )
+
+      it 'removes views from the beginning of the ordered children array if there are more than two', ->
+        @view.render()
         exchangeViewTwo = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         exchangeViewFour = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         leaveSpyTwo = sinon.spy exchangeViewTwo, 'orderedLeave'
         leaveSpyThree = sinon.spy exchangeViewThree, 'orderedLeave'
-        @view.addFromRight exchangeViewTwo
-        @view.addFromRight exchangeViewThree
-        @view.addFromRight exchangeViewFour
-        @view.addFromRight @exchangeView
+        @view.addToTheRightOf exchangeViewTwo
+        @view.addToTheRightOf exchangeViewThree
+        @view.addToTheRightOf exchangeViewFour
+        @view.addToTheRightOf @exchangeView
         expect( @view.orderedChildren.size() ).toEqual 2
         expect( leaveSpyTwo ).toHaveBeenCalled()
         expect( leaveSpyThree ).toHaveBeenCalled()

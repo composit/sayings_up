@@ -27,29 +27,35 @@ describe 'comment show view', ->
 
     describe 'child exchange', ->
       beforeEach ->
+        @showStub = sinon.stub( Sayings.Routers.Exchanges.prototype, 'showChild' ).returns true
         Sayings.router = new Sayings.Routers.Exchanges collection: []
-        showStub = sinon.stub( Sayings.router, 'show' ).returns true
         Sayings.router.exchangeManager = new Sayings.Views.ExchangeManager
         @otherComment = new Sayings.Models.Comment current: true
         @comment.collection = new Sayings.Collections.Comments [@comment, @otherComment]
-        @comment.set 'child_exchange_data', { _id: '234', entry_count: 11 }
+        @comment.set 'child_exchange_data', { id: '234', entry_count: 11 }
+
+      beforeEach ->
+        @showStub.restore()
 
       it 'displays a link containing the number of entries in a child exchange if one exists', ->
         expect( $( @view.render().el ) ).toContain 'a:contains("discussion(11)")'
 
       describe 'when the child link has been clicked', ->
         beforeEach ->
+          @navigateSpy = sinon.spy Sayings.router, 'navigate'
           $( @view.render().el ).find( '.display-child-exchange' ).click()
 
-        it 'sets current on the current comment', ->
-          expect( @comment.get 'current' ).toBeTruthy()
+        afterEach ->
+          @navigateSpy.restore()
 
-        it 'removes current on any other comment', ->
-          expect( @otherComment.get 'current' ).toBeFalsy()
+        it 'sets the url to the id of the child and parent exchanges', ->
+          expect( @navigateSpy ).toHaveBeenCalledOnce()
+          expect( @navigateSpy ).toHaveBeenCalledWith '#e/234/789'
 
-        xit 'removes any exchanges that were displayed to the right'
-        xit 'sets the url to the id of the child exchange'
-        xit 'sends the child exchange id to the show method on the router'
+        it 'sends the child and parent exchange ids to the showChild method on the router', ->
+          expect( @showStub ).toHaveBeenCalledOnce()
+          expect( @showStub ).toHaveBeenCalledWith '234', '789'
+
 
     describe 'respondability', ->
       beforeEach ->

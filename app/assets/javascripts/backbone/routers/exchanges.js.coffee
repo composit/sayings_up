@@ -13,7 +13,8 @@ class Sayings.Routers.Exchanges extends Backbone.Router
 
   showChild: ( exchangeId, parentExchangeId ) ->
     view = @buildExchangeView exchangeId
-    @exchangeManager.addFromRight view
+    parentExchange = @collection.get parentExchangeId
+    @exchangeManager.addToTheRightOf view, parentExchange
 
   showParent: ( exchangeId, entryId, commentId ) ->
     view = @buildExchangeView exchangeId, entryId, commentId
