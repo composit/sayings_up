@@ -29,8 +29,8 @@ class Sayings.Views.ShowComment extends Backbone.View
   displayChildExchange: ->
     @model.collection.each @markCurrent
     childExchange = @childExchange()
-    Sayings.router.navigate '#e/' + childExchange.id + '/' + @model.id
-    Sayings.router.showChild childExchange.id, @model.id
+    Sayings.router.navigate '#e/' + childExchange.id + '/' + @model.get 'exchange_id'
+    Sayings.router.showChild childExchange.id, @model.get 'exchange_id'
     $( 'html, body' ).animate { scrollTop: 0 }, 'slow'
     return false
 
