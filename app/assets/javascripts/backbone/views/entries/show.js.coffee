@@ -32,6 +32,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
     @$el.parents( '.exchange' ).find( '.comments-column' ).html commentsEl
     $( commentsEl ).css 'top', @$el.position().top
 
+  #TODO move into manager
   markCurrent: ( entry ) ->
     if entry.id == @model.id
       entry.set 'current', true

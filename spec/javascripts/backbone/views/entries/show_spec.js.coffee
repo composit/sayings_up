@@ -1,3 +1,20 @@
+rendersComments = () ->
+  describe 'renders comments', ->
+    it 'renders the comments when the comments link is clicked', ->
+      expect( @commentIndexViewStub ).toHaveBeenCalled()
+      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments
+
+    it 'marks itself as the current entry', ->
+      #@view.showComments()
+      expect( @view.model.get 'current' ).toBeTruthy()
+
+    it 'unmarks other current entries', ->
+      otherEntry = new Sayings.Models.Entry _id: 456
+      otherEntry.set 'current', true
+      @entries.add otherEntry
+      @view.showComments()
+      expect( otherEntry.get 'current' ).toBeFalsy()
+
 describe 'entry show view', ->
   beforeEach ->
     Sayings.router = new Sayings.Routers.Exchanges collection: []
@@ -6,7 +23,7 @@ describe 'entry show view', ->
     @entries = new Backbone.Collection
     @entries.add @entry
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -31,7 +48,7 @@ describe 'entry show view', ->
       it 'displays the number of comments', ->
         expect( $( @view.render().el ) ).toContain 'a:contains("3 comments")'
 
-  describe 'comments', ->
+  describe 'viewing comments', ->
     beforeEach ->
       @commentIndexView = new Backbone.View()
       @commentIndexViewStub = sinon.stub( Sayings.Views, 'CommentsIndex' ).returns @commentIndexView
@@ -39,44 +56,36 @@ describe 'entry show view', ->
     afterEach ->
       Sayings.Views.CommentsIndex.restore()
 
-    it 'renders the comments when the comments link is clicked', ->
-      $( @view.render().el ).find( '.show-comments' ).click()
-      expect( @commentIndexViewStub ).toHaveBeenCalled()
-      expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments
+    describe 'when the "show comments" link is clicked', ->
+      beforeEach ->
+        @showedSpy = sinon.spy()
+        @view.model.collection.on 'showedComments', @showedSpy
+        $( @view.render().el ).find( '.show-comments' ).click()
 
-    it 'marks itself as the current entry', ->
-      @view.showComments()
-      expect( @view.model.get 'current' ).toBeTruthy()
+      it 'triggers the showedComments event on the collection', ->
+        expect( @showedSpy ).toHaveBeenCalledOnce()
 
-    it 'unmarks other current entries', ->
-      otherEntry = new Sayings.Models.Entry _id: 456
-      otherEntry.set 'current', true
-      @entries.add otherEntry
-      @view.showComments()
-      expect( otherEntry.get 'current' ).toBeFalsy()
+      rendersComments()
 
-    it 'removes the previous exchange, if there is one', ->
-      @view.showComments()
-      #TODO use a view manager
+    describe 'show comments', ->
+      beforeEach ->
+        @view.showComments()
 
-  it 're-renders if the model\'s current state changes', ->
-    renderSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'render'
-    entry = new Sayings.Models.Entry
-    view = new Sayings.Views.ShowEntry model: entry
-    view.model.trigger 'change:current'
-    expect( renderSpy ).toHaveBeenCalled()
-    renderSpy.restore()
+      rendersComments()
 
-    #beforeEach ->
-    #  @newCommentView = new Backbone.View()
-    #  @newCommentViewStub = sinon.stub( Sayings.Views, 'NewComment' ).returns @newCommentView
+  describe 're-rendering', ->
+    beforeEach ->
+      @renderSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'render'
+      entry = new Sayings.Models.Entry
+      @view = new Sayings.Views.ShowEntry model: entry
 
-    #it 'displays a comment link if the user has rights', ->
-    #  Sayings.currentUser = new Sayings.Models.UserSession { '_id': 4 }
-    #  @view.render()
-    #  expect( @newCommentViewStub ).toHaveBeenCalledOnce()
-    
-    #it 'does not display a comment link if the user does not have rights', ->
-    #  @view.render()
-    #  expect( @newCommentViewStub ).not.toHaveBeenCalled()
+    afterEach ->
+      @renderSpy.restore()
 
+    it 're-renders if the model\'s current state changes', ->
+      @view.model.set 'current', true
+      expect( @renderSpy ).toHaveBeenCalledOnce()
+
+    it 're-renders if a comment is added', ->
+      @view.model.comments.add new Sayings.Models.Comment
+      expect( @renderSpy ).toHaveBeenCalledOnce()
