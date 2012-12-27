@@ -28,7 +28,7 @@ describe 'exchange manager view', ->
       it 'fires the router showParent method', ->
         $( @view.render().el ).find( '#back-link' ).click()
         expect( @showParentStub ).toHaveBeenCalledWith 123, 456, 789
-        
+
     describe 'if there is not an exchange view in the manager', ->
       it 'does not change the browser url', ->
         navigateSpy = sinon.spy Sayings.router, 'navigate'

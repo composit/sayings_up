@@ -25,9 +25,8 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     firstViewElement = $( exchangeView.el )
     firstViewElement.css 'margin-left', "-#{firstViewElement.css 'width'}"
     firstViewElement.css 'display', 'block'
-    numberToRemove = @orderedChildren.size() - 2
-    firstViewElement.animate { 'margin-left': '0px' }, 500, () =>
-      @removeFromRight numberToRemove
+    @removeFromRight @orderedChildren.size() - 2
+    firstViewElement.animate { 'margin-left': '0px' }, 500
 
   addToTheRightOf: ( exchangeView, parentExchange ) ->
     @removeRightOfExchange parentExchange
