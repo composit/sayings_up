@@ -4,6 +4,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
   initialize: ->
     _.bindAll( this, 'render', 'showComments', 'markCurrent' )
     @model.on 'change:current', @render
+    @model.comments.on 'add', @render
 
   events:
     'click .show-comments': 'expandComments'

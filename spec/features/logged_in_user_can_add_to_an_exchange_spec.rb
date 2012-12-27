@@ -2,7 +2,7 @@ require 'spec_helper'
 
 feature 'logged in user can add to an exchange', :js do
   given( :exchange ) { create :exchange }
-  given( :user ) { create :user }
+  given( :user ) { create :user, username: 'testuser' }
 
   background do
     exchange.entries << build( :entry, user: user, content: 'Go tell it on the mountain', exchange: exchange )
@@ -18,9 +18,9 @@ feature 'logged in user can add to an exchange', :js do
       fill_in 'content', with: 'new comment'
       click_button 'Add comment'
     end
+    expect( page ).to have_content '1 comment'
     pattern = Regexp.new( "new comment(.*)testuser", Regexp::MULTILINE )
     expect( find( '.comments' ).text ).to match pattern
-    expect( page ).to have_content '1 comment'
   end
 
   scenario 'user can add an entry to an exchange he is involved in'
