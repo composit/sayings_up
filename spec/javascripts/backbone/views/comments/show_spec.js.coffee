@@ -50,11 +50,11 @@ describe 'comment show view', ->
 
         it 'sets the url to the id of the child and parent exchanges', ->
           expect( @navigateSpy ).toHaveBeenCalledOnce()
-          expect( @navigateSpy ).toHaveBeenCalledWith '#e/234/789'
+          expect( @navigateSpy ).toHaveBeenCalledWith '#e/234/123'
 
         it 'sends the child and parent exchange ids to the showChild method on the router', ->
           expect( @showStub ).toHaveBeenCalledOnce()
-          expect( @showStub ).toHaveBeenCalledWith '234', '789'
+          expect( @showStub ).toHaveBeenCalledWith '234', '123'
 
 
     describe 'respondability', ->
