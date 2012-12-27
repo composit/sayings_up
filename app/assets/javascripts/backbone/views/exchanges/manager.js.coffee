@@ -27,17 +27,17 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     firstViewElement.css 'display', 'block'
     numberToRemove = @orderedChildren.size() - 2
     firstViewElement.animate { 'margin-left': '0px' }, 500, () =>
-      @removeFromRight( numberToRemove ) if numberToRemove > 0
+      @removeFromRight numberToRemove
 
   addToTheRightOf: ( exchangeView, parentExchange ) ->
     @removeRightOfExchange parentExchange
     @appearOnRight exchangeView
 
   removeRightOfExchange: ( exchange ) ->
-    exchanges = @orderedChildren.pluck( 'model' )
+    exchanges = @orderedChildren.pluck 'model'
     parentIndex = exchanges.indexOf exchange
     unless parentIndex == -1
-      @removeFromRight( exchanges.length - parentIndex - 1 )
+      @removeFromRight exchanges.length - parentIndex - 1
 
   appearOnRight: ( exchangeView ) ->
     @orderedChildren.push exchangeView
@@ -53,5 +53,6 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
         @removeFromLeft threshold
 
   removeFromRight: ( numberToRemove ) ->
-    for num in [1..numberToRemove]
-      @orderedChildren.last().orderedLeave()
+    if numberToRemove > 0
+      for num in [1..numberToRemove]
+        @orderedChildren.last().orderedLeave()

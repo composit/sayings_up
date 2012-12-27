@@ -76,4 +76,3 @@ describe 'exchange show view', ->
     it 'renders whenever the model changes', ->
       @exchange.trigger 'change'
       expect( @renderSpy ).toHaveBeenCalled()
-

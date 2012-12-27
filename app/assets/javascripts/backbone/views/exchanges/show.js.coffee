@@ -45,9 +45,10 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     @parent.orderedChildren.splice( @parent.orderedChildren.indexOf( this ), 1 )
     @leave()
 
+  #TODO move into manager
   moveToLeft: =>
     if @parent
       if @parent && @parent.orderedChildren.first().model == @model
-        @parent.removeRightOf @model
+        @parent.removeRightOfExchange @model
       else
         @parent.removeFromLeft 1
