@@ -4,7 +4,7 @@ describe 'exchange manager view', ->
     Sayings.router = new Sayings.Routers.Exchanges collection: exchanges
     @view = new Sayings.Views.ExchangeManager
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -72,7 +72,6 @@ describe 'exchange manager view', ->
 
       it 'removes the last view from the ordered children array if there are more than two', ->
         @view.render()
-
         exchangeViewTwo = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         @view.addFromLeft exchangeViewTwo
@@ -93,7 +92,6 @@ describe 'exchange manager view', ->
 
       it 'adds the view in the right position', ->
         @view.render()
-
         exchangeTwo = new Sayings.Models.Exchange
         exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange

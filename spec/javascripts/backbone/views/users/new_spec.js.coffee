@@ -3,7 +3,7 @@ describe 'user new view', ->
     @user = new Sayings.Models.User()
     @view = new Sayings.Views.NewUser model: @user
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -38,10 +38,10 @@ describe 'user new view', ->
       it 'saves the record', ->
         expect( @callback ).toHaveBeenCalled()
 
-      it 'shows a success message when the save is successful', ->
+      xit 'shows a success message when the save is successful', ->
         #TODO expect( @$el ).toContain ".notice:contains('Welcome, testuser')"
 
-      it 'removes the form', ->
+      xit 'removes the form', ->
         #TODO expect( @$el.remove ).toHaveBeenCalledOnce()
 
       describe 'when logging the user in', ->
@@ -69,4 +69,3 @@ describe 'user new view', ->
       @server.respond()
       #TODO expect( $el ).toContain ".notice:contains('Welcome, testuser')"
       expect( $el ).not.toContain ".validation-errors .error:contains('username can\'t be blank')"
-

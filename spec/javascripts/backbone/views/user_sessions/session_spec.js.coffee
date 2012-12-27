@@ -3,7 +3,7 @@ describe 'user session view', ->
     @user_session = new Sayings.Models.UserSession()
     @view = new Sayings.Views.UserSession( { model: @user_session } )
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 

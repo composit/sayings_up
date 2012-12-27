@@ -4,7 +4,7 @@ describe 'new entry view', ->
     @parent_comment = new Backbone.Model()
     @view = new Sayings.Views.NewExchange model: @model, parent_comment: @parent_comment
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -37,7 +37,6 @@ describe 'new entry view', ->
       #TODO test values sent in all forms
       beforeEach ->
         @callback = sinon.spy @model, 'save'
-        @setSpy = sinon.spy @parent_comment, 'set'
         @syncSpy = sinon.spy()
         @model.on 'sync', @syncSpy
         $el = $( @view.render().el )
@@ -57,5 +56,4 @@ describe 'new entry view', ->
         expect( @syncSpy ).toHaveBeenCalledOnce()
 
       it 'sets the child exchange data on the parent comment', ->
-        expect( @setSpy ).toHaveBeenCalledOnce()
-        expect( @setSpy ).toHaveBeenCalledWith 'child_exchange_data', { id: '234', entry_count: 2 }
+        expect( @parent_comment.get 'child_exchange_data' ).toEqual( { id: '234', entry_count: 2 } )

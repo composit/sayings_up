@@ -8,7 +8,7 @@ describe 'exchange show view', ->
     @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entry_data: [@entry1, @entry2, @entry3]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
-  describe 'instantiation', ->
+  describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
@@ -42,6 +42,8 @@ describe 'exchange show view', ->
       @view.render()
       expect( @comment.get 'current' ).toBeTruthy()
 
+    xit 'tags the entries with classes according to its user'
+
     describe 'respondability', ->
       beforeEach ->
         @newEntryView = new Backbone.View()
@@ -70,9 +72,17 @@ describe 'exchange show view', ->
       @renderSpy.restore()
 
     it 'renders whenever an entry is added', ->
-      @exchange.entries.trigger 'add'
+      @exchange.entries.add new Sayings.Models.Entry
       expect( @renderSpy ).toHaveBeenCalled()
 
     it 'renders whenever the model changes', ->
-      @exchange.trigger 'change'
+      @exchange.set 'something', 'else'
       expect( @renderSpy ).toHaveBeenCalled()
+
+  describe 'leaving', ->
+    xit 'removes itself from its parent\'s orderedChildren array'
+    xit 'leaves'
+
+  descibe 'when the showedComments event is triggered', ->
+    xit 'it removes all exchanges to the right if it is the first exchange'
+    xit 'removes the exchange to the left of it if it if it is not the first'
