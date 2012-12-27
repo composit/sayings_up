@@ -37,6 +37,7 @@ class Sayings.Views.ShowComment extends Backbone.View
   childExchange: ->
     @model.get 'child_exchange_data'
 
+  #TODO move into manager
   markCurrent: ( comment ) ->
     if comment.id == @model.id
       comment.set 'current', true

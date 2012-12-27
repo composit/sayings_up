@@ -14,7 +14,7 @@ describe 'Entry', ->
     it 'sets the url on the comments collection', ->
       expect( @entry.comments.url ).toEqual '/exchanges/789/entries/999/comments'
     
-    it 'populates the collection with Entry models', ->
+    it 'populates the collection with Comment models', ->
       expect( @entry.comments.first() instanceof Sayings.Models.Comment ).toBeTruthy()
       expect( @entry.comments.first().get( '_id' ) ).toEqual '123'
       expect( @entry.comments.last() instanceof Sayings.Models.Comment ).toBeTruthy()
@@ -40,3 +40,11 @@ describe 'Entry', ->
         it 'returns the collection URL', ->
           @entry.id = null
           expect( @entry.url() ).toEqual '/entries'
+
+    it 'parses the comment data after a sync', ->
+      entry = new Sayings.Models.Entry _id: 123
+      entry.set 'comment_data', [{ content: 'test content' }]
+      expect( entry.comments.length ).toEqual 0
+      entry.trigger 'sync'
+      expect( entry.comments.length ).toEqual 1
+      expect( entry.comments.last().get 'content' ).toEqual 'test content'
