@@ -18,12 +18,14 @@ describe 'exchange show view', ->
   describe 'rendering', ->
     beforeEach ->
       @showSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'showComments'
+      @currentSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'markCurrent'
       @entryView = new Sayings.Views.ShowEntry model: @entry2
       @entryViewStub = sinon.stub( Sayings.Views, 'ShowEntry' ).returns @entryView
 
     afterEach ->
       @showSpy.restore()
       @entryViewStub.restore()
+      @currentSpy.restore()
 
     it 'creates an Entry view for each entry', ->
       @view.render()
@@ -36,7 +38,10 @@ describe 'exchange show view', ->
       @view.render()
       expect( @showSpy ).toHaveBeenCalledOnce()
 
-    xit 'marks the first entry as "current"', ->
+    #TODO move into manager
+    it 'marks the first entry as "current"', ->
+      @view.render()
+      expect( @currentSpy ).toHaveBeenCalled()
 
     it 'adds a "current" designation to a comment if indicated', ->
       @view.render()
@@ -83,6 +88,6 @@ describe 'exchange show view', ->
     xit 'removes itself from its parent\'s orderedChildren array'
     xit 'leaves'
 
-  descibe 'when the showedComments event is triggered', ->
+  describe 'when the showedComments event is triggered', ->
     xit 'it removes all exchanges to the right if it is the first exchange'
     xit 'removes the exchange to the left of it if it if it is not the first'

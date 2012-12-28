@@ -24,7 +24,7 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     else
       $entryEl.addClass 'second-user'
     @$( '.entries' ).append $entryEl
-    entry.markCurrent unless @$( '.entries' ).find( '.entry' ).length > 1
+    entryView.markCurrent unless @$( '.entries' ).find( '.entry' ).length > 1
     @expandComments( entryView ) if entry.id == @options.entryId
 
   addResponder: ->

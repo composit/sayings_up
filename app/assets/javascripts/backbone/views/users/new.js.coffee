@@ -25,7 +25,7 @@ class Sayings.Views.NewUser extends Backbone.View
     sessionView = new Sayings.Views.UserSession model: new Sayings.Models.UserSession model
     $( '#account' ).html sessionView.render().el
     sessionView.saved model
-    @$el.remove()
+    @remove()
 
   errored: ( xhr ) ->
     errorString = "<div class='validation-errors'>"

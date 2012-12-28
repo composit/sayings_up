@@ -24,9 +24,12 @@ describe 'user new view', ->
     describe 'when the save is successful', ->
       beforeEach ->
         @callback = sinon.spy @user, 'save'
+        @removeSpy = sinon.spy Sayings.Views.NewUser.prototype, 'remove'
+        view = new Sayings.Views.NewUser model: @user
         @userSessionViewMock = sinon.mock Sayings.Views.UserSession.prototype
         @userSessionViewMock.expects( 'saved' ).once()
-        @$el = $( @view.render().el )
+        @$el = $( view.render().el )
+        setFixtures $( sandbox id: 'account' )
         @$el.find( '#username' ).val 'testuser'
         @server.respondWith "POST", "/users", [200, { "Content-Type": "application/json" }, '{"_id":"12345"}']
         @$el.find( "form" ).submit()
@@ -34,15 +37,13 @@ describe 'user new view', ->
 
       afterEach ->
         @userSessionViewMock.restore()
+        @removeSpy.restore()
 
       it 'saves the record', ->
         expect( @callback ).toHaveBeenCalled()
 
-      xit 'shows a success message when the save is successful', ->
-        #TODO expect( @$el ).toContain ".notice:contains('Welcome, testuser')"
-
-      xit 'removes the form', ->
-        #TODO expect( @$el.remove ).toHaveBeenCalledOnce()
+      it 'removes the view', ->
+        expect( @removeSpy ).toHaveBeenCalled()
 
       describe 'when logging the user in', ->
         it 'fires the saved method on a new user session view', ->
