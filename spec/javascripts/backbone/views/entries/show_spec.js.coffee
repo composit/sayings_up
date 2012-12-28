@@ -5,7 +5,6 @@ rendersComments = () ->
       expect( @commentIndexViewStub ).toHaveBeenCalledWith collection: @entry.comments
 
     it 'marks itself as the current entry', ->
-      #@view.showComments()
       expect( @view.model.get 'current' ).toBeTruthy()
 
     it 'unmarks other current entries', ->

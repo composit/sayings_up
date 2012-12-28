@@ -2,9 +2,9 @@ describe 'exchange show view', ->
   beforeEach ->
     Sayings.router = new Sayings.Routers.Exchanges collection: []
     @comment = new Sayings.Models.Comment _id: 9
-    @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comment_data: []
-    @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comment_data: [@comment]
-    @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comment_data: []
+    @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comment_data: [], user_id: 3
+    @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comment_data: [@comment], user_id: 4
+    @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comment_data: [], user_id: 3
     @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entry_data: [@entry1, @entry2, @entry3]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
@@ -19,20 +19,19 @@ describe 'exchange show view', ->
     beforeEach ->
       @showSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'showComments'
       @currentSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'markCurrent'
-      @entryView = new Sayings.Views.ShowEntry model: @entry2
-      @entryViewStub = sinon.stub( Sayings.Views, 'ShowEntry' ).returns @entryView
+      @entryViewSpy = sinon.spy Sayings.Views, 'ShowEntry'
 
     afterEach ->
       @showSpy.restore()
-      @entryViewStub.restore()
       @currentSpy.restore()
+      @entryViewSpy.restore()
 
     it 'creates an Entry view for each entry', ->
       @view.render()
-      expect( @entryViewStub ).toHaveBeenCalledThrice()
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry1
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry2
-      expect( @entryViewStub ).toHaveBeenCalledWith model: @entry3
+      expect( @entryViewSpy ).toHaveBeenCalledThrice()
+      expect( @entryViewSpy ).toHaveBeenCalledWith model: @entry1
+      expect( @entryViewSpy ).toHaveBeenCalledWith model: @entry2
+      expect( @entryViewSpy ).toHaveBeenCalledWith model: @entry3
 
     it 'shows the comments for an entry if indicated', ->
       @view.render()
@@ -47,7 +46,12 @@ describe 'exchange show view', ->
       @view.render()
       expect( @comment.get 'current' ).toBeTruthy()
 
-    xit 'tags the entries with classes according to its user'
+    it 'tags the entries with classes according to its user', ->
+      $entries = $( @view.render().el ).find '.entry'
+      expect( $( @view.render().el ).find( '.entry:even' ) ).toHaveClass 'first-user'
+      expect( $( @view.render().el ).find( '.entry:even' ) ).not.toHaveClass 'second-user'
+      expect( $( @view.render().el ).find( '.entry:odd' ) ).toHaveClass 'second-user'
+      expect( $( @view.render().el ).find( '.entry:odd' ) ).not.toHaveClass 'first-user'
 
     describe 'respondability', ->
       beforeEach ->
@@ -84,10 +88,12 @@ describe 'exchange show view', ->
       @exchange.set 'something', 'else'
       expect( @renderSpy ).toHaveBeenCalled()
 
-  describe 'leaving', ->
-    xit 'removes itself from its parent\'s orderedChildren array'
-    xit 'leaves'
-
-  describe 'when the showedComments event is triggered', ->
-    xit 'it removes all exchanges to the right if it is the first exchange'
-    xit 'removes the exchange to the left of it if it if it is not the first'
+  #TODO use a mock to isolate this test
+  it 'isolates itself when the showedComments event is triggered', ->
+    jQuery.fx.off = true
+    isolateSpy = sinon.spy Sayings.Views.ExchangeManager.prototype, 'isolate'
+    manager = new Sayings.Views.ExchangeManager
+    manager.addFromLeft @view
+    @entry1.trigger 'showedComments'
+    expect( isolateSpy ).toHaveBeenCalledOnce()
+    isolateSpy.restore()

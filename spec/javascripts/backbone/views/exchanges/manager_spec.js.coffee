@@ -50,15 +50,25 @@ describe 'exchange manager view', ->
       exchange = new Sayings.Models.Exchange
       exchange.set 'entries', [entry]
       @exchangeView = new Sayings.Views.ShowExchange model: exchange
-      otherExchange = new Sayings.Models.Exchange
-      @otherExchangeView = new Sayings.Views.ShowExchange model: otherExchange
+      @otherExchangeView = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
       @view.addFromLeft @otherExchangeView
 
     it 'removes exchanges to the right of an exchange', ->
-      exchangeTwo = new Sayings.Models.Exchange
       @view.addFromLeft @exchangeView
       @view.removeRightOfExchange @exchangeView.model
       expect( @view.orderedChildren ).toEqual _( [@exchangeView] )
+
+    describe 'isolate', ->
+      beforeEach ->
+        @view.addFromLeft @exchangeView
+
+      it 'isolates an exchange in the first position', ->
+        @view.isolate @exchangeView
+        expect( @view.orderedChildren ).toEqual _( [@exchangeView] )
+
+      it 'isolates an exchange in the second position', ->
+        @view.isolate @otherExchangeView
+        expect( @view.orderedChildren ).toEqual _( [@otherExchangeView] )
 
     describe 'adding from the left', ->
       it 'prepends the view to the exchange-children div', ->
@@ -76,9 +86,9 @@ describe 'exchange manager view', ->
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         @view.addFromLeft exchangeViewTwo
         @view.addFromLeft exchangeViewThree
-        leaveSpy = sinon.spy exchangeViewTwo, 'orderedLeave'
         @view.addFromLeft @exchangeView
-        expect( leaveSpy ).toHaveBeenCalled()
+        expect( @view.children ).not.toContain exchangeViewTwo
+        expect( @view.orderedChildren ).not.toContain exchangeViewTwo
 
     describe 'adding to the right', ->
       it 'appends the view to the exchange-children div', ->
@@ -95,12 +105,9 @@ describe 'exchange manager view', ->
         exchangeTwo = new Sayings.Models.Exchange
         exchangeViewTwo = new Sayings.Views.ShowExchange model: exchangeTwo
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
-        leaveSpyThree = sinon.spy exchangeViewThree, 'orderedLeave'
         @view.addToTheRightOf exchangeViewTwo
         @view.addToTheRightOf exchangeViewThree
         @view.addToTheRightOf @exchangeView, exchangeTwo
-        expect( @view.orderedChildren.size() ).toEqual 2
-        expect( leaveSpyThree ).toHaveBeenCalled()
         expect( @view.orderedChildren ).toEqual _( [exchangeViewTwo, @exchangeView] )
 
       it 'removes views from the beginning of the ordered children array if there are more than two', ->
@@ -108,12 +115,9 @@ describe 'exchange manager view', ->
         exchangeViewTwo = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         exchangeViewThree = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
         exchangeViewFour = new Sayings.Views.ShowExchange model: new Sayings.Models.Exchange
-        leaveSpyTwo = sinon.spy exchangeViewTwo, 'orderedLeave'
-        leaveSpyThree = sinon.spy exchangeViewThree, 'orderedLeave'
         @view.addToTheRightOf exchangeViewTwo
         @view.addToTheRightOf exchangeViewThree
         @view.addToTheRightOf exchangeViewFour
         @view.addToTheRightOf @exchangeView
         expect( @view.orderedChildren.size() ).toEqual 2
-        expect( leaveSpyTwo ).toHaveBeenCalled()
-        expect( leaveSpyThree ).toHaveBeenCalled()
+        expect( @view.orderedChildren ).toEqual _( [exchangeViewFour, @exchangeView] )

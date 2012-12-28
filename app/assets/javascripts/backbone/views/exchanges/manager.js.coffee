@@ -48,10 +48,20 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     if @orderedChildren.size() > threshold
       firstViewElement = $( @orderedChildren.first().el )
       firstViewElement.animate { 'margin-left': "-#{firstViewElement.css 'width'}" }, 500, () =>
-        @orderedChildren.first().orderedLeave()
+        @removeOrderedChild @orderedChildren.first()
         @removeFromLeft threshold
 
   removeFromRight: ( numberToRemove ) ->
     if numberToRemove > 0
       for num in [1..numberToRemove]
-        @orderedChildren.last().orderedLeave()
+        @removeOrderedChild @orderedChildren.last()
+
+  removeOrderedChild: ( exchangeView ) ->
+    @orderedChildren.splice @orderedChildren.indexOf( exchangeView ), 1
+    exchangeView.leave()
+
+  isolate: ( exchangeView ) =>
+    parentIndex = @orderedChildren.indexOf exchangeView
+    unless parentIndex == -1
+      @removeFromRight @orderedChildren.size() - parentIndex - 1
+    @removeFromLeft 1

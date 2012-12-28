@@ -4,7 +4,7 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
   initialize: ->
     _.bindAll( this, 'render', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
     @model.entries.on 'add', @render
-    @model.entries.on 'showedComments', @moveToLeft
+    @model.entries.on 'showedComments', @isolate
     @model.on 'change', @render
 
   render: ->
@@ -41,14 +41,5 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     else
       comment.set 'current', false
 
-  orderedLeave: ->
-    @parent.orderedChildren.splice( @parent.orderedChildren.indexOf( this ), 1 )
-    @leave()
-
-  #TODO move into manager
-  moveToLeft: =>
-    if @parent
-      if @parent && @parent.orderedChildren.first().model == @model
-        @parent.removeRightOfExchange @model
-      else
-        @parent.removeFromLeft 1
+  isolate: =>
+    @parent.isolate( this ) if @parent
