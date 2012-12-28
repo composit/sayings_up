@@ -46,9 +46,6 @@ describe 'new entry view', ->
         $el.find( 'form' ).submit()
         @server.respond()
 
-      afterEach ->
-        @parent_comment.set.restore()
-
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
 
