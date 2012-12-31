@@ -3,9 +3,9 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
 
   initialize: ->
     _.bindAll( this, 'render', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
-    @model.entries.on 'add', @render
-    @model.entries.on 'showedComments', @isolate
-    @model.on 'change', @render
+    @listenTo @model.entries, 'add', @render
+    @listenTo @model.entries, 'showedComments', @isolate
+    @listenTo @model, 'change', @render
 
   render: ->
     $( @el ).html JST['backbone/templates/exchanges/show']

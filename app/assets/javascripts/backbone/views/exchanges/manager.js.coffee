@@ -64,4 +64,4 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     parentIndex = @orderedChildren.indexOf exchangeView
     unless parentIndex == -1
       @removeFromRight @orderedChildren.size() - parentIndex - 1
-    @removeFromLeft 1
+      @removeFromLeft 1

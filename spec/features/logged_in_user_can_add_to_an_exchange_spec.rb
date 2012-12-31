@@ -23,7 +23,10 @@ feature 'logged in user can add to an exchange', :js do
     expect( find( '.comments' ).text ).to match pattern
   end
 
-  scenario 'user can add an entry to an exchange he is involved in'
+  scenario 'user can add an entry to an exchange he is involved in' do
+  end
   scenario 'entries added by a logged in user are attributed to that user'
   scenario 'user cannot add an entry to an exchange she is not involved in'
+  scenario 'user can respond to comments on one of her entries'
+  scenario 'user cannat respond to comments on another user\'s entries'
 end
