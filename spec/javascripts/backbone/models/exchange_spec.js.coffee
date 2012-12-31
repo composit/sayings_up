@@ -39,11 +39,9 @@ describe 'Exchange', ->
 
     xit 'should not save when content is empty'
       #TODO
-    
-  it 'parses the entry data after a sync', ->
+  
+  it 'parses the entry data after a change', ->
     exchange = new Sayings.Models.Exchange _id: 123
     exchange.set 'entry_data', [{ content: 'test content' }]
-    expect( exchange.entries.length ).toEqual 0
-    exchange.trigger 'sync'
     expect( exchange.entries.length ).toEqual 1
     expect( exchange.entries.last().get 'content' ).toEqual 'test content'

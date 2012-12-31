@@ -88,6 +88,10 @@ describe 'exchange show view', ->
       @exchange.set 'something', 'else'
       expect( @renderSpy ).toHaveBeenCalled()
 
+    it 'renders whenever the model syncs', ->
+      @exchange.trigger 'sync'
+      expect( @renderSpy ).toHaveBeenCalled()
+
   #TODO use a mock to isolate this test
   it 'isolates itself when the showedComments event is triggered', ->
     jQuery.fx.off = true

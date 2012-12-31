@@ -29,6 +29,7 @@ class Sayings.Routers.Exchanges extends Backbone.Router
     exchange = new Sayings.Models.Exchange _id: exchangeId
     @collection.add exchange
     exchange.fetch()
+    exchange
 
   renderManager: ->
     @exchangeManager = new Sayings.Views.ExchangeManager

@@ -9,7 +9,7 @@ class Sayings.Models.Exchange extends Backbone.Model
     entry_data: []
 
   initialize: ->
-    @on 'sync', @parseEntryData
+    @on 'change:entry_data', @parseEntryData
     @parseEntryData()
 
   parseEntryData: =>
