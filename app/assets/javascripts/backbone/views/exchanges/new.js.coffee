@@ -30,3 +30,4 @@ class Sayings.Views.NewExchange extends Backbone.View
   saved: ->
     @model.trigger 'sync'
     @options.parent_comment.set 'child_exchange_data', { id: @model.get( '_id' ), entry_count: @model.entries.length }
+    Sayings.router.collection.add @model

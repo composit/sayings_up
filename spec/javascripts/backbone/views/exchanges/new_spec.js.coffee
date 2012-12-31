@@ -39,6 +39,9 @@ describe 'new entry view', ->
         @callback = sinon.spy @model, 'save'
         @syncSpy = sinon.spy()
         @model.on 'sync', @syncSpy
+        #TODO refactor
+        Sayings.router = new Sayings.Routers.Exchanges collection: new Sayings.Collections.Exchanges []
+        @addSpy = sinon.spy Sayings.router.collection, 'add'
         $el = $( @view.render().el )
         @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"_id":"234","entry_data":[{},{}]}']
         $el.find( '.respond-link' ).click()
@@ -54,3 +57,7 @@ describe 'new entry view', ->
 
       it 'sets the child exchange data on the parent comment', ->
         expect( @parent_comment.get 'child_exchange_data' ).toEqual( { id: '234', entry_count: 2 } )
+
+      it 'adds the exchange to the router\'s collection', ->
+        expect( @addSpy ).toHaveBeenCalledOnce()
+        expect( @addSpy ).toHaveBeenCalledWith @model
