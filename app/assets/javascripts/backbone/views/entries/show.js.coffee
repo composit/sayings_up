@@ -30,7 +30,7 @@ class Sayings.Views.ShowEntry extends Backbone.View
     commentsView = new Sayings.Views.CommentsIndex collection: @model.comments
     commentsEl = commentsView.render().el
     @$el.parents( '.exchange' ).find( '.comments-column' ).html commentsEl
-    $( commentsEl ).css 'top', @$el.position().top
+    $( commentsEl ).css 'top', @$el.position().top - 18
 
   #TODO move into manager
   markCurrent: ( entry ) ->
