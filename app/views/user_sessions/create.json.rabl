@@ -1,3 +1,3 @@
 object @user_session
 
-attributes :user_id, :errors
+extends 'user_sessions/show'

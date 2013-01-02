@@ -1,5 +1,6 @@
 describe 'exchange show view', ->
   beforeEach ->
+    Sayings.currentUserSession = new Sayings.Models.UserSession
     Sayings.router = new Sayings.Routers.Exchanges collection: []
     @comment = new Sayings.Models.Comment _id: 9
     @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comment_data: [], user_id: 3
@@ -62,12 +63,12 @@ describe 'exchange show view', ->
         Sayings.Views.NewEntry.restore()
 
       it 'displays a respond link if the user has rights', ->
-        Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
+        Sayings.currentUserSession = new Sayings.Models.UserSession 'user_id': 4
         @view.render()
         expect( @newEntryViewStub ).toHaveBeenCalledOnce()
       
       it 'does not display a respond link if the user does not have rights', ->
-        Sayings.currentUser = new Sayings.Models.UserSession '_id': 1
+        Sayings.currentUserSession = new Sayings.Models.UserSession 'user_id': 1
         @view.render()
         expect( @newEntryViewStub ).not.toHaveBeenCalled()
     
@@ -90,6 +91,14 @@ describe 'exchange show view', ->
 
     it 'renders whenever the model syncs', ->
       @exchange.trigger 'sync'
+      expect( @renderSpy ).toHaveBeenCalled()
+
+    it 'renders whenever the login state changes', ->
+      Sayings.currentUserSession.trigger 'loginStateChanged'
+      expect( @renderSpy ).toHaveBeenCalled()
+
+    it 'renders whenever the current user session is destroyed', ->
+      Sayings.currentUserSession.destroy()
       expect( @renderSpy ).toHaveBeenCalled()
 
   #TODO use a mock to isolate this test

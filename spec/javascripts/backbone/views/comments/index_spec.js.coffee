@@ -42,12 +42,12 @@ describe 'comments index view', ->
         Sayings.Views.NewComment.restore()
 
       it 'displays a comment link if the user is logged in', ->
-        Sayings.currentUser = new Sayings.Models.UserSession 'username': 'testuser'
+        Sayings.currentUserSession = new Sayings.Models.UserSession 'user_id': '123'
         @view.render()
         expect( @newCommentViewStub ).toHaveBeenCalledOnce()
       
       it 'does not display a respond link if the user is not logged in', ->
-        Sayings.currentUser = new Sayings.Models.UserSession
+        Sayings.currentUserSession = new Sayings.Models.UserSession
         @view.render()
         expect( @newCommentViewStub ).not.toHaveBeenCalled()
 

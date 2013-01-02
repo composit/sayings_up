@@ -70,7 +70,7 @@ describe 'comment show view', ->
 
       describe 'if the comment is on one of the current user\'s entries', ->
         beforeEach ->
-          Sayings.currentUser = new Sayings.Models.UserSession '_id': 4
+          Sayings.currentUserSession = new Sayings.Models.UserSession 'user_id': 4
 
         it 'builds a new exchange model', ->
           @view.render()
@@ -88,6 +88,6 @@ describe 'comment show view', ->
           expect( @newExchangeViewStub ).not.toHaveBeenCalled()
 
       it 'does not display a respond link if the user does not have rights', ->
-        Sayings.currentUser = new Sayings.Models.UserSession '_id': 1
+        Sayings.currentUserSession = new Sayings.Models.UserSession 'user_id': 1
         @view.render()
         expect( @newExchangeViewStub ).not.toHaveBeenCalled()

@@ -10,13 +10,13 @@ window.Sayings =
   Routers: {}
   Views: {}
 
-  init: ( exchanges, current_user, silent = false ) ->
+  init: ( exchanges, current_user_session, silent = false ) ->
     exchangesCollection = new Sayings.Collections.Exchanges exchanges
-    @currentUser = new Sayings.Models.UserSession current_user
+    @currentUserSession = new Sayings.Models.UserSession current_user_session
 
     @router = new Sayings.Routers.Exchanges collection: exchangesCollection
     new Sayings.Routers.Users collection: new Sayings.Collections.Users()
-    user_session = new Sayings.Routers.UserSessions model: @currentUser
+    user_session = new Sayings.Routers.UserSessions model: @currentUserSession
     user_session.new()
 
     if !Backbone.history.started

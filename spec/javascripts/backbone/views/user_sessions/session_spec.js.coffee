@@ -20,8 +20,8 @@ describe 'user session view', ->
 
     describe 'with a logged in user', ->
       beforeEach ->
-        @signed_in_user_session = new Sayings.Models.UserSession( { '_id': '123', 'username': 'testuser' } )
-        @signed_in_view = new Sayings.Views.UserSession( { model: @signed_in_user_session } )
+        @signed_in_user_session = new Sayings.Models.UserSession 'user_id': '123', 'username': 'testuser'
+        @signed_in_view = new Sayings.Views.UserSession model: @signed_in_user_session
         @$el = $( @signed_in_view.render().el )
 
       it 'displays the welcome message', ->
@@ -48,8 +48,7 @@ describe 'user session view', ->
 
     describe 'when the sign in is successful', ->
       beforeEach ->
-        Sayings.exchange = new Backbone.Model
-        sinon.spy Sayings.exchange, 'trigger'
+        @triggerSpy = sinon.spy @user_session, 'trigger'
         @callback = sinon.spy @user_session, 'save'
         @$el = $( @view.render().el )
         @server.respondWith 'POST', '/user_sessions', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
@@ -59,6 +58,7 @@ describe 'user session view', ->
         @server.respond()
 
       afterEach ->
+        @triggerSpy.restore()
 
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalledOnce()
@@ -72,12 +72,8 @@ describe 'user session view', ->
       it 'logs the user in', ->
         expect( $( @$el ) ).toContain "a:contains('Sign out')"
 
-      it 'sets the global current user', ->
-        expect( Sayings.currentUser.get 'id' ).toEqual '123'
-
-      it 'triggers a change on the current exchange', ->
-        expect( Sayings.exchange.trigger ).toHaveBeenCalledOnce()
-        expect( Sayings.exchange.trigger ).toHaveBeenCalled 'change'
+      it 'sets the global current user session', ->
+        expect( Sayings.currentUserSession.get 'id' ).toEqual '123'
 
     it 'shows an error message when the signin is not successful', ->
       $el = $( @view.render().el )
@@ -117,7 +113,6 @@ describe 'user session view', ->
       @server = sinon.fakeServer.create()
       @server.respondWith "DELETE", "/user_sessions/123", [200, { "Content-Type": "application/json" }, '']
       Sayings.exchange = new Backbone.Model
-      sinon.spy Sayings.exchange, 'trigger'
       @$el.find( '#sign-out-link' ).click()
       @server.respond()
 
@@ -132,8 +127,4 @@ describe 'user session view', ->
       expect( @$el ).toContain "a:contains('Sign up')"
 
     it 'removes the current user id', ->
-      expect( typeof Sayings.currentUser.id ).toEqual 'undefined'
-
-    it 'triggers a change on the current exchange', ->
-      expect( Sayings.exchange.trigger ).toHaveBeenCalledOnce
-      expect( Sayings.exchange.trigger ).toHaveBeenCalledWith 'change'
+      expect( typeof Sayings.currentUserSession.get( 'user_id' ) ).toEqual 'undefined'

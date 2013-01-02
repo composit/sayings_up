@@ -1,3 +1,3 @@
 class Sayings.Models.UserSession extends Backbone.Model
-  idAttribute: '_id'
+  idAttribute: 'user_id'
   urlRoot: '/user_sessions'

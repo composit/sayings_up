@@ -2,6 +2,7 @@ class UserSession
   def initialize( args )
     @username = args[:username]
     @password = args[:password]
+    @user = args[:user]
   end
 
   def authenticate!
@@ -14,7 +15,11 @@ class UserSession
     @user.id if @user
   end
 
+  def username
+    @user.username if @user
+  end
+
   def errors
-    { 'username or password' => ['is incorrect'] } if @user.nil?
+    { 'username or password' => ['is incorrect'] } unless @user.present?
   end
 end

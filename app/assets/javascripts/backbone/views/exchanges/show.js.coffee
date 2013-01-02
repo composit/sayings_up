@@ -7,11 +7,13 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     @listenTo @model.entries, 'showedComments', @isolate
     @listenTo @model, 'change', @render
     @listenTo @model, 'sync', @render
+    @listenTo Sayings.currentUserSession, 'loginStateChanged', @render
+    @listenTo Sayings.currentUserSession, 'destroy', @render
 
   render: ->
     $( @el ).html JST['backbone/templates/exchanges/show']
     @addEntries()
-    @addResponder() if Sayings.currentUser and Sayings.currentUser.id in @model.get 'ordered_user_ids'
+    @addResponder() if Sayings.currentUserSession and Sayings.currentUserSession.get( 'user_id' ) in @model.get 'ordered_user_ids'
     return this
 
   addEntries: ->

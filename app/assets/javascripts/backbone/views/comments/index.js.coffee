@@ -9,7 +9,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
   render: ->
     $( @el ).html ''
     @addComments()
-    @newComment() if Sayings.currentUser and Sayings.currentUser.get 'username'
+    @newComment() if Sayings.currentUserSession and Sayings.currentUserSession.get 'user_id'
     return this
 
   addComments: ->

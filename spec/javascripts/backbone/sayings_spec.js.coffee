@@ -21,18 +21,18 @@ describe 'Sayings', ->
       expect( Sayings.router.collection.models[0].get( '_id' ) ).toEqual '12345'
       expect( Sayings.router.collection.models[1].get( '_id' ) ).toEqual '54321'
 
-    it 'accepts current user JSON and instantiates a model from it', ->
-      userJSON = { '_id': '123' }
+    it 'accepts current user session JSON and instantiates a model from it', ->
+      userJSON = { 'user_id': '123' }
       Sayings.init [], userJSON, true
 
-      expect( Sayings.currentUser ).not.toEqual undefined
-      expect( Sayings.currentUser.get( '_id' ) ).toEqual '123'
+      expect( Sayings.currentUserSession ).not.toEqual undefined
+      expect( Sayings.currentUserSession.get( 'user_id' ) ).toEqual '123'
 
-    it 'instantiates a new current user if none is logged in', ->
+    it 'instantiates a new current user session if none is logged in', ->
       sinon.spy Sayings.Models, "UserSession"
       Sayings.init [], {}, true
 
-      expect( Sayings.currentUser ).not.toEqual undefined
+      expect( Sayings.currentUserSession ).not.toEqual undefined
       expect( Sayings.Models.UserSession ).toHaveBeenCalled()
       Sayings.Models.UserSession.restore()
 

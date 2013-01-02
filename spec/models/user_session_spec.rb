@@ -2,7 +2,17 @@ require 'spec_helper'
 
 describe UserSession do
   let( :user_session ) { UserSession.new username: 'testuser', password: 'testpass' }
-  let( :user ) { mock_model User, id: 234 }
+  let( :user ) { mock_model User, id: 234, username: 'testuser' }
+
+  it 'allows a user to be set' do
+    new_session = UserSession.new user: user
+    expect( new_session.user_id ).to eq 234
+  end
+
+  it 'returns the username' do
+    new_session = UserSession.new user: user
+    expect( new_session.username ).to eq 'testuser'
+  end
 
   context 'with a user' do
     before do
@@ -44,6 +54,7 @@ describe UserSession do
       end
 
       it 'has an error' do
+        user_session.authenticate!
         expect( user_session.errors ).to eq( { 'username or password' => ['is incorrect'] } )
       end
     end

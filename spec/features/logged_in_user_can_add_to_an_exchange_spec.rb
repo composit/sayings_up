@@ -8,10 +8,10 @@ feature 'logged in user can add to an exchange', :js do
   background do
     exchange.entries << entry
     exchange.save!
-    sign_in_as user
   end
 
   scenario 'user can add a comment to any entry' do
+    sign_in_as user
     visit "/#e/#{exchange.id}"
     click_link '0 comments'
     click_link 'add comment'
@@ -29,6 +29,7 @@ feature 'logged in user can add to an exchange', :js do
   scenario 'user cannot add an entry to an exchange she is not involved in'
 
   scenario 'user can respond to comments on one of her entries' do
+    sign_in_as user
     entry.comments << build( :comment )
     exchange.save!
     visit "/"
@@ -39,10 +40,25 @@ feature 'logged in user can add to an exchange', :js do
       fill_in 'content', with: 'test response'
       click_button 'Respond'
       click_link 'discussion(2)'
-      save_and_open_page
     end
     expect( page ).to have_content 'test response'
   end
 
-  scenario 'user cannat respond to comments on another user\'s entries'
+  scenario 'user cannot respond to comments on another user\'s entries'
+
+  scenario 'user sees respond links immediately upon login' do
+    visit "/#e/#{exchange.id}"
+    click_link 'Sign in'
+    fill_in 'Username', with: user.username
+    fill_in 'Password', with: user.password
+    click_button 'Sign in'
+    expect( page ).to have_content 'respond'
+  end
+
+  scenario 'user loses respond links immediately on logout' do
+    sign_in_as user
+    visit "/#e/#{exchange.id}"
+    click_link 'Sign out'
+    expect( page ).to have_no_content 'respond'
+  end
 end

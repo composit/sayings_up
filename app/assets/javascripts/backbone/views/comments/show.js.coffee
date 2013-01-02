@@ -13,7 +13,7 @@ class Sayings.Views.ShowComment extends Backbone.View
     @$( '.username' ).html @model.get 'user_username'
     if @model.get 'child_exchange_data'
       @addChildLink()
-    else if Sayings.currentUser and Sayings.currentUser.id == @model.get 'entry_user_id'
+    else if Sayings.currentUserSession and Sayings.currentUserSession.get( 'user_id' ) == @model.get 'entry_user_id'
       @addResponder()
     $( @el ).addClass( 'current' ) if @model.get 'current'
     return this
