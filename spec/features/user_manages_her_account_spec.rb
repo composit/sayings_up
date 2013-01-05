@@ -20,7 +20,6 @@ feature 'user manages her account', :js do
 
   scenario 'user logs in' do
     sign_in
-    save_and_open_page
     expect( page ).to have_content 'Welcome, testuser'
   end
 
