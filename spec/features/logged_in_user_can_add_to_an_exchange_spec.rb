@@ -13,6 +13,7 @@ feature 'logged in user can add to an exchange', :js do
   scenario 'user can add a comment to any entry' do
     sign_in_as user
     visit "/#e/#{exchange.id}"
+    sleep 0.1 #TODO find the race condition
     click_link '0 comments'
     click_link 'add comment'
     within( '#new-comment-form' ) do
