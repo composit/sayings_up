@@ -5,8 +5,7 @@ class EntriesController < ApplicationController
   respond_to :json
 
   def create
-    @entry.user = current_user
+    @entry.user_id = current_user.id
     @exchange.save!
-    respond_with @exchange, @entry
   end
 end

@@ -25,8 +25,29 @@ feature 'logged in user can add to an exchange', :js do
     expect( find( '.comments' ).text ).to match pattern
   end
 
-  scenario 'user can add an entry to an exchange he is involved in'
-  scenario 'entries added by a logged in user are attributed to that user'
+  scenario 'user can add an entry to an exchange he is involved in' do
+    sign_in_as user
+    visit "/#e/#{exchange.id}"
+    click_link 'respond'
+    within '#new-entry-form' do
+      fill_in 'content', with: 'test response'
+      click_button 'Respond'
+    end
+    expect( page ).to have_content 'test response'
+  end
+
+  scenario 'entries added by a logged in user are attributed to that user' do
+    sign_in_as user
+    visit "/#e/#{exchange.id}"
+    click_link 'respond'
+    within '#new-entry-form' do
+      fill_in 'content', with: 'test response'
+      click_button 'Respond'
+    end
+    pattern = Regexp.new( "test response(.*)testuser", Regexp::MULTILINE )
+    expect( page ).to have_content pattern
+  end
+
   scenario 'user cannot add an entry to an exchange she is not involved in'
 
   scenario 'user can respond to comments on one of her entries' do
