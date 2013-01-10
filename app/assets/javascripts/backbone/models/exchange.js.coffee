@@ -3,7 +3,6 @@ class Sayings.Models.Exchange extends Backbone.Model
   paramRoot: 'exchange'
 
   defaults:
-    content: null
     ordered_user_ids: []
     ordered_usernames: []
     entry_data: []

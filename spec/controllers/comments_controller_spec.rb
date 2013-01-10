@@ -39,7 +39,7 @@ describe CommentsController do
 
       it 'responds with the comment' do
         post :create, params
-        expect( response.body ).to match /{\"_id\":\"\w+\",\"content\":null,\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}/
+        expect( response.body ).to match( /{\"_id\":\"\w+\",\"html_content\":\"\",\"exchange_id\":null,\"entry_id\":null,\"entry_user_id\":null,\"child_exchange_data\":null,\"user_username\":null}/ )
       end
     end
   end

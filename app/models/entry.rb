@@ -1,6 +1,10 @@
+require 'html_formatting'
+
 class Entry
   include Mongoid::Document
   include Mongoid::Timestamps
+
+  include HtmlFormatting
 
   field :user_id, type: Integer
   field :content, type: String
@@ -19,12 +23,5 @@ class Entry
 
   def username
     user.username if user
-  end
-
-  def html_content
-    markdowner = Redcarpet::Markdown.new Redcarpet::Render::HTML, autolink: true
-    formatted_content = markdowner.render content.to_s
-    formatted_content = Redcarpet::Render::SmartyPants.render formatted_content
-    Loofah.fragment( formatted_content ).scrub!( :escape ).scrub!( :nofollow ).to_html
   end
 end

@@ -18,9 +18,9 @@ feature 'user views an exchange', :js do
 
   scenario 'user sees a list of exchanges' do
     visit '/'
-    expect( find( '#exchanges' ).text ).to match /Parent stuff/
-    expect( find( '#exchanges' ).text ).to match /Good stuff/
-    expect( find( '#exchanges' ).text ).to match /Child stuff/
+    expect( find( '#exchanges' ).text ).to match( /Parent stuff/ )
+    expect( find( '#exchanges' ).text ).to match( /Good stuff/ )
+    expect( find( '#exchanges' ).text ).to match( /Child stuff/ )
   end
 
   scenario 'user sees a list of entries in order' do
@@ -106,7 +106,25 @@ feature 'user views an exchange', :js do
     expect( page ).to have_content "<script>alert('hello!');</script>"
   end
 
-  scenario 'user sees sanitized comment content'
-  scenario 'user can click on urls in entry content'
-  scenario 'user can click on urls in comment content'
+  scenario 'user sees sanitized comment content' do
+    exchange.entries.first.comments << build( :comment, content: "<script>alert('hello!');</script>" )
+    visit "/#e/#{exchange.id}"
+    click_link '2 comments'
+    expect( page ).to have_content "<script>alert('hello!');</script>"
+  end
+
+  scenario 'user can click on urls in entry content' do
+    exchange.entries << build( :entry, content: 'go here: http://www.google.com/' )
+    visit "/#e/#{exchange.id}"
+    click_link 'http://www.google.com/'
+    expect( current_url ).to eq 'http://www.google.com/'
+  end
+
+  scenario 'user can click on urls in comment content' do
+    exchange.entries.first.comments << build( :comment, content: 'go here: http://www.google.com/' )
+    visit "/#e/#{exchange.id}"
+    click_link '2 comment'
+    click_link 'http://www.google.com/'
+    expect( current_url ).to eq 'http://www.google.com/'
+  end
 end

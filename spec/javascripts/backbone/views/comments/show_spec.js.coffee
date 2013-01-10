@@ -1,6 +1,6 @@
 describe 'comment show view', ->
   beforeEach ->
-    @comment = new Sayings.Models.Comment _id: '789', content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456', user_username: 'test user'
+    @comment = new Sayings.Models.Comment _id: '789', html_content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456', user_username: 'test user'
     @view = new Sayings.Views.ShowComment model: @comment
 
   describe 'initialization', ->

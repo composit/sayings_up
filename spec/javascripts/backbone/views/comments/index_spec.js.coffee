@@ -1,8 +1,8 @@
 describe 'comments index view', ->
   beforeEach ->
-    @comment1 = new Backbone.Model id: 1, content: 'One'
-    @comment2 = new Backbone.Model id: 2, content: 'Two'
-    @comment3 = new Backbone.Model id: 3, content: 'Three'
+    @comment1 = new Backbone.Model id: 1, html_content: 'One'
+    @comment2 = new Backbone.Model id: 2, html_content: 'Two'
+    @comment3 = new Backbone.Model id: 3, html_content: 'Three'
     @comments = new Sayings.Collections.Comments [@comment1, @comment2, @comment3]
     @view = new Sayings.Views.CommentsIndex collection: @comments, commentId: 2
 

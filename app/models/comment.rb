@@ -1,6 +1,9 @@
+require 'html_formatting'
+
 class Comment
   include Mongoid::Document
   include Mongoid::Timestamps
+  include HtmlFormatting
 
   field :content, type: String
 

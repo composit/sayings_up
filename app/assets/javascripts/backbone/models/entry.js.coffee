@@ -3,7 +3,7 @@ class Sayings.Models.Entry extends Backbone.Model
   paramRoot: 'entry'
 
   defaults:
-    content: null
+    html_content: null
     comment_data: []
 
   initialize: ->

@@ -3,4 +3,4 @@ class Sayings.Models.Comment extends Backbone.Model
   paramRoot: 'comment'
 
   defaults:
-    content: null
+    html_content: null

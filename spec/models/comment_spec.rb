@@ -40,4 +40,6 @@ describe Comment do
     expect( comment.errors[:user].length ).to eq 1
     expect( comment.errors[:user] ).to include "can't be blank"
   end
+
+  it_behaves_like HtmlFormatting
 end
