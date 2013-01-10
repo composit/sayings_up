@@ -16,7 +16,7 @@ describe ExchangesController do
   end
   
   context 'POST' do
-    let( :exchange ) { mock_model( Exchange ).as_null_object }
+    let( :exchange ) { Exchange.new }
     let( :params ) { { exchange: { initial_values: { content: 'new exchange' } }, format: :json } }
     let!( :current_user ) { signed_in_user_with_abilities @controller, [[:create, Exchange]] }
 
@@ -39,6 +39,13 @@ describe ExchangesController do
       post :create, params
     end
 
-    it 'responds with the exchange json'
+    describe 'with views' do
+      render_views
+
+      it 'responds with the exchange' do
+        post :create, params
+        expect( response.body ).to match( /^{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[\]}$/ )
+      end
+    end
   end
 end

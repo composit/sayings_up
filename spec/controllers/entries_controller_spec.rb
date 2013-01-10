@@ -33,7 +33,7 @@ describe EntriesController do
 
       it 'responds with the entry' do
         post :create, params
-        expect( response.body ).to match /^{\"_id\":\"\w+\",\"content\":null,\"user_id\":\w+,\"exchange_id\":null,\"username\":null,\"comment_data\":\[\]}$/
+        expect( response.body ).to match( /^{\"_id\":\"\w+\",\"html_content\":\"\",\"user_id\":\w+,\"exchange_id\":null,\"username\":null,\"comment_data\":\[\]}$/ )
       end
     end
   end

@@ -100,7 +100,12 @@ feature 'user views an exchange', :js do
     end
   end
 
-  scenario 'user sees sanitized entry content'
+  scenario 'user sees sanitized entry content' do
+    exchange.entries << build( :entry, content: "<script>alert('hello!');</script>" )
+    visit "/#e/#{exchange.id}"
+    expect( page ).to have_content "<script>alert('hello!');</script>"
+  end
+
   scenario 'user sees sanitized comment content'
   scenario 'user can click on urls in entry content'
   scenario 'user can click on urls in comment content'

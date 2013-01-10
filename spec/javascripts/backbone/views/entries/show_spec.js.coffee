@@ -17,7 +17,7 @@ rendersComments = () ->
 describe 'entry show view', ->
   beforeEach ->
     Sayings.router = new Sayings.Routers.Exchanges collection: []
-    @entry = new Sayings.Models.Entry _id: 123, content: 'Good entry', comment_data: [{ '_id': '123' },{},{}], username: 'test user'
+    @entry = new Sayings.Models.Entry _id: 123, html_content: 'Good entry', comment_data: [{ '_id': '123' },{},{}], username: 'test user'
     @view = new Sayings.Views.ShowEntry model: @entry
     @entries = new Backbone.Collection
     @entries.add @entry

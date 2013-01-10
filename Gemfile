@@ -26,10 +26,12 @@ gem 'cancan', '~> 1.6'
 gem 'capistrano', '~> 2.12'
 gem 'ejs', '~> 1.0'
 gem 'jquery-rails', '~> 2.0'
+gem 'loofah', '~> 1.2.1'
 gem 'neat', '~> 1.1.0'
 gem 'oj', '~> 2.0.0'
 gem 'rabl', '~> 0.7.9'
 gem 'rails-backbone', '~> 0.7'
+gem 'redcarpet', '~> 2.2.2'
 gem 'rvm-capistrano', '~> 1.2'
 
 # Use unicorn as the web server
