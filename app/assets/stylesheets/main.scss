@@ -84,14 +84,27 @@ a:hover, a:active {
 }
 
 #wrap {
+  padding: 40px 20px;
+
   #header {
-  }
+    width: 100%;
+    @include clearfix;
 
-  #nav {
-    text-align: right;
-  }
+    h1 {
+      font-family: "penna";
+      font-size: 8em;
+      font-weight: normal;
+      width: 580px;
+      float: left;
+    }
 
-  #main {
+    #account {
+      padding-top: 80px;
+
+      a {
+        margin-right: 5px;
+      }
+    }
   }
 
   #exchanges {
@@ -120,11 +133,7 @@ a:hover, a:active {
   }
 
   .current {
-    background-color: tint( $background, 70% );
-    border-radius: 5px;
-    border-top: 3px solid shade( $background, 8% );
-    border-bottom: 3px solid shade( $background, 8% );
-    margin-top: -6px;
+    border-bottom: 2px solid #000;
   }
 
   .entries-column {
