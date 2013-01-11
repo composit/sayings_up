@@ -11,11 +11,11 @@ class Sayings.Views.NewEntry extends Backbone.View
     'submit form#new-entry-form': 'save'
 
   render: ->
-    $( @el ).html '<a class="respond-link" href="#">respond</a>'
+    @$el.html '<a class="respond-link" href="#">respond</a>'
     return this
 
   new: ->
-    $( @el ).html JST['backbone/templates/entries/new']
+    @$el.html JST['backbone/templates/entries/new']
     return false
 
   save: ->
