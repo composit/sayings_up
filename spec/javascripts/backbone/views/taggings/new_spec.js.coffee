@@ -1,7 +1,8 @@
 describe 'new exchange tag view', ->
   beforeEach ->
     @collection = new Backbone.Collection
-    @view = new Sayings.Views.NewExchangeTag collection: @collection
+    @collection.url = '/taggings'
+    @view = new Sayings.Views.NewTagging collection: @collection
 
   describe 'initialization', ->
     it 'creates a div element', ->
@@ -34,7 +35,19 @@ describe 'new exchange tag view', ->
 
     describe 'when the save is successful', ->
       beforeEach ->
+        $el = @view.render().$el
+        @server.respondWith 'POST', '/taggings', [200, { 'Content-Type': 'application/json' }, '{"_id":"123"}']
+        $el.find( '#new-tag-link' ).click()
         @callback = sinon.spy @view.model, 'save'
+        $el.find( '#tag_name' ).val 'newtag'
+        $el.find( 'form' ).submit()
+        @server.respond()
+
+      afterEach ->
+        @callback.restore()
 
       it 'queries the server', ->
-        expect( @callback ).toHaveBeenCalledOnce()
+        expect( @callback ).toHaveBeenCalled()
+
+      it 'adds the model to the collection', ->
+        expect( @collection.models ).toContain @view.model

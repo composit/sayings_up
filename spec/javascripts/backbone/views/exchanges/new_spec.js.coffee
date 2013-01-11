@@ -9,18 +9,18 @@ describe 'new entry view', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
     it 'has a class of "new-exchange"', ->
-      expect( $( @view.el ) ).toHaveClass 'new-exchange'
+      expect( @view.$el ).toHaveClass 'new-exchange'
 
     it 'creates a model with a url', ->
       expect( @view.model.url ).toEqual '/exchanges'
 
   describe 'rendering', ->
     it 'contains a "respond" button', ->
-      expect( $( @view.render().el ) ).toContain 'a:contains("respond")'
+      expect( @view.render().$el ).toContain 'a:contains("respond")'
 
   describe 'new', ->
     beforeEach ->
-      @$el = $( @view.render().el )
+      @$el = @view.render().$el
       @$el.find( '.respond-link' ).click()
 
     it 'has a form for creating a new exchange', ->
@@ -42,7 +42,7 @@ describe 'new entry view', ->
         #TODO refactor
         Sayings.router = new Sayings.Routers.Exchanges collection: new Sayings.Collections.Exchanges []
         @addSpy = sinon.spy Sayings.router.collection, 'add'
-        $el = $( @view.render().el )
+        $el = @view.render().$el
         @server.respondWith 'POST', '/exchanges', [200, { 'Content-Type': 'application/json' }, '{"_id":"234","entry_data":[{},{}]}']
         $el.find( '.respond-link' ).click()
         $el.find( '#content' ).val 'Good exchange'
