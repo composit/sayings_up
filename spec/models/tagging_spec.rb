@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe ExchangeTag do
+describe Tagging do
   it 'has a tag name' do
     subject.tag_name = 'test tag'
     subject.save!

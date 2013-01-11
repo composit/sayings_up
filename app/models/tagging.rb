@@ -1,4 +1,4 @@
-class ExchangeTag
+class Tagging
   include Mongoid::Document
   include Mongoid::Timestamps
 
