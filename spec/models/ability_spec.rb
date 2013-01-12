@@ -62,4 +62,17 @@ describe Ability do
   context 'comments' do
     it { should be_able_to :create, Comment.new }
   end
+
+  context 'taggings' do
+    it 'is able to create one of its own taggings' do
+      tagging = build :tagging, user: user
+      expect( ability ).to be_able_to :create, tagging
+    end
+
+    it 'is not able to create a tagging for another user' do
+      other_user = create :user
+      tagging = build :tagging, user: other_user
+      expect( ability ).not_to be_able_to :create, tagging
+    end
+  end
 end

@@ -8,4 +8,8 @@ class Tagging
 
   belongs_to :user
   belongs_to :exchange
+
+  validates :user, presence: true
+  validates :exchange, presence: true
+  validates :tag_name, presence: true
 end

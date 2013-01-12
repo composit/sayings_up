@@ -31,6 +31,12 @@ FactoryGirl.define do
     end
   end
   
+  factory :tagging do
+    tag_name 'testtag'
+    exchange
+    user
+  end
+
   factory :user do
     username
     email

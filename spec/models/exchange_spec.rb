@@ -19,6 +19,12 @@ describe Exchange do
     expect( subject.reload.entries.length ).to eq 11
   end
 
+  it 'contains taggings' do
+    subject.taggings << build_list( :taggings, 9 )
+    subject.save!
+    expect( subject.reload.taggings.length ).to eq 9
+  end
+
   context 'ordered_user_ids' do
     before :each do
       subject.entries << build( :entry, user: create( :user, id: 123, username: 'one' ), created_at: 1.day.ago )

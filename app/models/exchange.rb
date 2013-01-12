@@ -9,13 +9,14 @@ class Exchange
 
   embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
+  has_many :taggings
 
   def ordered_user_ids
-    ordered_users.collect &:id
+    ordered_users.collect( &:id )
   end
 
   def ordered_usernames
-    ordered_users.collect &:username
+    ordered_users.collect( &:username )
   end
 
   def self.new_with_initial_values( values )

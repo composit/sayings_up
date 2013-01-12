@@ -11,7 +11,7 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     @listenTo Sayings.currentUserSession, 'destroy', @render
 
   render: ->
-    $( @el ).html JST['backbone/templates/exchanges/show']
+    @$el.html JST['backbone/templates/exchanges/show']
     @addEntries()
     @addResponder() if Sayings.currentUserSession and Sayings.currentUserSession.get( 'user_id' ) in @model.get 'ordered_user_ids'
     return this
@@ -21,7 +21,7 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
 
   addEntry: ( entry ) ->
     entryView = new Sayings.Views.ShowEntry model: entry
-    $entryEl = $( entryView.render().el )
+    $entryEl = entryView.render().$el
     if entry.get( 'user_id' ) == @model.get( 'ordered_user_ids' )[0]
       $entryEl.addClass 'first-user'
     else

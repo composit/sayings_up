@@ -5,6 +5,8 @@ Sayings::Application.routes.draw do
     resources :entries, only: [:create, :show] do
       resources :comments, only: [:create, :show]
     end
+
+    resources :taggings, only: [:create]
   end
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]

@@ -14,7 +14,7 @@ describe 'exchange show view', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
     it 'has a class of "exchange"', ->
-      expect( $( @view.el ) ).toHaveClass 'exchange'
+      expect( @view.$el ).toHaveClass 'exchange'
 
   describe 'rendering', ->
     beforeEach ->
@@ -48,11 +48,11 @@ describe 'exchange show view', ->
       expect( @comment.get 'current' ).toBeTruthy()
 
     it 'tags the entries with classes according to its user', ->
-      $entries = $( @view.render().el ).find '.entry'
-      expect( $( @view.render().el ).find( '.entry:even' ) ).toHaveClass 'first-user'
-      expect( $( @view.render().el ).find( '.entry:even' ) ).not.toHaveClass 'second-user'
-      expect( $( @view.render().el ).find( '.entry:odd' ) ).toHaveClass 'second-user'
-      expect( $( @view.render().el ).find( '.entry:odd' ) ).not.toHaveClass 'first-user'
+      $entries = @view.render().$el.find '.entry'
+      expect( @view.render().$el.find( '.entry:even' ) ).toHaveClass 'first-user'
+      expect( @view.render().$el.find( '.entry:even' ) ).not.toHaveClass 'second-user'
+      expect( @view.render().$el.find( '.entry:odd' ) ).toHaveClass 'second-user'
+      expect( @view.render().$el.find( '.entry:odd' ) ).not.toHaveClass 'first-user'
 
     describe 'respondability', ->
       beforeEach ->

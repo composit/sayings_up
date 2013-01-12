@@ -21,6 +21,11 @@ describe 'Routes' do
   specify { { put: 'exchanges/1/entries/2/comments/3' }.should_not be_routable }
   specify { { delete: 'exchanges/1/entries/2/comments/3' }.should_not be_routable }
 
+  specify { { get: 'exchanges/1/taggings' }.should_not be_routable }
+  specify { { post: 'exchanges/1/taggings' }.should route_to( controller: 'taggings', action: 'create', exchange_id: '1' ) }
+  specify { { put: 'exchanges/1/taggings/2' }.should_not be_routable }
+  specify { { delete: 'exchanges/1/taggings/2' }.should_not be_routable }
+
   specify { { get: 'users' }.should_not be_routable }
   specify { { get: 'users/1' }.should route_to( controller: 'users', action: 'show', id: '1' ) }
   specify { { post: 'users' }.should route_to( controller: 'users', action: 'create' ) }
