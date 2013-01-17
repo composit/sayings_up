@@ -8,22 +8,22 @@ describe 'comment show view', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
     it 'has a class of "comment"', ->
-      expect( $( @view.el ) ).toHaveClass 'comment'
+      expect( @view.$el ).toHaveClass 'comment'
 
   describe 'rendering', ->
     it 'displays the content', ->
-      expect( $( @view.render().el ) ).toContain 'p.content:contains("Good comment")'
+      expect( @view.render().$el ).toContain 'p.content:contains("Good comment")'
 
     it 'displays the username', ->
-      expect( $( @view.render().el ) ).toContain '.comment-footer .username:contains("test user")'
+      expect( @view.render().$el ).toContain '.comment-footer .username:contains("test user")'
 
     describe 'current', ->
       it 'adds a current class if current is set to true', ->
         @comment.set 'current', true
-        expect( $( @view.render().el ) ).toHaveClass 'current'
+        expect( @view.render().$el ).toHaveClass 'current'
 
       it 'does not add a current class if current is not set to true', ->
-        expect( $( @view.render().el ) ).not.toHaveClass 'current'
+        expect( @view.render().$el ).not.toHaveClass 'current'
 
     describe 'child exchange', ->
       beforeEach ->
@@ -38,12 +38,12 @@ describe 'comment show view', ->
         @showStub.restore()
 
       it 'displays a link containing the number of entries in a child exchange if one exists', ->
-        expect( $( @view.render().el ) ).toContain 'a:contains("discussion(11)")'
+        expect( @view.render().$el ).toContain 'a:contains("discussion(11)")'
 
       describe 'when the child link has been clicked', ->
         beforeEach ->
           @navigateSpy = sinon.spy Sayings.router, 'navigate'
-          $( @view.render().el ).find( '.display-child-exchange' ).click()
+          @view.render().$el.find( '.display-child-exchange' ).click()
 
         afterEach ->
           @navigateSpy.restore()

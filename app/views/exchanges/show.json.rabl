@@ -5,3 +5,7 @@ attributes :_id, :content, :parent_exchange_id, :parent_entry_id, :parent_commen
 child entries: :entry_data do
   extends 'entries/show'
 end
+
+child taggings: :tagging_data do
+  extends 'taggings/show'
+end

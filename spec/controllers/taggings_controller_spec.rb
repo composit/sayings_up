@@ -10,6 +10,7 @@ describe TaggingsController do
 
     before do
       Exchange.stub( :find ).with( '123' ) { exchange }
+      tagging.stub save!: true
     end
 
     it 'does not save if the user does not have the appropriate rights' do
@@ -22,8 +23,8 @@ describe TaggingsController do
       post :create, params
     end
 
-    it 'saves the exchange' do
-      exchange.should_receive :save!
+    it 'saves the tagging' do
+      tagging.should_receive :save!
       post :create, params
     end
 

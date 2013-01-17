@@ -1,3 +1,3 @@
 object @tagging
 
-attributes :tag_name
+extends 'taggings/show'

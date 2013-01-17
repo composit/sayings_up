@@ -3,10 +3,11 @@ require 'spec_helper'
 describe Tagging do
   subject { build :tagging }
 
-  it 'has a tag name' do
-    subject.tag_name = 'test tag'
+  it 'belongs to a tag' do
+    tag = create :tag
+    subject.tag = tag
     subject.save!
-    expect( subject.reload.tag_name ).to eq 'test tag'
+    expect( subject.reload.tag ).to eq tag
   end
 
   it 'belongs to a user' do
@@ -37,11 +38,32 @@ describe Tagging do
     expect( subject.errors[:exchange] ).to eq ["can't be blank"]
   end
 
-  it 'requires a non-blank tag name' do
-    subject.tag_name = ''
+  it 'requires a tag' do
+    subject.tag = nil
     expect( subject.valid? ).to be_false
     expect( subject.errors.to_a.length ).to eq 1
-    expect( subject.errors[:tag_name] ).to eq ["can't be blank"]
+    expect( subject.errors[:tag] ).to eq ["can't be blank"]
+  end
+
+  it 'returns a tag name' do
+    subject.tag.name = 'testtag'
+    expect( subject.tag_name ).to eq 'testtag'
+  end
+
+  describe 'tag_name=' do
+    let!( :existing_tag ) { create :tag, name: 'existingtag' }
+
+    it 'creates a new tag if one does not exist' do
+      subject.tag_name = 'newtag'
+      expect { subject.save! }.to change{ Tag.count }.by 1
+      expect( subject.reload.tag_name ).to eq 'newtag'
+    end
+
+    it 'finds an existing tag' do
+      subject.tag_name = 'existingtag'
+      expect { subject.save! }.to_not change{ Tag.count }
+      expect( subject.reload.tag ).to eq existing_tag
+    end
   end
 end
 

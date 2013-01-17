@@ -11,7 +11,7 @@ describe 'comments index view', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
     it 'has a class of "comments"', ->
-      expect( $( @view.el ) ).toHaveClass 'comments'
+      expect( @view.$el ).toHaveClass 'comments'
 
   describe 'rendering', ->
     beforeEach ->
@@ -28,7 +28,7 @@ describe 'comments index view', ->
       expect( @commentViewSpy ).toHaveBeenCalledWith model: @comment3
 
     it 'renders the Comment view for each comment', ->
-      @$el = $( @view.render().el )
+      @$el = @view.render().$el
       expect( @$el.find( '.content' ).first() ).toHaveText 'One'
       expect( @$el.find( '.content' )[1] ).toHaveText 'Two'
       expect( @$el.find( '.content' ).last() ).toHaveText 'Three'

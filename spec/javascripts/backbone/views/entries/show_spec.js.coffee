@@ -27,25 +27,25 @@ describe 'entry show view', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
     it 'has a class of "entry"', ->
-      expect( $( @view.el ) ).toHaveClass 'entry'
+      expect( @view.$el ).toHaveClass 'entry'
 
   describe 'rendering', ->
     it 'displays the content', ->
-      expect( $( @view.render().el ) ).toContain '.content:contains("Good entry")'
+      expect( @view.render().$el ).toContain '.content:contains("Good entry")'
 
     it 'displays the username', ->
-      expect( $( @view.render().el ) ).toContain '.entry-footer .username:contains("test user")'
+      expect( @view.render().$el ).toContain '.entry-footer .username:contains("test user")'
 
     describe 'current', ->
       it 'adds a current class if current is set to true', ->
         @entry.set 'current', true
-        expect( $( @view.render().el ) ).toHaveClass 'current'
+        expect( @view.render().$el ).toHaveClass 'current'
 
       it 'does not add a current class if current is not set to true', ->
-        expect( $( @view.render().el ) ).not.toHaveClass 'current'
+        expect( @view.render().$el ).not.toHaveClass 'current'
 
       it 'displays the number of comments', ->
-        expect( $( @view.render().el ) ).toContain 'a:contains("3 comments")'
+        expect( @view.render().$el ).toContain 'a:contains("3 comments")'
 
   describe 'viewing comments', ->
     beforeEach ->
@@ -59,7 +59,7 @@ describe 'entry show view', ->
       beforeEach ->
         @showedSpy = sinon.spy()
         @view.model.collection.on 'showedComments', @showedSpy
-        $( @view.render().el ).find( '.show-comments' ).click()
+        @view.render().$el.find( '.show-comments' ).click()
 
       it 'triggers the showedComments event on the collection', ->
         expect( @showedSpy ).toHaveBeenCalledOnce()

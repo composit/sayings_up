@@ -44,7 +44,7 @@ describe ExchangesController do
 
       it 'responds with the exchange' do
         post :create, params
-        expect( response.body ).to match( /^{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[\]}$/ )
+        expect( response.body ).to match( /^{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[\],\"tagging_data\":\[\]}$/ )
       end
     end
   end

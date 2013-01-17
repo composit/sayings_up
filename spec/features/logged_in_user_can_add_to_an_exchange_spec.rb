@@ -21,7 +21,7 @@ feature 'logged in user can add to an exchange', :js do
       click_button 'Add comment'
     end
     expect( page ).to have_content '1 comment'
-    expect( find( '.comments' ).text ).to match /new comment(.*)testuser/m
+    expect( find( '.comments' ).text ).to match( /new comment(.*)testuser/m )
   end
 
   scenario 'user can add an entry to an exchange he is involved in' do
@@ -43,7 +43,7 @@ feature 'logged in user can add to an exchange', :js do
       fill_in 'content', with: 'test response'
       click_button 'Respond'
     end
-    expect( page ).to have_content /test response(.*)testuser/m
+    expect( page ).to have_content( /test response(.*)testuser/m )
   end
 
   scenario 'user cannot add an entry to an exchange she is not involved in' do

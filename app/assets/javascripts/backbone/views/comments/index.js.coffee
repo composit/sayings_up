@@ -7,7 +7,7 @@ class Sayings.Views.CommentsIndex extends Backbone.View
     @listenTo @collection, 'change', @render
 
   render: ->
-    $( @el ).html ''
+    @$el.html ''
     @addComments()
     @newComment() if Sayings.currentUserSession and Sayings.currentUserSession.get 'user_id'
     return this
@@ -17,8 +17,8 @@ class Sayings.Views.CommentsIndex extends Backbone.View
 
   addComment: ( comment ) ->
     commentView = new Sayings.Views.ShowComment model: comment
-    $( @el ).append commentView.render().el
+    @$el.append commentView.render().el
 
   newComment: ->
     newCommentView = new Sayings.Views.NewComment collection: @collection
-    $( @el ).append newCommentView.render().el
+    @$el.append newCommentView.render().el

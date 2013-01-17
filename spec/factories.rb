@@ -1,11 +1,7 @@
 FactoryGirl.define do
-  sequence :username do |n|
-    "person#{n}"
-  end
-
-  sequence :email do |n|
-    "test#{n}@example.com"
-  end
+  sequence( :username ) { |n| "person#{n}" }
+  sequence( :email ) { |n| "test#{n}@example.com" }
+  sequence( :name ) { |n| "name#{n}" }
 
   factory :comment do
     entry
@@ -31,8 +27,12 @@ FactoryGirl.define do
     end
   end
   
+  factory :tag do
+    name
+  end
+  
   factory :tagging do
-    tag_name 'testtag'
+    tag
     exchange
     user
   end

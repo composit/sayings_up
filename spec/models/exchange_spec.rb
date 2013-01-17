@@ -5,14 +5,6 @@ describe Exchange do
     expect( build :exchange ).to be_valid
   end
 
-  it "only includes specific data in the json" do
-    exchange = build :exchange_with_entry_and_comment
-    exchanges = [exchange]
-    json_expected = /{\"_id\":\"\w+\",\"parent_exchange_id\":null,\"parent_entry_id\":null,\"parent_comment_id\":null,\"ordered_user_ids\":\[\],\"ordered_usernames\":\[\],\"entry_data\":\[{\"_id\":\"\w+\",\"html_content\":\"\",\"user_id\":\"\w+\",\"exchange_id\":\"\w+\",\"username\":\"\w+\",\"comment_data\":\[{\"_id\":\"\w+\",\"html_content\":\"\",\"exchange_id\":\"\w+\",\"entry_id\":\"\w+\",\"entry_user_id\":\"\w+\",\"child_exchange_data\":null,\"user_username\":\"\w+\"}\]}\]}/
-    expect( Rabl::Renderer.json exchange, 'exchanges/show' ).to match( /^#{json_expected}$/ )
-    expect( Rabl::Renderer.json exchanges, 'exchanges/index' ).to match( /^\[#{json_expected}\]$/ )
-  end
-
   it 'contains entries' do
     subject.entries << build_list( :entry, 11 )
     subject.save!
@@ -20,8 +12,8 @@ describe Exchange do
   end
 
   it 'contains taggings' do
-    subject.taggings << build_list( :taggings, 9 )
     subject.save!
+    subject.taggings << create_list( :tagging, 9 )
     expect( subject.reload.taggings.length ).to eq 9
   end
 

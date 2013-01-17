@@ -10,14 +10,14 @@ class Sayings.Views.ShowEntry extends Backbone.View
     'click .show-comments': 'expandComments'
 
   render: ->
-    $( @el ).html JST['backbone/templates/entries/show'] @model
+    @$el.html JST['backbone/templates/entries/show'] @model
     @$( '.content' ).html @model.get 'html_content'
     @$( '.username' ).html @model.get 'username'
     @$( '.show-comments' ).html @model.comments.length + ' comments'
     if @model.get 'current'
-      $( @el ).addClass 'current'
+      @$el.addClass 'current'
     else
-      $( @el ).removeClass 'current'
+      @$el.removeClass 'current'
     return this
 
   expandComments: ->

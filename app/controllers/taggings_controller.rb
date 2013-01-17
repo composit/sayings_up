@@ -6,6 +6,6 @@ class TaggingsController < ApplicationController
 
   def create
     @tagging.user_id = current_user.id
-    @exchange.save!
+    @tagging.save!
   end
 end

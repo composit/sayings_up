@@ -8,14 +8,14 @@ class Sayings.Views.ShowComment extends Backbone.View
     _.bindAll( this, 'render', 'addResponder', 'addChildLink', 'markCurrent' )
 
   render: ->
-    $( @el ).html JST['backbone/templates/comments/show'] @model
+    @$el.html JST['backbone/templates/comments/show'] @model
     @$( '.content' ).html @model.get 'html_content'
     @$( '.username' ).html @model.get 'user_username'
     if @model.get 'child_exchange_data'
       @addChildLink()
     else if Sayings.currentUserSession and Sayings.currentUserSession.get( 'user_id' ) == @model.get 'entry_user_id'
       @addResponder()
-    $( @el ).addClass( 'current' ) if @model.get 'current'
+    @$el.addClass( 'current' ) if @model.get 'current'
     return this
 
   addResponder: ->
