@@ -61,6 +61,7 @@ end
 group :development, :test do
   gem 'foreman', '~> 0.51'
   gem 'pry-rails', '~> 0.1'
+  gem 'pry-doc', '~> 0.4.4'
 end
 
 group :staging do
