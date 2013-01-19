@@ -13,15 +13,16 @@ feature 'logged in user can tag an exchange', :js do
     click_link 'new tag'
     fill_in "tag_name", with: "newtag"
     click_button "Add tag"
-    within '.taggings' do
+    within '.exchange-tags' do
       expect( page ).to have_content 'newtag'
     end
   end
 
-  xscenario 'user can add to an existing tag' do
+  scenario 'user can add to an existing tag' do
+    pending
     tagging = create :tagging, exchange: exchange
     visit "/#e/#{exchange.id}"
-    within '.taggings' do
+    within '.exchange-tags' do
       click_link '+'
       expect( page ).to have_content '-'
       expect( page ).to have_no_content '+'

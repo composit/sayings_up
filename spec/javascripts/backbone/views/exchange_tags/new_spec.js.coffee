@@ -2,14 +2,14 @@ describe 'new exchange tag view', ->
   beforeEach ->
     @collection = new Backbone.Collection
     @collection.url = '/taggings'
-    @view = new Sayings.Views.NewTagging collection: @collection
+    @view = new Sayings.Views.NewExchangeTag collection: @collection
 
   describe 'initialization', ->
     it 'creates a div element', ->
       expect( @view.el.nodeName ).toEqual 'DIV'
 
-    it 'has an id of "new-tag"', ->
-      expect( @view.$el ).toHaveId 'new-tag'
+    it 'has an id of "new-exchange-tag"', ->
+      expect( @view.$el ).toHaveId 'new-exchange-tag'
 
   describe 'rendering', ->
     it 'contains a "new tag" link', ->
@@ -18,13 +18,13 @@ describe 'new exchange tag view', ->
   describe 'new', ->
     beforeEach ->
       @$el = @view.render().$el
-      @$el.find( '#new-tag-link' ).click()
+      @$el.find( '#new-exchange-tag-link' ).click()
 
-    it 'builds a new tag with the current collection specified', ->
+    it 'builds a new exchange tag with the current collection specified', ->
       expect( @view.model.collection ).toEqual @collection
 
-    it 'displays a form for creating a new tag', ->
-      expect( @$el ).toContain 'form#new-tag-form'
+    it 'displays a form for creating a new exchange tag', ->
+      expect( @$el ).toContain 'form#new-exchange-tag-form'
 
   describe 'save', ->
     beforeEach ->
@@ -37,7 +37,7 @@ describe 'new exchange tag view', ->
       beforeEach ->
         $el = @view.render().$el
         @server.respondWith 'POST', '/taggings', [200, { 'Content-Type': 'application/json' }, '{"_id":"123"}']
-        $el.find( '#new-tag-link' ).click()
+        $el.find( '#new-exchange-tag-link' ).click()
         @callback = sinon.spy @view.model, 'save'
         $el.find( '#tag_name' ).val 'newtag'
         $el.find( 'form' ).submit()

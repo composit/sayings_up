@@ -6,6 +6,11 @@ class TaggingsController < ApplicationController
 
   def create
     @tagging.user_id = current_user.id
-    @tagging.save!
+    #TODO move into tagging model #save_or_return_duplicate!
+    if( existing_tagging = Tagging.where( user_id: @tagging.user_id, exchange_id: @tagging.exchange_id, tag_id: @tagging.tag_id ).first )
+      @tagging = existing_tagging
+    else
+      @tagging.save!
+    end
   end
 end

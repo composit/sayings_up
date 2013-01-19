@@ -48,6 +48,10 @@ class Exchange
     Exchange.find( parent_exchange_id ).entries.find( parent_entry_id ).comments.find parent_comment_id if parent_exchange_id && parent_entry_id && parent_comment_id
   end
 
+  def exchange_tags
+    ExchangeTag.find_by_exchange self
+  end
+
   private
     def ordered_users
       @ordered_users ||= entries.where( :created_at.exists => true ).sort_by do |entry|

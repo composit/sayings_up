@@ -10,12 +10,12 @@ class Sayings.Models.Exchange extends Backbone.Model
   initialize: ->
     @on 'change:entry_data', @parseEntryData
     @parseEntryData()
-    @parseTaggingData()
+    @parseExchangeTagData()
 
   parseEntryData: =>
     @entries = new Sayings.Collections.Entries @get 'entry_data'
     @entries.url = '/exchanges/' + @id + '/entries'
 
-  parseTaggingData: =>
-    @taggings = new Sayings.Collections.Taggings @get 'tagging_data'
-    @taggings.url = '/exchanges/' + @id + '/taggings'
+  parseExchangeTagData: =>
+    @exchangeTags = new Sayings.Collections.ExchangeTags @get 'exchange_tag_data'
+    @exchangeTags.url = '/exchanges/' + @id + '/taggings'

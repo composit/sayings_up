@@ -6,7 +6,7 @@ describe 'exchange show view', ->
     @entry1 = new Sayings.Models.Entry _id: 1, content: 'One', comment_data: [], user_id: 3
     @entry2 = new Sayings.Models.Entry _id: 2, content: 'Two', comment_data: [@comment], user_id: 4
     @entry3 = new Sayings.Models.Entry _id: 3, content: 'Three', comment_data: [], user_id: 3
-    @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entry_data: [@entry1, @entry2, @entry3], taggings_data: [{ tag_name: 'TagOne' }, { tag_name: 'TagTwo' }]
+    @exchange = new Sayings.Models.Exchange id: 4, ordered_usernames: ['user one', 'user two'], ordered_user_ids: [3,4], entry_data: [@entry1, @entry2, @entry3], exchange_tags_data: [{ tag_name: 'TagOne' }, { tag_name: 'TagTwo' }]
     @view = new Sayings.Views.ShowExchange model: @exchange, entryId: 2, commentId: 9
 
   describe 'initialization', ->
@@ -21,14 +21,14 @@ describe 'exchange show view', ->
       @showSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'showComments'
       @currentSpy = sinon.spy Sayings.Views.ShowEntry.prototype, 'markCurrent'
       @entryViewSpy = sinon.spy Sayings.Views, 'ShowEntry'
-      @taggingsIndexView = new Backbone.View()
-      @taggingsIndexViewStub = sinon.stub( Sayings.Views, 'TaggingsIndex' ).returns @taggingsIndexView
+      @exchangeTagsIndexView = new Backbone.View()
+      @exchangeTagsIndexViewStub = sinon.stub( Sayings.Views, 'ExchangeTagsIndex' ).returns @exchangeTagsIndexView
 
     afterEach ->
       @showSpy.restore()
       @currentSpy.restore()
       @entryViewSpy.restore()
-      @taggingsIndexViewStub.restore()
+      @exchangeTagsIndexViewStub.restore()
 
     describe 'entries', ->
       it 'creates an Entry view for each entry', ->
@@ -58,11 +58,11 @@ describe 'exchange show view', ->
         expect( @view.render().$el.find( '.entry:odd' ) ).toHaveClass 'second-user'
         expect( @view.render().$el.find( '.entry:odd' ) ).not.toHaveClass 'first-user'
 
-    describe 'taggings', ->
-      it 'renders a taggings index with its taggings', ->
+    describe 'exchangeTags', ->
+      it 'renders a exchangeTags index with its exchangeTags', ->
         @view.render()
-        expect( @taggingsIndexViewStub ).toHaveBeenCalledOnce()
-        expect( @taggingsIndexViewStub ).toHaveBeenCalledWith collection: @exchange.taggings
+        expect( @exchangeTagsIndexViewStub ).toHaveBeenCalledOnce()
+        expect( @exchangeTagsIndexViewStub ).toHaveBeenCalledWith collection: @exchange.exchangeTags
 
     describe 'respondability', ->
       beforeEach ->

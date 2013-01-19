@@ -6,6 +6,6 @@ child entries: :entry_data do
   extends 'entries/show'
 end
 
-child taggings: :tagging_data do
-  extends 'taggings/show'
+child exchange_tags: :exchange_tag_data do
+  attributes :tag_name
 end

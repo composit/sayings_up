@@ -14,7 +14,7 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     @$el.html JST['backbone/templates/exchanges/show']
     @addEntries()
     @addResponder() if Sayings.currentUserSession and Sayings.currentUserSession.get( 'user_id' ) in @model.get 'ordered_user_ids'
-    @addTaggings()
+    @addExchangeTags()
     return this
 
   addEntries: ->
@@ -31,9 +31,9 @@ class Sayings.Views.ShowExchange extends Support.CompositeView
     entryView.markCurrent unless @$( '.entries' ).find( '.entry' ).length > 1
     @expandComments( entryView ) if entry.id == @options.entryId
 
-  addTaggings: =>
-    taggingsView = new Sayings.Views.TaggingsIndex collection: @model.taggings
-    @$( '.taggings' ).append taggingsView.render().$el
+  addExchangeTags: =>
+    exchangeTagsView = new Sayings.Views.ExchangeTagsIndex collection: @model.exchangeTags
+    @$( '.exchange-tags' ).append exchangeTagsView.render().$el
 
   addResponder: ->
     newEntryView = new Sayings.Views.NewEntry collection: @model.entries

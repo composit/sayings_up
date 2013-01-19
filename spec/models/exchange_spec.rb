@@ -1,8 +1,10 @@
 require 'spec_helper'
 
 describe Exchange do
+  subject { build :exchange }
+
   it "creates a new instance given valid attributes" do
-    expect( build :exchange ).to be_valid
+    expect( subject ).to be_valid
   end
 
   it 'contains entries' do
@@ -124,9 +126,14 @@ describe Exchange do
   end
 
   it 'cascades callbacks' do
-    exchange = build :exchange
-    exchange.entries = [build( :entry ), build( :entry )]
-    exchange.save!
-    exchange.entries.each { |entry| expect( entry.created_at ).not_to be_nil }
+    subject.entries = [build( :entry ), build( :entry )]
+    subject.save!
+    subject.entries.each { |entry| expect( entry.created_at ).not_to be_nil }
+  end
+
+  it 'returns exchange tags' do
+    exchange_tags = double
+    ExchangeTag.stub( :find_by_exchange ).with( subject ) { exchange_tags }
+    expect( subject.exchange_tags ).to eq exchange_tags
   end
 end

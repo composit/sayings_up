@@ -1,7 +1,7 @@
 describe 'Exchange', ->
   describe 'when instantiated', ->
     beforeEach ->
-      @exchange = new Sayings.Models.Exchange { '_id': '789', 'entry_data': [{ '_id': '123' }, { '_id': '456' }], 'tagging_data': [{ '_id': '987' }, { '_id': '654' }] }
+      @exchange = new Sayings.Models.Exchange { '_id': '789', 'entry_data': [{ '_id': '123' }, { '_id': '456' }], 'exchange_tag_data': [{ '_id': '987' }, { '_id': '654' }] }
 
     it 'exhibits attributes', ->
       @exchange.set { content: 'Test Exchange' }
@@ -18,16 +18,16 @@ describe 'Exchange', ->
         expect( @exchange.entries.last() instanceof Sayings.Models.Entry ).toBeTruthy()
         expect( @exchange.entries.last().get( '_id' ) ).toEqual( '456' )
 
-    describe 'taggings', ->
-      it 'creates a collection for nested taggings', ->
-        expect( @exchange.taggings instanceof Sayings.Collections.Taggings ).toBeTruthy()
-        expect( @exchange.taggings.size() ).toEqual( 2 )
+    describe 'exchange_tags', ->
+      it 'creates a collection for nested exchange_tags', ->
+        expect( @exchange.exchangeTags instanceof Sayings.Collections.ExchangeTags ).toBeTruthy()
+        expect( @exchange.exchangeTags.size() ).toEqual( 2 )
 
-      it 'populates the collection with Tagging models', ->
-        expect( @exchange.taggings.first() instanceof Sayings.Models.Tagging ).toBeTruthy()
-        expect( @exchange.taggings.first().get( '_id' ) ).toEqual '987'
-        expect( @exchange.taggings.last() instanceof Sayings.Models.Tagging ).toBeTruthy()
-        expect( @exchange.taggings.last().get( '_id' ) ).toEqual( '654' )
+      it 'populates the collection with ExchangeTag models', ->
+        expect( @exchange.exchangeTags.first() instanceof Sayings.Models.ExchangeTag ).toBeTruthy()
+        expect( @exchange.exchangeTags.first().get( '_id' ) ).toEqual '987'
+        expect( @exchange.exchangeTags.last() instanceof Sayings.Models.ExchangeTag ).toBeTruthy()
+        expect( @exchange.exchangeTags.last().get( '_id' ) ).toEqual( '654' )
 
     describe 'url', ->
       beforeEach ->
@@ -43,6 +43,9 @@ describe 'Exchange', ->
 
         it 'sets the entry collection\'s url', ->
           expect( @exchange.entries.url ).toEqual '/exchanges/789/entries'
+      
+        it 'sets the exchangeTag collection\'s url', ->
+          expect( @exchange.exchangeTags.url ).toEqual '/exchanges/789/taggings'
       
       describe 'when no id is set', ->
         it 'returns the collection URL', ->
