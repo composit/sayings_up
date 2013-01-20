@@ -1,6 +1,6 @@
 describe 'new exchange tag view', ->
   beforeEach ->
-    @collection = new Backbone.Collection
+    @collection = new Sayings.Collections.ExchangeTags
     @collection.url = '/taggings'
     @view = new Sayings.Views.NewExchangeTag collection: @collection
 
@@ -35,6 +35,7 @@ describe 'new exchange tag view', ->
 
     describe 'when the save is successful', ->
       beforeEach ->
+        @addOrOwnSpy = sinon.stub @collection, 'addOrOwn'
         $el = @view.render().$el
         @server.respondWith 'POST', '/taggings', [200, { 'Content-Type': 'application/json' }, '{"_id":"123"}']
         $el.find( '#new-exchange-tag-link' ).click()
@@ -50,4 +51,5 @@ describe 'new exchange tag view', ->
         expect( @callback ).toHaveBeenCalled()
 
       it 'adds the model to the collection', ->
-        expect( @collection.models ).toContain @view.model
+        expect( @addOrOwnSpy ).toHaveBeenCalledOnce()
+        expect( @addOrOwnSpy ).toHaveBeenCalledWith @view.model
