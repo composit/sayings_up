@@ -16,6 +16,7 @@ feature 'logged in user can tag an exchange', :js do
     click_button "Add tag"
     within '.exchange-tags' do
       expect( page ).to have_content 'newtag'
+      expect( page ).to have_content '-'
     end
   end
 
