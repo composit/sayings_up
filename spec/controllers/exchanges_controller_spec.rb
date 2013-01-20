@@ -6,12 +6,24 @@ describe ExchangesController do
   end
 
   context 'GET/1' do
-    it 'assigns the exchange' do
-      exchange = stub
-      sign_in_with_abilities( @controller, [[:read, exchange]] )
+    let( :exchange ) { double }
+    let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, exchange]] }
+    let( :params ) { { id: 123, format: :json } }
+
+    before do
       Exchange.stub( :find ).with( '123' ) { exchange }
-      get :show, id: 123, format: :json
+      current_user.stub( :username ) { 'testuser' }
+      exchange.stub( :current_username= ).with 'testuser'
+    end
+
+    it 'assigns the exchange' do
+      get :show, params
       expect( assigns[:exchange] ).to eq exchange
+    end
+
+    it 'sets the current username on the exchange' do
+      exchange.should_receive( :current_username= ).with 'testuser'
+      get :show, params
     end
   end
   

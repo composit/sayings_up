@@ -6,7 +6,7 @@ describe 'new exchange tag view', ->
 
   describe 'initialization', ->
     it 'creates a div element', ->
-      expect( @view.el.nodeName ).toEqual 'DIV'
+      expect( @view.el.nodeName ).toEqual 'SPAN'
 
     it 'has an id of "new-exchange-tag"', ->
       expect( @view.$el ).toHaveId 'new-exchange-tag'

@@ -3,6 +3,7 @@ require 'spec_helper'
 feature 'logged in user can tag an exchange', :js do
   given( :exchange ) { create :exchange }
   given( :user ) { create :user, username: 'testuser' }
+  given!( :taggings ) { create :tagging, exchange: exchange }
 
   background do
     sign_in_as user
@@ -20,9 +21,8 @@ feature 'logged in user can tag an exchange', :js do
 
   scenario 'user can add to an existing tag' do
     pending
-    tagging = create :tagging, exchange: exchange
     visit "/#e/#{exchange.id}"
-    within '.exchange-tags' do
+    within '.exchange-tags .actions' do
       click_link '+'
       expect( page ).to have_content '-'
       expect( page ).to have_no_content '+'

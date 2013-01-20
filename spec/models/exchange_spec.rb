@@ -133,7 +133,9 @@ describe Exchange do
 
   it 'returns exchange tags' do
     exchange_tags = double
-    ExchangeTag.stub( :find_by_exchange ).with( subject ) { exchange_tags }
+    current_username = double
+    subject.current_username = current_username
+    ExchangeTag.stub( :find_by_exchange ).with( subject, current_username ) { exchange_tags }
     expect( subject.exchange_tags ).to eq exchange_tags
   end
 end

@@ -14,7 +14,17 @@ describe 'exchange tag show view', ->
     it 'displays the tag name', ->
       expect( @view.render().$el ).toContain 'span.tag_name:contains("Good tag")'
 
-  describe 'save', ->
+    it 'displays a plus if the user has not used this tag', ->
+      @exchange_tag.set 'owned_by_current_user', false
+      expect( @view.render().$el ).toContain 'a:contains("+")'
+      expect( @view.render().$el ).not.toContain 'a:contains("-")'
+
+    it 'displays a minus if the user has used this tag', ->
+      @exchange_tag.set 'owned_by_current_user', true
+      expect( @view.render().$el ).toContain 'a:contains("-")'
+      expect( @view.render().$el ).not.toContain 'a:contains("+")'
+
+  xdescribe 'save', ->
     beforeEach ->
       @server = sinon.fakeServer.create()
 
@@ -32,5 +42,5 @@ describe 'exchange tag show view', ->
       afterEach ->
         @callback.restore()
 
-      xit 'queries the server', ->
+      it 'queries the server', ->
         expect( @callback ).toHaveBeenCalled()

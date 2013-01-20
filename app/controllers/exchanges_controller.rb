@@ -5,9 +5,14 @@ class ExchangesController < ApplicationController
   respond_to :json
 
   def index
+    @exchanges = @exchanges.map do |exchange|
+      exchange.current_username = current_user.username 
+      exchange
+    end if current_user
   end
 
   def show
+    @exchange.current_username = current_user.username if current_user
   end
 
   def create
