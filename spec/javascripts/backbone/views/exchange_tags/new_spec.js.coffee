@@ -46,6 +46,7 @@ describe 'new exchange tag view', ->
 
       afterEach ->
         @callback.restore()
+        @addOrOwnSpy.restore()
 
       it 'queries the server', ->
         expect( @callback ).toHaveBeenCalled()

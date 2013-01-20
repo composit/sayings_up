@@ -20,9 +20,9 @@ describe 'exchange tags index view', ->
     it 'creates a ExchangeTag view for each exchangeTag', ->
       @view.render()
       expect( @exchangeTagViewSpy ).toHaveBeenCalledThrice()
-      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag1
-      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag2
-      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag3
+      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag1, collection: @exchangeTags
+      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag2, collection: @exchangeTags
+      expect( @exchangeTagViewSpy ).toHaveBeenCalledWith model: @exchangeTag3, collection: @exchangeTags
 
     it 'renders the ExchangeTag view for each exchangeTag', ->
       @$el = @view.render().$el

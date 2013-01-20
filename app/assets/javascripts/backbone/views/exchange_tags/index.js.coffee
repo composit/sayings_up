@@ -13,7 +13,7 @@ class Sayings.Views.ExchangeTagsIndex extends Support.CompositeView
     @collection.each @addExchangeTag
 
   addExchangeTag: ( exchangeTag ) =>
-    exchangeTagView = new Sayings.Views.ShowExchangeTag model: exchangeTag
+    exchangeTagView = new Sayings.Views.ShowExchangeTag model: exchangeTag, collection: @collection
     @$el.append exchangeTagView.render().el
 
   newExchangeTag: ->

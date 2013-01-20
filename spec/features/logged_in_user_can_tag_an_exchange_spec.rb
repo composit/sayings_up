@@ -21,7 +21,6 @@ feature 'logged in user can tag an exchange', :js do
   end
 
   scenario 'user can add to an existing tag' do
-    pending
     visit "/#e/#{exchange.id}"
     within '.exchange-tags .actions' do
       click_link '+'
