@@ -24,4 +24,4 @@ class Sayings.Views.NewExchangeTag extends Backbone.View
     return false
 
   saved: ( model ) =>
-    @collection.add model
+    @collection.addOrOwn model
