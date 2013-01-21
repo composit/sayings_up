@@ -6,7 +6,7 @@ class Exchange
   field :parent_comment_id
 
   attr_accessible
-  attr_writer :current_username
+  attr_writer :current_user
 
   embeds_many :entries, cascade_callbacks: true, inverse_of: :exchange
   belongs_to :parent_exchange, class_name: 'Exchange'
@@ -50,7 +50,7 @@ class Exchange
   end
 
   def exchange_tags
-    ExchangeTag.find_by_exchange self, @current_username
+    ExchangeTag.find_by_exchange self, @current_user
   end
 
   private

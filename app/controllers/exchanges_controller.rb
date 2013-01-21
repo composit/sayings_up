@@ -6,13 +6,13 @@ class ExchangesController < ApplicationController
 
   def index
     @exchanges = @exchanges.map do |exchange|
-      exchange.current_username = current_user.username 
+      exchange.current_user = current_user
       exchange
-    end if current_user
+    end
   end
 
   def show
-    @exchange.current_username = current_user.username if current_user
+    @exchange.current_user = current_user
   end
 
   def create

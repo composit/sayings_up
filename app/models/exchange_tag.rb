@@ -1,23 +1,22 @@
 class ExchangeTag
-  attr_reader :tag_name
+  attr_reader :tag_name, :current_user_tagging_id
 
   def initialize( args )
     @tag_name = args[:tag_name]
-    @current_username = args[:current_username]
-    @usernames = args[:usernames]
+    @current_user_tagging_id = args[:current_user_tagging_id]
   end
 
-  def owned_by_current_user
-    Array( @usernames ).include? @current_username
-  end
-
-  def self.find_by_exchange( exchange, current_username )
+  def self.find_by_exchange( exchange, current_user = nil )
     exchange.taggings.each_with_object( Hash.new { |hash, key| hash[key] = [] } ) do |tagging, tags|
-      tags[tagging.tag_name] << tagging.username
+      tags[tagging.tag_name] << tagging
     end.sort_by do |k, v|
       v.length
-    end.reverse.map do |tag_name, usernames|
-      ExchangeTag.new tag_name: tag_name, usernames: usernames, current_username: current_username
+    end.reverse.map do |tag_name, taggings|
+      if current_user.present?
+        current_user_tagging = taggings.find { |tagging| tagging.user_id == current_user.id }
+      end
+      current_user_tagging_id = current_user_tagging ? current_user_tagging.id : nil
+      ExchangeTag.new tag_name: tag_name, current_user_tagging_id: current_user_tagging_id
     end
   end
 end

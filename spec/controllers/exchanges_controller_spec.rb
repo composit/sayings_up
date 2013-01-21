@@ -12,8 +12,7 @@ describe ExchangesController do
 
     before do
       Exchange.stub( :find ).with( '123' ) { exchange }
-      current_user.stub( :username ) { 'testuser' }
-      exchange.stub( :current_username= ).with 'testuser'
+      exchange.stub( :current_user= ).with current_user
     end
 
     it 'assigns the exchange' do
@@ -22,7 +21,7 @@ describe ExchangesController do
     end
 
     it 'sets the current username on the exchange' do
-      exchange.should_receive( :current_username= ).with 'testuser'
+      exchange.should_receive( :current_user= ).with current_user
       get :show, params
     end
   end

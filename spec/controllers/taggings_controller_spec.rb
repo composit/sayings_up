@@ -66,7 +66,7 @@ describe TaggingsController do
 
       it 'responds with the tagging' do
         post :create, params
-        expect( response.body ).to match( /{\"tag_name\":null,\"owned_by_current_user\":true,\"number_of_usernames\":1}/ )
+        expect( response.body ).to match( /{\"tag_name\":null,\"current_user_tagging_id\":\"\w+\",\"number_of_taggings\":1}/ )
       end
     end
   end

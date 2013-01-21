@@ -9,7 +9,7 @@ class Sayings.Views.ShowExchangeTag extends Support.CompositeView
     @$el.html JST['backbone/templates/exchange_tags/show']
     @$( '.tag_name' ).html @model.get 'tag_name'
     if Sayings.currentUserSession and Sayings.currentUserSession.get 'user_id'
-      if @model.get 'owned_by_current_user'
+      if @model.get 'current_user_tagging_id'
         @$( '.actions' ).html '<a class="remove-tag-link" href="#">-</a>'
       else
         @$( '.actions' ).html '<a class="add-tag-link" href="#">+</a>'
