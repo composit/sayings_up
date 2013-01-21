@@ -1,6 +1,7 @@
 class Sayings.Views.ExchangeTagsIndex extends Support.CompositeView
   initialize: ->
     @listenTo @collection, 'add', @render
+    @listenTo @collection, 'remove', @render
     @listenTo @collection, 'change', @render
 
   render: ->

@@ -17,6 +17,6 @@ class Ability
     end
     can :read, Entry
     can :create, Comment
-    can :create, Tagging, user: user
+    can [:create, :destroy], Tagging, user: user
   end
 end

@@ -6,7 +6,7 @@ Sayings::Application.routes.draw do
       resources :comments, only: [:create, :show]
     end
 
-    resources :taggings, only: [:create]
+    resources :taggings, only: [:create, :destroy]
   end
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]

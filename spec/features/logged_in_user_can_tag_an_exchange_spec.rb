@@ -3,7 +3,8 @@ require 'spec_helper'
 feature 'logged in user can tag an exchange', :js do
   given( :exchange ) { create :exchange }
   given( :user ) { create :user, username: 'testuser' }
-  given!( :tagging ) { create :tagging, exchange: exchange }
+  given( :tag ) { create :tag, name: 'testtag' }
+  given!( :tagging ) { create :tagging, exchange: exchange, tag: tag }
 
   background do
     sign_in_as user
@@ -40,5 +41,13 @@ feature 'logged in user can tag an exchange', :js do
     end
   end
 
-  scenario 'user can remove a tag if they are the only tagger'
+  scenario 'user can remove a tag if they are the only tagger' do
+    tagging.update_attributes user: user
+    visit "/#e/#{exchange.id}"
+    within '.exchange-tags .actions' do
+      click_link '+'
+      click_link '-'
+      expect( page ).to have_no_content 'testtag'
+    end
+  end
 end

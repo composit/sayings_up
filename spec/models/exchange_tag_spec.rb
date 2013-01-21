@@ -18,7 +18,7 @@ describe ExchangeTag do
     end
 
     it 'create exchange_tags for each tagging' do
-      ExchangeTag.should_receive( :new ).with( tag_name: anything(), current_user_tagging_id: anything() ).exactly( 3 ).times
+      ExchangeTag.should_receive( :new ).with( tag_name: anything(), current_user_tagging_id: anything(), number_of_taggings: anything() ).exactly( 3 ).times
       exchange_tags
     end
 
@@ -38,6 +38,11 @@ describe ExchangeTag do
 
     it 'does not crash if there is no current user' do
       expect( ExchangeTag.find_by_exchange exchange, nil ).to_not raise_error RuntimeError
+    end
+
+    it 'sets the number of taggings' do
+      tagging_ids = exchange_tags.map { |exchange_tag| { exchange_tag.tag_name => exchange_tag.number_of_taggings } }
+      expect( tagging_ids - [{ 'one' => 1 }, { 'two' => 5 }, { 'three' => 3 }] ).to eq []
     end
   end
 end

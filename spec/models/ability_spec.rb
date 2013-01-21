@@ -74,5 +74,16 @@ describe Ability do
       tagging = build :tagging, user: other_user
       expect( ability ).not_to be_able_to :create, tagging
     end
+
+    it 'is able to delete one of its own taggings' do
+      tagging = create :tagging, user: user
+      expect( ability ).to be_able_to :destroy, tagging
+    end
+
+    it 'is not able to delete a tagging of another user' do
+      other_user = create :user
+      tagging = create :tagging, user: other_user
+      expect( ability ).not_to be_able_to :destroy, tagging
+    end
   end
 end

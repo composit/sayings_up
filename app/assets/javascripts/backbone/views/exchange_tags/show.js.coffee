@@ -4,6 +4,7 @@ class Sayings.Views.ShowExchangeTag extends Support.CompositeView
 
   events:
     'click .add-tag-link': 'addToTag'
+    'click .remove-tag-link': 'removeFromTag'
 
   render: ->
     @$el.html JST['backbone/templates/exchange_tags/show']
@@ -24,3 +25,14 @@ class Sayings.Views.ShowExchangeTag extends Support.CompositeView
 
   saved: ( model ) =>
     @collection.addOrOwn model
+
+  removeFromTag: ->
+    $.ajax(
+      url: @model.url()
+      type: 'DELETE'
+      success: @removed
+    )
+    return false
+
+  removed: =>
+    @collection.removeOrDisown @model

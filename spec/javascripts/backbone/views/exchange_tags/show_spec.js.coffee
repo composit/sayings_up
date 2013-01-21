@@ -64,8 +64,24 @@ describe 'exchange tag show view', ->
           expect( @addOrOwnSpy ).toHaveBeenCalledOnce()
           expect( @addOrOwnSpy ).toHaveBeenCalledWith @view.model
 
-    xdescribe 'removeFromTag', ->
+    describe 'removeFromTag', ->
       describe 'when the save is successful', ->
         beforeEach ->
+          @exchange_tag.set 'current_user_tagging_id', '123'
           @removeOrDisownSpy = sinon.stub @collection, 'removeOrDisown'
           $el = @view.render().$el
+          @server.respondWith 'DELETE', '/taggings/123', [200, { 'Content-Type': 'application/json' }, '{"_id":"123"}']
+          @callback = sinon.spy jQuery, 'ajax'
+          $el.find( '.remove-tag-link' ).click()
+          @server.respond()
+
+        afterEach ->
+          @callback.restore()
+          @removeOrDisownSpy.restore()
+
+        it 'queries the server', ->
+          expect( @callback ).toHaveBeenCalled()
+
+        it 'removes the model from the collection', ->
+          expect( @removeOrDisownSpy ).toHaveBeenCalledOnce()
+          expect( @removeOrDisownSpy ).toHaveBeenCalledWith @view.model

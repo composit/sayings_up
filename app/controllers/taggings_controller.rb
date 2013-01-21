@@ -13,4 +13,8 @@ class TaggingsController < ApplicationController
       @tagging.save!
     end
   end
+
+  def destroy
+    @tagging.destroy
+  end
 end

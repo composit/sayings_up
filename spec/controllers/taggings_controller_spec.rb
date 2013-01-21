@@ -66,7 +66,40 @@ describe TaggingsController do
 
       it 'responds with the tagging' do
         post :create, params
-        expect( response.body ).to match( /{\"tag_name\":null,\"current_user_tagging_id\":\"\w+\",\"number_of_taggings\":1}/ )
+        expect( response.body ).to match( /{\"tag_name\":null,\"current_user_tagging_id\":\"\w+\"}/ )
+      end
+    end
+  end
+
+  context 'DELETE' do
+    let( :exchange ) { create :exchange }
+    let( :tagging ) { create :tagging, exchange: exchange }
+    let( :params ) { { exchange_id: exchange.id, id: tagging.id, format: :json } }
+
+    it 'throws an error if there is no logged in user' do
+      expect { delete :destroy, params }.to raise_error CanCan::AccessDenied
+    end
+
+    it 'throws an error if the logged in user does not own the tagging' do
+      current_user = signed_in_user_with_abilities @controller, [[:read, Exchange]]
+      expect { delete :destroy, params }.to raise_error CanCan::AccessDenied
+    end
+
+    describe 'with a logged in user that owns the tagging' do
+      let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, Exchange], [:destroy, Tagging]] }
+
+      it 'destroys the tagging' do
+        delete :destroy, params
+        expect( Tagging.where( id: tagging.id ).length ).to eq 0
+      end
+
+      describe 'with views' do
+        render_views
+
+        it 'responds with the tagging' do
+          delete :destroy, params
+          expect( response.body ).to match( /{\"tag_name\":\"\w+\"}/ )
+        end
       end
     end
   end

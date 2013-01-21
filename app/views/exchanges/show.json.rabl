@@ -7,5 +7,5 @@ child entries: :entry_data do
 end
 
 child exchange_tags: :exchange_tag_data do
-  attributes :tag_name, :current_user_tagging_id
+  attributes :tag_name, :current_user_tagging_id, :number_of_taggings
 end

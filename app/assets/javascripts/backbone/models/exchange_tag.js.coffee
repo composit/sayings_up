@@ -1,3 +1,6 @@
 class Sayings.Models.ExchangeTag extends Backbone.Model
-  idAttribute: '_id'
+  idAttribute: 'current_user_tagging_id'
   paramRoot: 'tagging'
+
+  defaults:
+    number_of_taggings: 0
