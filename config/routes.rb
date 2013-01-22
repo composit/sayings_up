@@ -1,5 +1,5 @@
 Sayings::Application.routes.draw do
-  root :to => "exchanges#index"
+  root :to => "tags#index"
 
   resources :exchanges, only: [:index, :create, :show] do
     resources :entries, only: [:create, :show] do
@@ -8,6 +8,7 @@ Sayings::Application.routes.draw do
 
     resources :taggings, only: [:create, :destroy]
   end
+  resources :tags, only: [:index, :show]
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]
 

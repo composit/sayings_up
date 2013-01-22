@@ -18,10 +18,17 @@
         <div id='user'></div>
       </div>
 
-      <%= yield %>
+      <div id='back-link'></div>
+      <div id='exchanges'>
+        <%= yield %>
+      </div>
     </div>
   </div>
   <%= javascript_include_tag "application" %>
-  <%= yield :javascript %>
+  <%= javascript_tag do %>
+    $( document ).ready( function() {
+      Sayings.init( <%== Rabl::Renderer.json @exchanges, 'exchanges/index' %>, <%== Rabl::Renderer.json current_user_session, 'user_sessions/show' %> );
+    } );
+  <% end %>
 </body>
 </html>

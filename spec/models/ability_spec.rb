@@ -86,4 +86,8 @@ describe Ability do
       expect( ability ).not_to be_able_to :destroy, tagging
     end
   end
+
+  context 'tags' do
+    it { should be_able_to :read, Tag.new }
+  end
 end
