@@ -7,4 +7,8 @@ class Tag
   validates :name, presence: true, uniqueness: true
 
   has_many :taggings
+
+  def exchanges
+    taggings.map( &:exchange )
+  end
 end

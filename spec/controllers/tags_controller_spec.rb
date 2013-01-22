@@ -14,7 +14,7 @@ describe TagsController do
 
   context 'GET/1' do
     it 'returns a specific tag' do
-      tag = double
+      tag = Tag.new
       Tag.stub( :find ).with( '123' ) { tag }
       get :show, id: '123'
       expect( assigns[:tag] ).to eq tag

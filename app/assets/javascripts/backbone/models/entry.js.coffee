@@ -13,3 +13,4 @@ class Sayings.Models.Entry extends Backbone.Model
   parseCommentData: =>
     @comments = new Sayings.Collections.Comments @get 'comment_data'
     @comments.url = '/exchanges/' + @get( 'exchange_id' ) + '/entries/' + @id + '/comments'
+    @trigger 'changedComments'

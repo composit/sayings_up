@@ -60,3 +60,9 @@ describe 'Exchange', ->
     exchange.set 'entry_data', [{ content: 'test content' }]
     expect( exchange.entries.length ).toEqual 1
     expect( exchange.entries.last().get 'content' ).toEqual 'test content'
+
+  it 'parses the exchange tag data after a change', ->
+    exchange = new Sayings.Models.Exchange _id: 123
+    exchange.set 'exchange_tag_data', [{ tag_name: 'testtag' }]
+    expect( exchange.exchangeTags.length ).toEqual 1
+    expect( exchange.exchangeTags.last().get 'tag_name' ).toEqual 'testtag'

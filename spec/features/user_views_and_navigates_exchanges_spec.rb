@@ -16,13 +16,6 @@ feature 'user views an exchange', :js do
     child_exchange.save!
   end
 
-  scenario 'user sees a list of exchanges' do
-    visit '/'
-    expect( find( '#exchanges' ).text ).to match( /Parent stuff/ )
-    expect( find( '#exchanges' ).text ).to match( /Good stuff/ )
-    expect( find( '#exchanges' ).text ).to match( /Child stuff/ )
-  end
-
   scenario 'user sees a list of entries in order' do
     visit "/#e/#{exchange.id}"
     pattern = Regexp.new( "Good stuff(.*)Other stuff", Regexp::MULTILINE )
@@ -80,6 +73,7 @@ feature 'user views an exchange', :js do
   scenario 'user does not see the child exchange once they click back to the parent exchange' do
     visit "/#e/#{child_exchange.id}"
     click_link 'back'
+    expect( page ).to have_content 'Good stuff'
     click_link 'back'
     expect( page ).to have_content 'Parent stuff'
     expect( page ).to have_no_content 'Child stuff'

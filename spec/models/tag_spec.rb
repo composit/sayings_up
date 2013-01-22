@@ -29,4 +29,15 @@ describe Tag do
     create_list :tagging, 11, tag: subject
     expect( subject.reload.taggings.length ).to eq 11
   end
+
+  it 'has many exchanges through taggings' do
+    subject.save!
+    exchange_one = create :exchange
+    exchange_two = create :exchange
+    exchange_three = create :exchange
+    create :tagging, tag: subject, exchange: exchange_one
+    create :tagging, exchange: exchange_two
+    create :tagging, tag: subject, exchange: exchange_three
+    expect( subject.exchanges ).to eq [exchange_one, exchange_three]
+  end
 end

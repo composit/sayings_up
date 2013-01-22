@@ -27,7 +27,7 @@
   <%= javascript_include_tag "application" %>
   <%= javascript_tag do %>
     $( document ).ready( function() {
-      Sayings.init( <%== Rabl::Renderer.json @exchanges, 'exchanges/index' %>, <%== Rabl::Renderer.json current_user_session, 'user_sessions/show' %> );
+      Sayings.init( <%== Rabl::Renderer.json current_user_session, 'user_sessions/show' %> );
     } );
   <% end %>
 </body>

@@ -1,14 +1,18 @@
 class Sayings.Views.ShowExchange extends Support.CompositeView
   className: 'exchange'
 
-  initialize: ->
+  initialize: =>
     _.bindAll( this, 'render', 'addEntries', 'addEntry', 'addResponder', 'setCurrentComment' )
-    @listenTo @model.entries, 'add', @render
-    @listenTo @model.entries, 'showedComments', @isolate
+    @listenTo @model, 'changedEntries', @listenToEntries
+    @listenToEntries()
     @listenTo @model, 'change', @render
     @listenTo @model, 'sync', @render
     @listenTo Sayings.currentUserSession, 'loginStateChanged', @render
     @listenTo Sayings.currentUserSession, 'destroy', @render
+
+  listenToEntries: =>
+    @listenTo @model.entries, 'add', @render
+    @listenTo @model.entries, 'showedComments', @isolate
 
   render: ->
     @$el.html JST['backbone/templates/exchanges/show']

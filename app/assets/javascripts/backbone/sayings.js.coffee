@@ -10,8 +10,8 @@ window.Sayings =
   Routers: {}
   Views: {}
 
-  init: ( exchanges, current_user_session, silent = false ) ->
-    exchangesCollection = new Sayings.Collections.Exchanges exchanges
+  init: ( current_user_session, silent = false ) ->
+    exchangesCollection = new Sayings.Collections.Exchanges []
     @currentUserSession = new Sayings.Models.UserSession current_user_session
 
     @router = new Sayings.Routers.Exchanges collection: exchangesCollection
