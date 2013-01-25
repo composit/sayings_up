@@ -307,7 +307,7 @@ DEPENDENCIES
   pry-doc (~> 0.4.4)
   pry-rails (~> 0.1)
   rabl (~> 0.7.9)
-  rails (~> 3.2)
+  rails (~> 3.2.11)
   rails-backbone (~> 0.7)
   rb-inotify (~> 0.8.8)
   redcarpet (~> 2.2.2)
@@ -318,4 +318,4 @@ DEPENDENCIES
   thin (~> 1.4)
   turn (~> 0.9)
   uglifier (~> 1.2)
-  unicorn
+  unicorn (~> 4.5.0)
