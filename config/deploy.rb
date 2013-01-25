@@ -2,7 +2,7 @@ set :application, "sayings"
 set :repository,  "git@github.com:composit/sayings_up.git"
 ssh_options[:forward_agent] = true
 set :deploy_via, :remote_cache
-set :use_sudo false
+set :use_sudo, false
 
 require 'capistrano/ext/multistage'
 set :stages, %w( staging murder )

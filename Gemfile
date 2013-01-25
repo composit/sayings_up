@@ -1,7 +1,7 @@
 source 'http://rubygems.org'
 
 ruby '1.9.3'
-gem 'rails', '~> 3.2'
+gem 'rails', '~> 3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
@@ -10,6 +10,7 @@ gem 'rails', '~> 3.2'
 gem 'bson_ext', '~> 1.6'
 gem 'mongoid', '~> 3.0'
 gem 'thin', '~> 1.4'
+gem 'unicorn', '~> 4.5.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
