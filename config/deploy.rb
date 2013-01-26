@@ -1,6 +1,7 @@
 set :application, "sayings"
 set :repository,  "git@github.com:composit/sayings_up.git"
 ssh_options[:forward_agent] = true
+default_run_options[:pty] = true
 set :deploy_via, :remote_cache
 set :use_sudo, false
 
@@ -19,3 +20,7 @@ set :scm, :git
 server 'murder', :app, :web, :db, primary: true
 
 after 'deploy:restart', 'deploy:cleanup'
+
+after 'deploy:update_code' do
+  run "ln -nfs #{deploy_to}/shared/config/application.yml #{release_path}/config/application.yml"
+end
