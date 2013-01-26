@@ -6,3 +6,4 @@ tmp/
 vendor/bundle/*
 .jhw-cache
 runner.*html
+config/application.yml
