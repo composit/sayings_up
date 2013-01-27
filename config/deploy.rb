@@ -6,7 +6,7 @@ set :deploy_via, :remote_cache
 set :use_sudo, false
 
 require 'capistrano/ext/multistage'
-set :stages, %w( staging murder )
+set :stages, %w( staging production )
 set :default_stage, 'staging'
 
 require 'rvm/capistrano'
