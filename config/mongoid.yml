@@ -89,7 +89,7 @@ staging:
 production:
   sessions:
     default:
-      database: sayings_up_production
+      database: decomposite_production
       hosts:
         - localhost:27017
       options:
