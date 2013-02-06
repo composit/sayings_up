@@ -1,15 +1,12 @@
 source 'http://rubygems.org'
 
-ruby '1.9.3'
 gem 'rails', '~> 3.2.11'
 
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-#gem 'sqlite3'
 gem 'bson_ext', '~> 1.6'
 gem 'mongoid', '~> 3.0'
-gem 'thin', '~> 1.4'
 gem 'unicorn', '~> 4.5.0'
 
 # Gems used only for assets and not required
@@ -60,11 +57,10 @@ group :test do
 end
 
 group :development, :test do
-  gem 'foreman', '~> 0.51'
+  gem 'foreman', '~> 0.60.2'
   gem 'pry-rails', '~> 0.1'
   gem 'pry-doc', '~> 0.4.4'
-end
-
-group :staging do
-  gem 'passenger', '~> 3.0'
+  gem 'better_errors', '~> 0.5.0'
+  gem 'binding_of_caller', '~> 0.6.8'
+  gem 'meta_request', '~> 0.2.1'
 end
