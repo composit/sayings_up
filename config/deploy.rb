@@ -19,6 +19,14 @@ set :scm, :git
 
 server 'murder', :app, :web, :db, primary: true
 
+unicorn_pid = "#{current_path}/tmp/pids/unicorn.pid"
+
+namespace :deploy do
+  task :restart, roles: :app, except: { no_release: true } do
+    run "#{try_sudo} kill -s USR2 `cat #{unicorn_pid}`"
+  end
+end
+
 after 'deploy:restart', 'deploy:cleanup'
 
 before 'deploy:assets:precompile' do
