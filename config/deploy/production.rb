@@ -1,4 +1,3 @@
-set :application, 'decomposite'
 set :user, 'app'
 set :deploy_to, '/u/apps/decomposite'
 set :branch, 'master'

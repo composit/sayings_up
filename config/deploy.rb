@@ -1,3 +1,4 @@
+set :application, 'decomposite'
 set :repository,  "git@github.com:composit/sayings_up.git"
 ssh_options[:forward_agent] = true
 default_run_options[:pty] = true
