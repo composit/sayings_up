@@ -34,12 +34,6 @@ describe 'Sayings', ->
       expect( Sayings.router ).not.toEqual undefined
       Sayings.Routers.Exchanges.restore()
 
-    it 'instantiates a Users router', ->
-      sinon.spy Sayings.Routers, "Users"
-      Sayings.init {}, true
-      expect( Sayings.Routers.Users ).toHaveBeenCalled()
-      Sayings.Routers.Users.restore()
-
     it 'instantiates a User sessions router', ->
       sinon.spy Sayings.Routers, "UserSessions"
       Sayings.init {}, true
