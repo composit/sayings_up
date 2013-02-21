@@ -215,3 +215,17 @@ a.respond-link {
   font-style: italic;
   font-weight: bold;
 }
+
+#sign-in-form {
+  @include clearfix;
+  font-size: 0.8em;
+
+  div.field {
+    float: left;
+    margin: 0 5px;
+  }
+
+  input {
+    font-size: 0.8em;
+  }
+}
