@@ -26,8 +26,7 @@ class Sayings.Views.UserSession extends Backbone.View
 
   saved: ( model ) ->
     Sayings.currentUserSession = model
-    @$el.html "<div class='messages'><div class='notice'>Welcome, " + model.get( 'username' ) + "</div></div>"
-    @$el.append '<a href="#signout" id="sign-out-link">Sign out</a>'
+    @$el.html "<div class='messages'><div class='notice'>Welcome, #{model.get( 'username' )} &nbsp;<a href='#signout' id='sign-out-link'>Sign out</a></div></div>" 
     model.trigger 'loginStateChanged'
 
   errored: ( xhr ) ->

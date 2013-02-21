@@ -86,7 +86,7 @@ feature 'logged in user can add to an exchange', :js do
     visit "/#e/#{exchange.id}"
     fill_in 'Username', with: user.username
     fill_in 'Password', with: user.password
-    click_button 'Sign in'
+    click_button 'Sign up or sign in'
     expect( page ).to have_content 'respond'
   end
 

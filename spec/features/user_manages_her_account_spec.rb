@@ -5,13 +5,13 @@ feature 'user manages her account', :js do
     visit '/'
     fill_in 'Username', with: 'Testuser'
     fill_in 'password', with: 'testpass'
-    click_button 'Sign in'
+    click_button 'Sign up or sign in'
     expect( page ).to have_content 'Welcome, Testuser'
   end
 
   scenario 'user attempts to sign up with invalid data' do
     visit '/'
-    click_button 'Sign in'
+    click_button 'Sign up or sign in'
     expect( page ).to have_content 'be blank'
   end
 
@@ -40,5 +40,5 @@ def sign_in
   visit '/'
   fill_in 'Username', with: 'testuser'
   fill_in 'Password', with: 'testpass'
-  click_button 'Sign in'
+  click_button 'Sign up or sign in'
 end
