@@ -12,11 +12,9 @@ describe 'user session view', ->
 
   describe 'rendering', ->
     describe 'with no logged in user', ->
-      it 'has a link for signing in', ->
-        expect( $( @view.render().el ) ).toContain "a:contains('Sign in')"
-
-      it 'has a link for signing up', ->
-        expect( $( @view.render().el ) ).toContain "a:contains('Sign up')"
+      it 'has a form for signing in', ->
+        $el = $( @view.render().el )
+        expect( $el ).toContain 'form#sign-in-form'
 
     describe 'with a logged in user', ->
       beforeEach ->
@@ -27,17 +25,8 @@ describe 'user session view', ->
       it 'displays the welcome message', ->
         expect( @$el ).toContain 'div:contains("Welcome, testuser")'
 
-      it 'does not display the sign in link', ->
-        expect( @$el ).not.toContain 'a:contains("Sign in")'
-
-      it 'does not display the sign up link', ->
-        expect( @$el ).not.toContain 'a:contains("Sign up")'
-
-  describe 'new', ->
-    it 'has a form for signing in', ->
-      $el = $( @view.render().el )
-      $el.find( '#sign-in-link' ).click()
-      expect( $el ).toContain 'form#sign-in-form'
+      it 'does not display the sign in form', ->
+        expect( @$el ).not.toContain 'form#sign-in-form'
 
   describe 'signing in', ->
     beforeEach ->
@@ -52,7 +41,6 @@ describe 'user session view', ->
         @callback = sinon.spy @user_session, 'save'
         @$el = $( @view.render().el )
         @server.respondWith 'POST', '/user_sessions', [200, { 'Content-Type': 'application/json' }, '{"id":"123"}']
-        @$el.find( '#sign-in-link' ).click()
         @$el.find( '#username' ).val 'testuser'
         @$el.find( 'form' ).submit()
         @server.respond()
@@ -78,7 +66,6 @@ describe 'user session view', ->
     it 'shows an error message when the signin is not successful', ->
       $el = $( @view.render().el )
       @server.respondWith "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}']
-      $el.find( '#sign-in-link' ).click()
       $el.find( "form" ).submit()
       @server.respond()
       expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
@@ -86,14 +73,12 @@ describe 'user session view', ->
     it 'clears the messages from the previous save attempt at each attempt', ->
       $el = $( @view.render().el )
       @server.respondWith "POST", "/user_sessions", [406, { "Content-Type": "application/json" }, '{"errors":{"username":["can\'t be blank"]}}']
-      $el.find( '#sign-in-link' ).click()
       $el.find( "form" ).submit()
       @server.respond()
       expect( $el ).toContain ".validation-errors .error:contains('username can\'t be blank')"
       @server.restore()
       @server = sinon.fakeServer.create()
       @server.respondWith "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, ""]
-      $el.find( '#sign-in-link' ).click()
       $el.find( '#username' ).val 'testuser'
       $el.find( "form" ).submit()
       @server.respond()
@@ -105,7 +90,6 @@ describe 'user session view', ->
       server = sinon.fakeServer.create()
       @$el = $( @view.render().el )
       server.respondWith "POST", "/user_sessions", [200, { "Content-Type": "application/json" }, '{"_id":123}']
-      @$el.find( '#sign-in-link' ).click()
       @$el.find( '#username' ).val 'testuser'
       @$el.find( "form" ).submit()
       server.respond()
@@ -123,8 +107,7 @@ describe 'user session view', ->
       expect( @$el ).toContain 'div:contains("You are signed out")'
 
     it 'allows the user to sign up or sign in again', ->
-      expect( @$el ).toContain "a:contains('Sign in')"
-      expect( @$el ).toContain "a:contains('Sign up')"
+      expect( @$el ).toContain 'form#sign-in-form'
 
     it 'removes the current user id', ->
       expect( typeof Sayings.currentUserSession.get( 'user_id' ) ).toEqual 'undefined'

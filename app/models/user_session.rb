@@ -1,16 +1,25 @@
 class UserSession
-  def initialize( args )
+  def initialize(args)
     @username = args[:username]
     @password = args[:password]
     @user = args[:user]
+    @errors = Hash.new { |hash, key| hash[key] = [] }
   end
 
   def authenticate!
     if user = User.where( username: @username ).first
-      @user = user.authenticate @password
+      unless @user = user.authenticate(@password)
+        @errors['username'] << 'exists and password does not match'
+      end
     else
-      @user = User.create!(username: @username, password: @password)
+      user = User.create(username: @username, password: @password)
+      if user.save
+        @user = user
+      else
+        @errors['username or password'] << 'can\'t be blank'
+      end
     end
+    @user.present?
   end
 
   def user_id
@@ -22,6 +31,6 @@ class UserSession
   end
 
   def errors
-    { 'username' => ['exists and password does not match'] } unless @user.present?
+    @errors
   end
 end

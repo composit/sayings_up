@@ -5,7 +5,6 @@ class Sayings.Views.UserSession extends Backbone.View
     _.bindAll( this, 'render', 'save', 'saved', 'errored', 'destroyed' )
 
   events:
-    'click #sign-in-link': 'new'
     'submit form#sign-in-form': 'save'
     'click #sign-out-link': 'destroy'
 
@@ -13,12 +12,8 @@ class Sayings.Views.UserSession extends Backbone.View
     if( @model && @model.get( 'user_id' )? )
       @saved( @model )
     else
-      $( @el ).html '<a href="#signin" id="sign-in-link">Sign in</a><a href="#signup">Sign up</a>'
+      $( @el ).html JST['backbone/templates/user_sessions/new']
     return this
-
-  new: ( e )->
-    $( @el ).html JST['backbone/templates/user_sessions/new']
-    return false
 
   save: ( e ) ->
     @$( ".messages" ).html ''

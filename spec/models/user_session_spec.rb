@@ -55,16 +55,30 @@ describe UserSession do
 
     before do
       User.stub(:where).with(username: 'testuser') { [] }
-      User.stub(:create!) { new_user }
+      User.stub(:create) { new_user }
     end
 
-    it 'creates a user' do
-      User.should_receive(:create!).with(username: 'testuser', password: 'testpass')
-      user_session.authenticate!
+    context 'with valid user data' do
+      before do
+        new_user.stub(:save) { true }
+      end
+
+      it 'creates a user' do
+        User.should_receive(:create).with(username: 'testuser', password: 'testpass')
+        user_session.authenticate!
+      end
+      
+      it_behaves_like 'a successful login' do
+        let(:logged_in_user) { new_user }
+      end
     end
-    
-    it_behaves_like 'a successful login' do
-      let(:logged_in_user) { new_user }
+
+    context 'with invalid user data' do
+      it 'returns an error' do
+        new_user.stub(:save) { false }
+        user_session.authenticate!
+        expect( user_session.errors ).to eq( { 'username or password' => ['can\'t be blank'] } )
+      end
     end
   end
 end

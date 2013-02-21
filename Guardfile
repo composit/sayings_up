@@ -9,6 +9,7 @@ guard 'spork', :rspec_env => { 'RAILS_ENV' => 'test' }, :notification => false d
   watch('Gemfile')
   watch('Gemfile.lock')
   watch('spec/spec_helper.rb') { :rspec }
+  watch(%r{^spec/support/.+\.rb$}) { :rspec }
   watch('config/routes.rb')
 end
 

@@ -3,19 +3,16 @@ require 'spec_helper'
 feature 'user manages her account', :js do
   scenario 'user creates an account' do
     visit '/'
-    click_link 'Sign up'
     fill_in 'Username', with: 'Testuser'
     fill_in 'password', with: 'testpass'
-    fill_in 'Password confirmation', with: 'testpass'
-    click_button 'Create user'
+    click_button 'Sign in'
     expect( page ).to have_content 'Welcome, Testuser'
   end
 
   scenario 'user attempts to sign up with invalid data' do
     visit '/'
-    click_link 'Sign up'
-    click_button 'Create user'
-    expect( page ).to have_content 'username can\'t be blank'
+    click_button 'Sign in'
+    expect( page ).to have_content 'be blank'
   end
 
   scenario 'user logs in' do
@@ -41,7 +38,6 @@ end
 def sign_in
   create( :user, username: 'testuser', password: 'testpass', password_confirmation: 'testpass' )
   visit '/'
-  click_link 'Sign in'
   fill_in 'Username', with: 'testuser'
   fill_in 'Password', with: 'testpass'
   click_button 'Sign in'

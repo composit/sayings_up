@@ -10,7 +10,7 @@ shared_examples 'a successful login' do
 
   it 'has an empty hash of errors' do
     user_session.authenticate!
-    expect( user_session.errors ).to be_nil
+    expect( user_session.errors ).to be_empty
   end
 end
 

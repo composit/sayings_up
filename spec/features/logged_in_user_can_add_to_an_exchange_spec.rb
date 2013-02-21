@@ -84,7 +84,6 @@ feature 'logged in user can add to an exchange', :js do
 
   scenario 'user sees respond links immediately upon login' do
     visit "/#e/#{exchange.id}"
-    click_link 'Sign in'
     fill_in 'Username', with: user.username
     fill_in 'Password', with: user.password
     click_button 'Sign in'
