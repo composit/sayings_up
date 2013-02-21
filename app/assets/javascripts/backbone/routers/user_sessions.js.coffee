@@ -7,4 +7,4 @@ class Sayings.Routers.UserSessions extends Backbone.Router
 
   new: ->
     view = new Sayings.Views.UserSession( { model: @model } )
-    $( '#account' ).append( view.render().el )
+    $( '#account' ).prepend( view.render().el )

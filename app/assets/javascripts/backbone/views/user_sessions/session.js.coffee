@@ -26,7 +26,7 @@ class Sayings.Views.UserSession extends Backbone.View
 
   saved: ( model ) ->
     Sayings.currentUserSession = model
-    @$el.html "<div class='messages'><div class='notice'>Welcome, #{model.get( 'username' )} &nbsp;<a href='#signout' id='sign-out-link'>Sign out</a></div></div>" 
+    @$el.html "<div class='messages'><div class='notice'>Welcome, #{model.get( 'username' )}</div><div class='actions'><a href='#signout' id='sign-out-link'>Sign out</a></div></div>"
     model.trigger 'loginStateChanged'
 
   errored: ( xhr ) ->
@@ -47,5 +47,5 @@ class Sayings.Views.UserSession extends Backbone.View
     Sayings.currentUserSession = @model
     model.trigger 'loginStateChanged'
     @render()
-    $( @el ).prepend "<div class='notice'>You are signed out</div>"
+    $( @el ).find( '.messages' ).html "<div class='notice'>You are signed out</div>"
     Sayings.exchange.trigger 'change' if Sayings.exchange

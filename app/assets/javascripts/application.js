@@ -10,3 +10,4 @@
 //= require backbone/sayings
 //= require_tree .
 // require backbone.authtokenadapter
+//= require aboutText

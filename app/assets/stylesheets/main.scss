@@ -216,16 +216,29 @@ a.respond-link {
   font-weight: bold;
 }
 
-#session {
+#account {
   @include clearfix;
   font-size: 0.8em;
 
-  div.field {
+  div.field, div.actions, div#session, div.notice {
     float: left;
     margin: 0 5px;
   }
 
   input {
     font-size: 0.8em;
+  }
+}
+
+#about-text {
+  width: 1204px;
+  text-align: justify;
+  display: none;
+  padding: 30px;
+  color: #444;
+  line-height: 1.4em;
+
+  h2, h3 {
+    margin: 10px 0;
   }
 }
