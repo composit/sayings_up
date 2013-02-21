@@ -24,18 +24,8 @@ describe UserSession do
         user.stub( :authenticate ).with( 'testpass' ) { user }
       end
 
-      it 'sets the user id' do
-        user_session.authenticate!
-        expect( user_session.user_id ).to eq 234
-      end
-
-      it 'returns true to authenticate' do
-        expect( user_session.authenticate! ).to be_true
-      end
-
-      it 'has an empty hash of errors' do
-        user_session.authenticate!
-        expect( user_session.errors ).to be_nil
+      it_behaves_like 'a successful login' do
+        let(:logged_in_user) { user }
       end
     end
 
@@ -55,27 +45,26 @@ describe UserSession do
 
       it 'has an error' do
         user_session.authenticate!
-        expect( user_session.errors ).to eq( { 'username or password' => ['is incorrect'] } )
+        expect( user_session.errors ).to eq( { 'username' => ['exists and password does not match'] } )
       end
     end
   end
 
   context 'without a user' do
+    let(:new_user) { mock_model User, id: 345, username: 'testuser' }
+
     before do
-      User.stub( :where ).with( username: 'testuser' ) { [] }
+      User.stub(:where).with(username: 'testuser') { [] }
+      User.stub(:create!) { new_user }
     end
 
-    it 'does not set the user id' do
+    it 'creates a user' do
+      User.should_receive(:create!).with(username: 'testuser', password: 'testpass')
       user_session.authenticate!
-      expect( user_session.user_id ).to be_nil
     end
-
-    it 'returns false to authenticate' do
-      expect( user_session.authenticate! ).to be_false
-    end
-
-    it 'has an error' do
-      expect( user_session.errors ).to eq( { 'username or password' => ['is incorrect'] } )
+    
+    it_behaves_like 'a successful login' do
+      let(:logged_in_user) { new_user }
     end
   end
 end

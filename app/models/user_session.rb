@@ -8,6 +8,8 @@ class UserSession
   def authenticate!
     if user = User.where( username: @username ).first
       @user = user.authenticate @password
+    else
+      @user = User.create!(username: @username, password: @password)
     end
   end
 
@@ -20,6 +22,6 @@ class UserSession
   end
 
   def errors
-    { 'username or password' => ['is incorrect'] } unless @user.present?
+    { 'username' => ['exists and password does not match'] } unless @user.present?
   end
 end
