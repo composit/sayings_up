@@ -20,13 +20,12 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
     return false
 
   addFromLeft: ( exchangeView ) ->
-    @orderedChildren.unshift exchangeView
     @prependChildTo exchangeView, @$( '#exchange-children' )
     firstViewElement = $( exchangeView.el )
     firstViewElement.css 'margin-left', "-#{firstViewElement.css 'width'}"
-    firstViewElement.css 'display', 'block'
-    @removeFromRight @orderedChildren.size() - 2
-    firstViewElement.animate { 'margin-left': '0px' }, 500
+    firstViewElement.css 'display', 'inline-block'
+    firstViewElement.animate { 'margin-left': '0px' }, 500, 'swing', @orderedChildren.unshift(exchangeView) #@removeFromRight(@orderedChildren.size() - 2)
+    
     if @orderedChildren.first().$el.find( '.entry.current' ).position() #TODO this conditional is only here to satisfy the test
       $( '.comments' ).first().css 'top', @orderedChildren.first().$el.find( '.entry.current' ).position().top - 18
 
@@ -43,7 +42,7 @@ class Sayings.Views.ExchangeManager extends Support.CompositeView
   appearOnRight: ( exchangeView ) ->
     @orderedChildren.push exchangeView
     @appendChildTo exchangeView, @$( '#exchange-children' )
-    $( exchangeView.el ).css 'display', 'block'
+    $( exchangeView.el ).css 'display', 'inline-block'
     @removeFromLeft 2
 
   removeFromLeft: ( threshold ) ->
