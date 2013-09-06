@@ -5,7 +5,7 @@ gem 'rails', '~> 3.2.13'
 # Bundle edge Rails instead:
 # gem 'rails',     :git => 'git://github.com/rails/rails.git'
 
-gem 'bson_ext', '~> 1.6'
+gem 'bson_ext', '~> 1.8.2'
 gem 'mongoid', '~> 3.0'
 gem 'unicorn', '~> 4.5.0'
 
@@ -42,7 +42,7 @@ gem 'rvm-capistrano', '~> 1.2'
 # gem 'ruby-debug19', :require => 'ruby-debug'
 
 group :test do
-  gem 'capybara-webkit', git: 'git://github.com/thoughtbot/capybara-webkit.git', ref: '5dab9f7' #~> 2.0.1'
+  gem 'capybara-webkit', '~> 1.0.0'#git: 'git://github.com/thoughtbot/capybara-webkit.git', ref: '7dab9f7' #~> 2.0.1'
   gem 'database_cleaner', '~> 0.8'
   gem 'factory_girl_rails', '~> 4.0'
   gem 'guard-jasmine-headless-webkit', '~> 0.3'

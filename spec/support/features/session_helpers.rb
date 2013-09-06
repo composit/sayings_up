@@ -4,7 +4,7 @@ module Features
       visit '/'
       fill_in 'Username', with: user.username
       fill_in 'Password', with: user.password
-      click_button 'Sign up or sign in'
+      click_button 'Sign up/in'
     end
   end
 end

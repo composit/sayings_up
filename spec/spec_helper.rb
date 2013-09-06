@@ -52,6 +52,7 @@ Spork.prefork do
     config.run_all_when_everything_filtered = true
 
     Capybara.javascript_driver = :webkit
+    Capybara.default_wait_time = 3
 
     config.include FactoryGirl::Syntax::Methods
 
