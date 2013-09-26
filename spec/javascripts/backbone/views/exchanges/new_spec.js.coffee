@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'new entry view', ->
   beforeEach ->
     @model = new Sayings.Models.Exchange parent_exchange_id: '123', parent_entry_id: '456', parent_comment_id: '789'

@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'exchange tags index view', ->
   beforeEach ->
     @exchangeTag1 = new Backbone.Model tag_name: 'One'

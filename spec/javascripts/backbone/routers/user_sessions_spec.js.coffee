@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'user session routes', ->
   beforeEach ->
     @userSession = new Sayings.Models.UserSession()

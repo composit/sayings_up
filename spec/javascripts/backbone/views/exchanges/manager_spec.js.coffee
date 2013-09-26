@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'exchange manager view', ->
   beforeEach ->
     exchanges = new Sayings.Collections.Exchanges []

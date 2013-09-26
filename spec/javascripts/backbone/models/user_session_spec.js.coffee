@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'UserSession', ->
   describe 'when instantiated', ->
     beforeEach ->

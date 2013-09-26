@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'comment show view', ->
   beforeEach ->
     @comment = new Sayings.Models.Comment _id: '789', html_content: 'Good comment', entry_user_id: 4, exchange_id: '123', entry_id: '456', user_username: 'test user'

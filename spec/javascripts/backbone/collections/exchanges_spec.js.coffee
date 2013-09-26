@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'Sayings.Collections.Exchanges', ->
   beforeEach ->
     @collection = new Sayings.Collections.Exchanges()

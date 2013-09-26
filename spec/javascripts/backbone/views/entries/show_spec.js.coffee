@@ -1,3 +1,5 @@
+#= require spec_helper
+
 rendersComments = () ->
   describe 'renders comments', ->
     it 'renders the comments when the comments link is clicked', ->

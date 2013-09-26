@@ -1,3 +1,5 @@
+#= require spec_helper
+
 getsTheViewAndTheExchangeAllSetUp = () ->
   describe 'get it', ->
     it 'creates a composite view', ->

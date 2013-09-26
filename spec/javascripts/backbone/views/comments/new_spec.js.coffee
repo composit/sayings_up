@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'new comment view', ->
   beforeEach ->
     @collection = new Backbone.Collection()

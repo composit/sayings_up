@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'new entry view', ->
   beforeEach ->
     @collection = new Backbone.Collection()

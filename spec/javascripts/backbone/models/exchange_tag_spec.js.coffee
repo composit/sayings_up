@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'ExchangeTag', ->
   beforeEach ->
     @exchange_tag = new Sayings.Models.ExchangeTag()

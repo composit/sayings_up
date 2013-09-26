@@ -12,6 +12,8 @@ Sayings::Application.routes.draw do
   resources :users, only: [:create, :show]
   resources :user_sessions, only: [:create, :destroy]
 
+  mount JasmineRails::Engine => "/specs" if defined?(JasmineRails)
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'exchange tag show view', ->
   beforeEach ->
     @collection = new Sayings.Collections.ExchangeTags

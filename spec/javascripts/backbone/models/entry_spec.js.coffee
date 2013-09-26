@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'Entry', ->
   describe 'when instantiated', ->
     beforeEach ->

@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'Exchange', ->
   describe 'when instantiated', ->
     beforeEach ->

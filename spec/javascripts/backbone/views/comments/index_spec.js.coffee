@@ -1,3 +1,5 @@
+#= require spec_helper
+
 describe 'comments index view', ->
   beforeEach ->
     @comment1 = new Backbone.Model id: 1, html_content: 'One'
