@@ -52,7 +52,7 @@ describe UsersController do
   
   context 'GET/1' do
     it 'assigns the user' do
-      user = stub
+      user = double
       ability = Object.new.extend CanCan::Ability
       ability.can :read, user
       @controller.stub( :current_ability ) { ability }

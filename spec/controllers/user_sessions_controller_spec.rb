@@ -4,7 +4,7 @@ describe UserSessionsController do
   render_views
 
   context 'POST' do
-    let( :user_session ) { stub }
+    let( :user_session ) { double }
 
     before do
       UserSession.stub( :new ).with( { 'username' => 'testuser', 'password' => 'testpass' } ) { user_session }

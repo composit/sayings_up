@@ -6,7 +6,7 @@ describe TaggingsController do
     let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, Exchange], [:create, Tagging]] }
 
     let( :tagging ) { Tagging.new }
-    let( :taggings ) { stub new: tagging }
+    let( :taggings ) { double new: tagging }
     let( :exchange ) { mock_model( Exchange, taggings: taggings ).as_null_object }
     let( :params ) { { exchange_id: 123, tagging: { tag_name: 'newtag' }, format: :json } }
 

@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe ApplicationController do
-  let( :user ) { stub id: 123 }
+  let( :user ) { double id: 123 }
 
   before :each do
     User.stub( :find ).with( 123 ) { user }
@@ -13,7 +13,7 @@ describe ApplicationController do
   end
 
   it 'stores the current user rather than continuing to find via the database' do
-    bad_user = stub id: 234
+    bad_user = double id: 234
     User.stub( :find ).with( 234 ) { bad_user }
     session[:user_id] = 123
     expect( subject.send( :current_user_session ).user_id ).to eq user.id

@@ -4,8 +4,8 @@ describe CommentsController do
   context 'POST' do
     let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, Exchange],[:read, Entry],[:create, Comment]] }
     let( :comment ) { Comment.new }
-    let( :entry ) { mock_model Entry, comments: stub( new: comment ), exchange: exchange }
-    let( :entries ) { stub }
+    let( :entry ) { mock_model Entry, comments: double( new: comment ), exchange: exchange }
+    let( :entries ) { double }
     let( :exchange ) { mock_model( Exchange, entries: entries ).as_null_object }
     let( :params ) { { exchange_id: 123, entry_id: 456, comment: {}, format: :json } }
 

@@ -4,7 +4,7 @@ describe EntriesController do
   context 'POST' do
     let!( :current_user ) { signed_in_user_with_abilities @controller, [[:read, Exchange], [:create, Entry]] }
     let( :entry ) { Entry.new }
-    let( :entries ) { stub( new: entry ) }
+    let( :entries ) { double( new: entry ) }
     let( :exchange ) { mock_model( Exchange, entries: entries ).as_null_object }
     let( :params ) { { exchange_id: 123, entry: {}, format: :json } }
 
