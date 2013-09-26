@@ -12,7 +12,7 @@ Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
-  require 'rspec/autorun'
+  #require 'rspec/autorun'
   #require 'remarkable/active_model'
   #require 'remarkable/mongoid'
   #require 'factory_girl'
